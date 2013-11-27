@@ -1,0 +1,19 @@
+{
+    "AdvancedCampaignReporting": {
+        "Title": "Campaign Analytics",
+
+        "Name": "Name",
+        "Keyword": "Keyword",
+        "Source": "Source",
+        "Medium": "Medium",
+        "Content": "Content",
+        "CombinedSourceMedium": "Source - Medium",
+
+        "Names": "Campaign Names",
+        "Keywords": "Campaign Keywords",
+        "Sources": "Campaign Sources",
+        "Mediums": "Campaign Mediums",
+        "Contents": "Campaign Contents",
+        "CombinedSourcesMediums": "Campaign Source - Medium"
+    }
+}
