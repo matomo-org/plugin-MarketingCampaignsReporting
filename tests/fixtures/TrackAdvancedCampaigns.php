@@ -8,11 +8,14 @@
 namespace Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures;
 
 use Piwik\Date;
+use Piwik;
 
 class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
 {
     public $dateTime = '2013-01-23 01:23:45';
     public $idSite = 1;
+
+    const THIS_PAGE_VIEW_IS_GOAL_CONVERSION = 'this is a goal conversion';
 
     public function setUp()
     {
@@ -27,6 +30,10 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
         $this->trackFourthVisit_withDimensionsInUrlHash($t);
         $this->trackFifthVisit_withCampaignNameOnly($t);
         $this->trackSixthVisit_withSuperLongLabels($t);
+        $this->trackSeventhVisit_withGoalConversion($t);
+        $this->trackEigthVisit_withEcommerceAbandonedCart($t);
+        $this->trackNinthVisit_withEcommerceOrder($t);
+
 //        exit;
     }
 
@@ -35,12 +42,32 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
         // empty
     }
 
-    private function setUpWebsite()
+    /**
+     * @param $name
+     * @param $keyword
+     * @param $source
+     * @param $medium
+     * @param $content
+     * @param $campaignId
+     * @return string
+     */
+    protected function getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId)
     {
-        $idSite = self::createWebsite($this->dateTime);
-        $this->assertTrue($idSite === $this->idSite);
+        return sprintf('http://example.com/?utm_campaign=%s&utm_term=%s&utm_source=%s&utm_medium=%s&utm_content=%s&utm_id=%s',
+            $name, $keyword, $source, $medium, $content, $campaignId);
     }
 
+    private function setUpWebsite()
+    {
+        $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+        $this->assertTrue($idSite === $this->idSite);
+
+        \Piwik\Plugins\Goals\API::getInstance()->addGoal(
+            $this->idSite, 'title match', 'title', self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION, 'contains',
+            $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+        );
+
+    }
 
     protected function trackFirstVisit_withGoogleAnalyticsParameters(\PiwikTracker $t)
     {
@@ -57,7 +84,15 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
     protected function trackSecondVisit_withPiwikCampaignParameters(\PiwikTracker $t)
     {
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2)->getDatetime());
-        $t->setUrl('http://example.com/?pk_campaign=October_Offer&pk_kwd=Mot_clé_PÉPÈRE&pk_source=newsletter_6&pk_content=none&utm_medium=email&pk_cid=CAMPAIGN_ID_KABOOM');
+        $url = $this->getLandingUrlWithCampaignParams(
+            $name = 'October_Offer',
+            $keyword = 'Mot_clé_PÉPÈRE',
+            $source = 'newsletter_6',
+            $medium = 'email',
+            $content = 'none',
+            $campaignId = 'CAMPAIGN_ID_KABOOM'
+        );
+        $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Coming back with another campaign'));
     }
 
@@ -98,11 +133,26 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
         $content = urlencode(str_repeat('Lenghty "CONTENT"...', $multiplier));
         $campaignId = urlencode(str_repeat('Lenghty "CAMPAIGN_ID"...', $multiplier));
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
-        $url = sprintf('http://example.com/?utm_campaign=%s&utm_term=%s&utm_source=%s&utm_medium=%s&utm_content=%s&utm_id=%s',
-                    $name, $keyword, $source, $medium, $content, $campaignId);
+        $url = $this->getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId);
         $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Verrrrry long Campaign Dimensions, check they are truncated'));
     }
 
+
+    protected function trackSeventhVisit_withGoalConversion(\PiwikTracker $t)
+    {
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
+        $t->setUrl('http://example.com/homepage?pk_campaign=Goals- No Other Dimension for this visit' );
+//        self::checkResponse($t->doTrackPageView(self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION . ' <-- goal conversion'));
+
+    }
+
+    protected function trackEigthVisit_withEcommerceAbandonedCart(\PiwikTracker $t)
+    {
+    }
+
+    protected function trackNinthVisit_withEcommerceOrder(\PiwikTracker $t)
+    {
+    }
 }
 
