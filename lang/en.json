@@ -9,6 +9,7 @@
         "Content": "Content",
         "CombinedSourceMedium": "Source - Medium",
         "CampaignId": "Campaign Id",
+        "CombinedKeywordContent": "Keyword - Content",
 
         "Names": "Campaign Names",
         "Keywords": "Campaign Keywords",
@@ -16,5 +17,6 @@
         "Mediums": "Campaign Mediums",
         "Contents": "Campaign Contents",
         "CombinedSourcesMediums": "Campaign Source - Medium"
+
     }
 }

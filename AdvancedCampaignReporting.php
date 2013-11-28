@@ -11,7 +11,9 @@
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
+use Piwik\Plugin\ViewDataTable;
 
 /**
  * @package AdvancedCampaignReporting
@@ -26,6 +28,8 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'Tracker.getVisitFieldsToPersist'   => 'getVisitFieldsToPersist',
             'API.getReportMetadata'             => 'getReportMetadata',
             'API.getSegmentDimensionMetadata'   => 'getSegmentDimensionMetadata',
+            'Request.dispatch'                  => 'dispatchAdvancedCampaigns',
+            'ViewDataTable.configure'           => 'configureViewDataTable',
         );
     }
 
@@ -185,4 +189,58 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'sqlSegment'     => 'log_visit.' . Tracker::CAMPAIGN_ID_FIELD
         );
     }
+
+    /**
+     * Instead of dispatching the standard Referrers>Campaigns report,
+     * dispatch our better campaign report.
+     *
+     * @param $module
+     * @param $action
+     * @param $parameters
+     */
+    public function dispatchAdvancedCampaigns(&$module, &$action, &$parameters)
+    {
+        if($module == 'Referrers'
+            && $action == 'indexCampaigns') {
+            $module = 'AdvancedCampaignReporting';
+            $action = 'indexCampaigns';
+        }
+    }
+
+    public function configureViewDataTable(ViewDataTable $view)
+    {
+        if($view->requestConfig->getApiModuleToRequest() == 'AdvancedCampaignReporting') {
+            $view->config->show_goals = true;
+            $action = $view->requestConfig->getApiMethodToRequest();
+            $view->config->addTranslation('label', $this->getLabelFromMethod($action));
+
+            switch($action) {
+                case 'getSourceMedium':
+                    $view->config->subtable_controller_action = 'getNameFromSourceMediumId';
+                    break;
+                case 'getName':
+                    $view->config->subtable_controller_action = 'getKeywordContentFromNameId';
+                break;
+            }
+        }
+    }
+
+    public function getLabelFromMethod($method)
+    {
+        $labels = array(
+            'getName' => 'AdvancedCampaignReporting_Name',
+            'getKeyword' => 'AdvancedCampaignReporting_Keyword',
+            'getSource' => 'AdvancedCampaignReporting_Source',
+            'getMedium' => 'AdvancedCampaignReporting_Medium',
+            'getContent' => 'AdvancedCampaignReporting_Content',
+            'getSourceMedium' => 'AdvancedCampaignReporting_CombinedSourceMedium',
+            'getKeywordContentFromNameId' => 'AdvancedCampaignReporting_CombinedKeywordContent',
+            'getNameFromSourceMediumId' => 'AdvancedCampaignReporting_Name',
+        );
+        if(!isset($labels[$method])) {
+            throw new \Exception("Invalid requested label for $method");
+        }
+        return Piwik::translate($labels[$method]);
+    }
+
 }
