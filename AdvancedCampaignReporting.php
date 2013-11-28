@@ -14,6 +14,7 @@ use Piwik\Db;
 use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\View\ReportsByDimension;
 
 /**
  * @package AdvancedCampaignReporting
@@ -30,6 +31,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'API.getSegmentDimensionMetadata'   => 'getSegmentDimensionMetadata',
             'Request.dispatch'                  => 'dispatchAdvancedCampaigns',
             'ViewDataTable.configure'           => 'configureViewDataTable',
+            'View.ReportsByDimension.render'    => 'configureReferrersReportsByDimension',
         );
     }
 
@@ -243,4 +245,20 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
         return Piwik::translate($labels[$method]);
     }
 
+    public function configureReferrersReportsByDimension(ReportsByDimension $reportList)
+    {
+        if($reportList->getId() != 'Referrers') {
+            return;
+        }
+
+        $metadatas = array();
+        $this->getReportMetadata($metadatas);
+
+        $byCampaign = Piwik::translate('Referrers_ViewReferrersBy', Piwik::translate('Referrers_ColumnCampaign'));
+        foreach($metadatas as $metadata) {
+            $api = 'AdvancedCampaignReporting.' . $metadata['action'];
+            $title = $this->getLabelFromMethod($metadata['action']);
+            $reportList->addReport($byCampaign, $title, $api);
+        }
+    }
 }
