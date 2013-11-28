@@ -162,7 +162,28 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
 
     protected function trackEigthVisit_withEcommerceAbandonedCart(\PiwikTracker $t)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(9)->getDatetime());
+        $hourOffset = 9;
+        $this->track_ecommerceCartUpdate($t, $hourOffset);
+    }
+
+    protected function trackNinthVisit_withEcommerceOrder(\PiwikTracker $t)
+    {
+        $hourOffset = 10;
+        $this->track_ecommerceCartUpdate($t, $hourOffset);
+
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hourOffset + 0.3)->getDatetime());
+        $t->setUrl('http://example.com/cart');
+        $t->addEcommerceItem('item SKU', 'item name', 'item category', $price = 111, $qty = 5);
+        self::checkResponse($t->doTrackEcommerceOrder('Ecommerce_ORDER_ID', '555'));
+    }
+
+    /**
+     * @param \PiwikTracker $t
+     * @param $hourOffset
+     */
+    protected function track_ecommerceCartUpdate(\PiwikTracker $t, $hourOffset)
+    {
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hourOffset)->getDatetime());
         $url = $this->getLandingUrlWithCampaignParams(
             $name = 'Ecommerce_campaign',
             $keyword = 'Ecommerce_keyword',
@@ -174,14 +195,10 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
         $t->setUrl($url);;
         self::checkResponse($t->doTrackPageView('Homepage'));
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(9.1)->getDatetime());
-        $t->setUrl('http://example.com/cart' );
-        $t->addEcommerceItem('item SKU', 'item name', 'item category', $price=111, $qty = 5);
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hourOffset + 0.1)->getDatetime());
+        $t->setUrl('http://example.com/cart');
+        $t->addEcommerceItem('item SKU', 'item name', 'item category', $price = 111, $qty = 5);
         self::checkResponse($t->doTrackEcommerceCartUpdate('555'));
-    }
-
-    protected function trackNinthVisit_withEcommerceOrder(\PiwikTracker $t)
-    {
     }
 }
 
