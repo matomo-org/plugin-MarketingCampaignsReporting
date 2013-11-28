@@ -142,8 +142,13 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
     protected function trackSeventhVisit_withGoalConversion(\PiwikTracker $t)
     {
         $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
-        $t->setUrl('http://example.com/homepage?pk_campaign=Goals- No Other Dimension for this visit' );
-//        self::checkResponse($t->doTrackPageView(self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION . ' <-- goal conversion'));
+        $t->setUrl('http://example.com/homepage?pk_campaign=Campaign_with_two_goals_conversions' );
+        self::checkResponse($t->doTrackPageView(self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION . ' <-- goal conversion'));
+
+        // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7.2)->getDatetime());
+        $t->setUrl('http://example.com/anotherpage' );
+        self::checkResponse($t->doTrackGoal(1, 3333));
 
     }
 
