@@ -13,11 +13,13 @@ An example landing page URL may be:
 ## Features
  * Powerful Real time Analytics Reports of all your Campaign Marketing
  * Detects Campaign parameters from the landing page URL, within the query string or in the #hash string
- * The Referrers>Overview report contains a "Referrers Overview" list of reports.
-   This report viewer now also lists the new Campaign reports below "View Referrers by Campaign".
- * This plugin replaces the content of the Campaign tab with the new reports.
+ * The Referrers>Overview report displays a left column "Referrers Overview" with a list of reports that can be loaded on click.
+   This report viewer now also lists the new Campaign reports under "View Referrers by Campaign".
+ * The content of Referrers> Campaign will be replaced with the new enhanced Campaigns reports.
  * The default Referrers Campaign widget and API are working as before.
- * Segment users by any campaign dimension
+ * The campaign reports are available in Piwik Mobile and can be sent as Scheduled reports (by email, as HTML or PDF)
+ * Segment editor: a new "Campaigns" category lists the five new segment for each campaign dimension
+ * The new Campaign reports can be added as widgets in your personalized Dashboard
  * Access the Campaign Report data by the API
  * Comes with automated tests to ensure the Plugin works as expected
  * Will track up to 250 characters for each of the five Campaign dimension
