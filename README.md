@@ -27,13 +27,11 @@ An example landing page URL may be:
 ## Notes
  * To archive all values in the Campaign reports and not truncate rows, set eg.
 ```
-
 [General]
 
 datatable_archiving_maximum_rows_referrers = 10000
 
 datatable_archiving_maximum_rows_subtable_referrers = 10000
-
 ```
 
 ## Ideas for improvement
