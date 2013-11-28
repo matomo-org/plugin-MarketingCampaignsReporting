@@ -78,6 +78,22 @@ class TrackSeveralCampaignsTest extends \IntegrationTestCase
                                    'testSuffix'             => 'flat',
                                    'otherRequestParameters' => array('flat' => 1, 'expanded' => 0)
                              ));
+        $apiToTest[] = array($api,
+                             array('idSite'                 => self::$fixture->idSite,
+                                   'date'                   => self::$fixture->dateTime,
+                                   'periods'                => array('day'),
+                                   'testSuffix'             => 'segmentedMatchAll',
+                                   'segment'                => 'campaignName!=test;campaignKeyword!=test;campaignSource!=test;campaignMedium!=test;campaignContent!=test;campaignId!=test',
+                                   'otherRequestParameters' => array('flat' => 1, 'expanded' => 0)
+                             ));
+        $apiToTest[] = array($api,
+                             array('idSite'                 => self::$fixture->idSite,
+                                   'date'                   => self::$fixture->dateTime,
+                                   'periods'                => array('day'),
+                                   'testSuffix'             => 'segmentedMatchNone',
+                                   'segment'                => 'campaignName==test,campaignKeyword==test,campaignSource==test,campaignMedium==test,campaignContent==test,campaignId==test',
+                                   'otherRequestParameters' => array('flat' => 1, 'expanded' => 0)
+                             ));
 
         return $apiToTest;
     }

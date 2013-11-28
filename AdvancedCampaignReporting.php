@@ -25,6 +25,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'Tracker.newConversionInformation'  => 'enrichConversionWithAdvancedCampaign',
             'Tracker.getVisitFieldsToPersist'   => 'getVisitFieldsToPersist',
             'API.getReportMetadata'             => 'getReportMetadata',
+            'API.getSegmentDimensionMetadata'   => 'getSegmentDimensionMetadata',
         );
     }
 
@@ -136,6 +137,52 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'dimension' => Piwik::translate('AdvancedCampaignReporting_CombinedSourceMedium'),
             'actionToLoadSubTables' => 'getNameFromSourceMediumId',
             'order' => 6,
+        );
+    }
+
+    public function getSegmentDimensionMetadata(&$segments)
+    {
+        $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => 'AdvancedCampaignReporting_Title',
+            'name'           => 'AdvancedCampaignReporting_Name',
+            'segment'        => 'campaignName',
+            'sqlSegment'     => 'log_visit.' . Tracker::CAMPAIGN_NAME_FIELD,
+        );
+        $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => 'AdvancedCampaignReporting_Title',
+            'name'           => 'AdvancedCampaignReporting_Keyword',
+            'segment'        => 'campaignKeyword',
+            'sqlSegment'     => 'log_visit.' . Tracker::CAMPAIGN_KEYWORD_FIELD,
+        );
+        $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => 'AdvancedCampaignReporting_Title',
+            'name'           => 'AdvancedCampaignReporting_Source',
+            'segment'        => 'campaignSource',
+            'sqlSegment'     => 'log_visit.' . Tracker::CAMPAIGN_SOURCE_FIELD,
+        );
+        $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => 'AdvancedCampaignReporting_Title',
+            'name'           => 'AdvancedCampaignReporting_Medium',
+            'segment'        => 'campaignMedium',
+            'sqlSegment'     => 'log_visit.' . Tracker::CAMPAIGN_MEDIUM_FIELD,
+        );
+        $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => 'AdvancedCampaignReporting_Title',
+            'name'           => 'AdvancedCampaignReporting_Content',
+            'segment'        => 'campaignContent',
+            'sqlSegment'     => 'log_visit.' . Tracker::CAMPAIGN_CONTENT_FIELD,
+        );
+        $segments[] = array(
+            'type'           => 'dimension',
+            'category'       => 'AdvancedCampaignReporting_Title',
+            'name'           => 'AdvancedCampaignReporting_CampaignId',
+            'segment'        => 'campaignId',
+            'sqlSegment'     => 'log_visit.' . Tracker::CAMPAIGN_ID_FIELD
         );
     }
 }

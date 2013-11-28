@@ -87,10 +87,15 @@ class Archiver extends \Piwik\Plugin\Archiver
 
     public function aggregateDayReport()
     {
-        $dimensions = array("campaign_name", "campaign_keyword", "campaign_content", "campaign_source", "campaign_medium");
         $this->initDataArrays();
-        $this->aggregateFromLogs($dimensions, 'queryVisitsByDimension', 'sumMetricsVisits', 'sumMetricsVisitsPivot');
-        $this->aggregateFromLogs($dimensions, 'queryConversionsByDimension', 'sumMetricsGoals', 'sumMetricsGoalsPivot');
+        $dimensions = array("campaign_name",
+                            "campaign_keyword",
+                            "campaign_content",
+                            "campaign_source",
+                            "campaign_medium"
+        );
+        $this->aggregateFromLogs($dimensions, 'log_visit', 'queryVisitsByDimension', 'sumMetricsVisits', 'sumMetricsVisitsPivot');
+        $this->aggregateFromLogs($dimensions, 'log_conversion', 'queryConversionsByDimension', 'sumMetricsGoals', 'sumMetricsGoalsPivot');
 
         foreach ($this->arrays as $dataArray) {
             $dataArray->enrichMetricsWithConversions();
@@ -114,14 +119,9 @@ class Archiver extends \Piwik\Plugin\Archiver
         return $this->arrays[$name];
     }
 
-    protected function getAggregateWhereClause()
+    protected function aggregateFromLogs($dimensions, $table, $aggregatorMethod, $dataArraySum, $dataArraySubtableSum)
     {
-        return "referer_type = " . Common::REFERRER_TYPE_CAMPAIGN;
-    }
-
-    protected function aggregateFromLogs($dimensions, $aggregatorMethod, $dataArraySum, $dataArraySubtableSum)
-    {
-        $whereClause = $this->getAggregateWhereClause();
+        $whereClause = $table . ".referer_type = " . Common::REFERRER_TYPE_CAMPAIGN;
         $query = $this->getLogAggregator()->$aggregatorMethod($dimensions, $whereClause);
         if ($query === false) {
             return;
