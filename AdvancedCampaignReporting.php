@@ -22,7 +22,8 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     {
         return array(
             'Tracker.newVisitorInformation'     => 'enrichVisitWithAdvancedCampaign',
-            'Tracker.newConversionInformation'  => 'enrichVisitWithAdvancedCampaign',
+            'Tracker.newConversionInformation'  => 'enrichConversionWithAdvancedCampaign',
+            'Tracker.getVisitFieldsToPersist'   => 'getVisitFieldsToPersist',
             'API.getReportMetadata'             => 'getReportMetadata',
         );
     }
@@ -55,10 +56,33 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
         }
     }
 
+    public function enrichConversionWithAdvancedCampaign(&$goal, $visitorInfo, \Piwik\Tracker\Request $request)
+    {
+        $campaignTracker = new Tracker($request);
+        $campaignTracker->updateNewConversionWithCampaign($goal, $visitorInfo);
+    }
+
     public function enrichVisitWithAdvancedCampaign(&$visitorInfo, \Piwik\Tracker\Request $request)
     {
         $campaignTracker = new Tracker($request);
         $campaignTracker->updateNewVisitWithCampaign($visitorInfo);
+    }
+
+    public function getVisitFieldsToPersist(&$fields)
+    {
+        $fields = array_merge($fields, self::getAdvancedCampaignFields());
+    }
+
+    public static function getAdvancedCampaignFields()
+    {
+        return array(
+            'campaign_name',
+            'campaign_keyword',
+            'campaign_source',
+            'campaign_medium',
+            'campaign_content',
+            'campaign_id',
+        );
     }
 
     public function getReportMetadata(&$report)

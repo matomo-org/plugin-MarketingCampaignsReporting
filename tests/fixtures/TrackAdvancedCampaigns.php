@@ -62,9 +62,13 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
         $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
         $this->assertTrue($idSite === $this->idSite);
 
-        \Piwik\Plugins\Goals\API::getInstance()->addGoal(
+        $this->idGoal1 = \Piwik\Plugins\Goals\API::getInstance()->addGoal(
             $this->idSite, 'title match', 'title', self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION, 'contains',
             $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+        );
+
+        $this->idGoal2 = \Piwik\Plugins\Goals\API::getInstance()->addGoal(
+            $this->idSite, 'title match', 'manually', '', 'contains'
         );
 
     }
@@ -141,19 +145,39 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
 
     protected function trackSeventhVisit_withGoalConversion(\PiwikTracker $t)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(8)->getDatetime());
         $t->setUrl('http://example.com/homepage?pk_campaign=Campaign_with_two_goals_conversions' );
         self::checkResponse($t->doTrackPageView(self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION . ' <-- goal conversion'));
 
         // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7.2)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(8.1)->getDatetime());
         $t->setUrl('http://example.com/anotherpage' );
-        self::checkResponse($t->doTrackGoal(1, 3333));
+        self::checkResponse($t->doTrackGoal($this->idGoal1, 1101));
 
+        // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(8.2)->getDatetime());
+        $t->setUrl('http://example.com/anotherpage' );
+        self::checkResponse($t->doTrackGoal($this->idGoal2, 3333));
     }
 
     protected function trackEigthVisit_withEcommerceAbandonedCart(\PiwikTracker $t)
     {
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(9)->getDatetime());
+        $url = $this->getLandingUrlWithCampaignParams(
+            $name = 'Ecommerce_campaign',
+            $keyword = 'Ecommerce_keyword',
+            $source = 'Ecommerce_source',
+            $medium = 'Ecommerce_medium',
+            $content = 'Ecommerce_content',
+            $campaignId = 'Ecommmerce_CampaignId'
+        );
+        $t->setUrl($url);;
+        self::checkResponse($t->doTrackPageView('Homepage'));
+
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(9.1)->getDatetime());
+        $t->setUrl('http://example.com/cart' );
+        $t->addEcommerceItem('item SKU', 'item name', 'item category', $price=111, $qty = 5);
+        self::checkResponse($t->doTrackEcommerceCartUpdate('555'));
     }
 
     protected function trackNinthVisit_withEcommerceOrder(\PiwikTracker $t)

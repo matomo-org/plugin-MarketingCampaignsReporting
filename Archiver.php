@@ -90,10 +90,11 @@ class Archiver extends \Piwik\Plugin\Archiver
         $dimensions = array("campaign_name", "campaign_keyword", "campaign_content", "campaign_source", "campaign_medium");
         $this->initDataArrays();
         $this->aggregateFromLogs($dimensions, 'queryVisitsByDimension', 'sumMetricsVisits', 'sumMetricsVisitsPivot');
-//        $this->aggregateFromLogs($dimensions, 'queryConversionsByDimension', 'sumMetricsGoals', 'sumMetricsGoalsPivot');
-//        foreach ($this->arrays as $dataArray) {
-//            $dataArray->enrichMetricsWithConversions();
-//        }
+        $this->aggregateFromLogs($dimensions, 'queryConversionsByDimension', 'sumMetricsGoals', 'sumMetricsGoalsPivot');
+
+        foreach ($this->arrays as $dataArray) {
+            $dataArray->enrichMetricsWithConversions();
+        }
         $this->insertDayReports();
     }
 

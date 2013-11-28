@@ -10,4 +10,23 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
+	<row>
+		<label>ecommerce_medium</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>361</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>555</revenue>
+				<items>5</items>
+			</row>
+		</goals>
+		<nb_conversions>0</nb_conversions>
+		<revenue>0</revenue>
+	</row>
 </result>

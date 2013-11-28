@@ -10,7 +10,6 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
-
 use Piwik\Common;
 use Piwik\Tracker\PageUrl;
 use Piwik\UrlHelper;
@@ -46,43 +45,53 @@ class Tracker
         );
     }
 
-    public function updateNewVisitWithCampaign(&$visitor)
+    protected function detectCampaignFromVisit($visitorInfo)
     {
-        $campaignDimensions = $this->detectAdvancedCampaignDimensions();
+        $campaignFields = AdvancedCampaignReporting::getAdvancedCampaignFields();
+
+        $campaignDimensions = array_intersect_key($visitorInfo, array_flip($campaignFields));
+
+        foreach($campaignDimensions as $key => $value) {
+            if(is_null($value) || $value == '') {
+                unset($campaignDimensions[$key]);
+            }
+        }
+        return $campaignDimensions;
+    }
+
+    public function updateNewConversionWithCampaign(&$conversionToInsert, $visitorInfo)
+    {
+        $campaignDimensions = $this->detectCampaignFromVisit($visitorInfo);
+        if(empty($campaignDimensions)) {
+            $campaignDimensions = $this->detectCampaignFromRequest();
+        }
+
+        $this->addDimensionsToRow($conversionToInsert, $campaignDimensions);
+    }
+
+    public function updateNewVisitWithCampaign(&$visitToInsert)
+    {
+        $campaignDimensions = $this->detectCampaignFromRequest();
 
         if(empty($campaignDimensions)) {
 
             // If for some reason a campaign was detected in Core Tracker
             // but not here, copy that campaign to the Advanced Campaign
-            if($visitor['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
+            if($visitToInsert['referer_type'] != Common::REFERRER_TYPE_CAMPAIGN) {
                 return ;
             }
             $campaignDimensions = array(
-                self::CAMPAIGN_NAME_FIELD => $visitor['referer_name']
+                self::CAMPAIGN_NAME_FIELD => $visitToInsert['referer_name']
             );
-            if(!empty($visitor['referer_keyword'])) {
-                $campaignDimensions[self::CAMPAIGN_KEYWORD_FIELD] = $visitor['referer_keyword'];
+            if(!empty($visitToInsert['referer_keyword'])) {
+                $campaignDimensions[self::CAMPAIGN_KEYWORD_FIELD] = $visitToInsert['referer_keyword'];
             }
         }
 
-        Common::printDebug("Found Advanced Campaign: ");
-        Common::printDebug($campaignDimensions);
-
-        // Set the new campaign fields on the visitor
-        $visitor = array_merge($visitor, $campaignDimensions);
-
-        // Overwrite core referer_ fields when an advanced campaign was detected
-        $visitor['referer_type'] = Common::REFERRER_TYPE_CAMPAIGN;
-
-        if(isset($visitor[self::CAMPAIGN_NAME_FIELD])) {
-            $visitor['referer_name'] = $visitor[self::CAMPAIGN_NAME_FIELD];
-        }
-        if(isset($visitor[self::CAMPAIGN_KEYWORD_FIELD])) {
-            $visitor['referer_keyword'] = $visitor[self::CAMPAIGN_KEYWORD_FIELD];
-        }
+        $this->addDimensionsToRow($visitToInsert, $campaignDimensions);
     }
 
-    protected function detectAdvancedCampaignDimensions()
+    protected function detectCampaignFromRequest()
     {
         $landingUrl = $this->request->getParam('url');
         $landingUrl = PageUrl::cleanupUrl($landingUrl);
@@ -145,5 +154,34 @@ class Tracker
             return $valueFromRequest;
         }
         return false;
+    }
+
+    /**
+     * @param $rowToInsert
+     * @param $campaignDimensions
+     * @return array
+     */
+    protected function addDimensionsToRow(&$rowToInsert, $campaignDimensions)
+    {
+        if(empty($campaignDimensions)) {
+            return;
+        }
+        Common::printDebug("Found Advanced Campaign: ");
+        Common::printDebug($campaignDimensions);
+
+        // Set the new campaign fields on the visitor
+        foreach($campaignDimensions as $field => $value) {
+            $rowToInsert[$field] = $value;
+        }
+
+        // Overwrite core referer_ fields when an advanced campaign was detected
+        $rowToInsert['referer_type'] = Common::REFERRER_TYPE_CAMPAIGN;
+
+        if (isset($rowToInsert[self::CAMPAIGN_NAME_FIELD])) {
+            $rowToInsert['referer_name'] = $rowToInsert[self::CAMPAIGN_NAME_FIELD];
+        }
+        if (isset($rowToInsert[self::CAMPAIGN_KEYWORD_FIELD])) {
+            $rowToInsert['referer_keyword'] = $rowToInsert[self::CAMPAIGN_KEYWORD_FIELD];
+        }
     }
 }

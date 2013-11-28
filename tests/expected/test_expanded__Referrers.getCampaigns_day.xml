@@ -33,6 +33,41 @@
 		</subtable>
 	</row>
 	<row>
+		<label>campaign_with_two_goals_conversions</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>725</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>1111</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>3333</revenue>
+			</row>
+		</goals>
+		<nb_conversions>3</nb_conversions>
+		<revenue>4444</revenue>
+		<subtable>
+			<row>
+				<label>keyword from #hash tag parameter</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+			</row>
+		</subtable>
+	</row>
+	<row>
 		<label>default_offer</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
@@ -55,40 +90,64 @@
 		</subtable>
 	</row>
 	<row>
+		<label>ecommerce_campaign</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>361</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>555</revenue>
+				<items>5</items>
+			</row>
+		</goals>
+		<nb_conversions>0</nb_conversions>
+		<revenue>0</revenue>
+		<subtable>
+			<row>
+				<label>ecommerce_keyword</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>361</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<goals>
+					<row idgoal='ecommerceAbandonedCart'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>555</revenue>
+						<items>5</items>
+					</row>
+				</goals>
+				<nb_conversions>0</nb_conversions>
+				<revenue>0</revenue>
+			</row>
+		</subtable>
+	</row>
+	<row>
 		<label>lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...le</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>
-		<nb_actions>2</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>724</sum_visit_length>
-		<bounce_count>0</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>3333</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>3333</revenue>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
 		<subtable>
 			<row>
 				<label>lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;k</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
-				<nb_actions>2</nb_actions>
-				<max_actions>2</max_actions>
-				<sum_visit_length>724</sum_visit_length>
-				<bounce_count>0</bounce_count>
-				<goals>
-					<row idgoal='1'>
-						<nb_conversions>1</nb_conversions>
-						<nb_visits_converted>1</nb_visits_converted>
-						<revenue>3333</revenue>
-					</row>
-				</goals>
-				<nb_conversions>1</nb_conversions>
-				<revenue>3333</revenue>
+				<nb_actions>1</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
 			</row>
 		</subtable>
 	</row>
@@ -133,32 +192,6 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
-			</row>
-		</subtable>
-	</row>
-	<row>
-		<label>campaign_with_two_goals_conversions</label>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>10</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>10</revenue>
-		<subtable>
-			<row>
-				<label>lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;k</label>
-				<goals>
-					<row idgoal='1'>
-						<nb_conversions>1</nb_conversions>
-						<nb_visits_converted>1</nb_visits_converted>
-						<revenue>10</revenue>
-					</row>
-				</goals>
-				<nb_conversions>1</nb_conversions>
-				<revenue>10</revenue>
 			</row>
 		</subtable>
 	</row>
