@@ -5,7 +5,7 @@ The default Campaign parameters are called: pk_campaign, pk_source, pk_medium, p
 
 If you already have URLs tagged with Google Analytics parameters these are supported: utm_campaign, utm_source, utm_medium, utm_term, utm_content and utm_id
 
-An example landing page URL would be:
+An example landing page URL is:
 ```
 /offer?pk_campaign=Best-Seller&pk_source=Newsletter_7&pk_medium=email
 ```
