@@ -1,4 +1,7 @@
 # Advanced Campaigns Reporting
+
+[![Build Status](https://magnum.travis-ci.com/PiwikPRO/plugin-AdvancedCampaignReporting.png?token=YG4RfcyzVryveJy9zhmw&branch=master)](https://magnum.travis-ci.com/PiwikPRO/plugin-AdvancedCampaignReporting)
+
 The Plugin lets you track up to five Campaigns parameters (name, source, medium, keyword, content).
  
 The default Campaign parameters are called: pk_campaign, pk_source, pk_medium, pk_keyword, pk_content and pk_cid.
