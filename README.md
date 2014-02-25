@@ -1,6 +1,6 @@
 # Advanced Campaigns Reporting
 The Plugin lets you track up to five Campaigns parameters (name, source, medium, keyword, content).
-
+ 
 The default Campaign parameters are called: pk_campaign, pk_source, pk_medium, pk_keyword, pk_content and pk_cid.
 
 If you already have URLs tagged with Google Analytics parameters these are supported: utm_campaign, utm_source, utm_medium, utm_term, utm_content and utm_id
