@@ -33,8 +33,6 @@ class TrackAdvancedCampaigns extends \Test_Piwik_BaseFixture
         $this->trackSeventhVisit_withGoalConversion($t);
         $this->trackEigthVisit_withEcommerceAbandonedCart($t);
         $this->trackNinthVisit_withEcommerceOrder($t);
-
-//        exit;
     }
 
     public function tearDown()

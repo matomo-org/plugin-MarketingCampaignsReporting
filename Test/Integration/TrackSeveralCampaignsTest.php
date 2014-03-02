@@ -33,15 +33,13 @@ class TrackSeveralCampaignsTest extends \IntegrationTestCase
         return dirname(__FILE__);
     }
 
-    public static function setUpBeforeClass()
+    protected static function getPluginsToLoadDuringTests()
     {
-        parent::setUpBeforeClass();
-        try {
-            \Piwik\Plugin\Manager::getInstance()->activatePlugin('AdvancedCampaignReporting');
-        } catch(\Exception $e) {
-            // fails when already enabled
-        }
+        $load = parent::getPluginsToLoadDuringTests();
+        $load[] = 'AdvancedCampaignReporting';
+        return $load;
     }
+
 
     /**
      * @dataProvider getApiForTesting
