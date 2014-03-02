@@ -42,12 +42,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
      */
     public function install()
     {
-        $tables = array(
-            Common::prefixTable("log_visit"),
-            Common::prefixTable("log_conversion"),
-        );
-
-        foreach($tables as $table) {
+        foreach($this->getTables() as $table) {
             try {
                 $query = "ALTER TABLE `" . $table . "`
                     ADD `campaign_name` VARCHAR(255) NULL DEFAULT NULL AFTER `referer_keyword` ,
@@ -61,6 +56,23 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
                 if (!Db::get()->isErrNo($e, '1060')) {
                     throw $e;
                 }
+            }
+        }
+    }
+
+    public function uninstall()
+    {
+        $fields = array(
+            'campaign_name',
+            'campaign_keyword',
+            'campaign_source',
+            'campaign_medium',
+            'campaign_content',
+            'campaign_id',
+        );
+        foreach($this->getTables() as $table) {
+            foreach($fields as $field) {
+                Db::exec("ALTER TABLE `" . $table . "` DROP COLUMN `". $field ."` ");
             }
         }
     }
@@ -272,5 +284,14 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             $title = $this->getLabelFromMethod($metadata['action']);
             WidgetsList::add('AdvancedCampaignReporting_Title', $title, 'AdvancedCampaignReporting', $metadata['action']);
         }
+    }
+
+    private function getTables()
+    {
+        $tables = array(
+            Common::prefixTable("log_visit"),
+            Common::prefixTable("log_conversion"),
+        );
+        return $tables;
     }
 }
