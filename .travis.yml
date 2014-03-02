@@ -15,6 +15,7 @@ script: ./travis.sh
 install:
   - mkdir AdvancedCampaignReporting
   - cp -R !(AdvancedCampaignReporting) AdvancedCampaignReporting
+  - cp -R .git/ AdvancedCampaignReporting/
   - git clone https://github.com/piwik/piwik.git piwik
   - cd piwik
   - git checkout master
