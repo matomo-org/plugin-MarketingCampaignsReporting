@@ -19,29 +19,7 @@ class TrackAdvancedCampaigns extends Fixture
     const THIS_PAGE_VIEW_IS_GOAL_CONVERSION = 'this is a goal conversion';
 
     public function setUp()
-    {
-        $manager = \Piwik\Plugin\Manager::getInstance();
-        foreach($manager->readPluginsDirectory() as $plugin) {
-            $forceDisable = array(
-                'ExampleVisualization', // adds an icon
-                'LoginHttpAuth',  // other Login plugins would conflict
-            );
-            if(in_array($plugin, $forceDisable)) {
-                continue;
-            }
-
-            // Load all default plugins
-            $isPluginBundledWithCore = $manager->isPluginBundledWithCore($plugin);
-
-            // Load plugins from submodules
-            $isPluginOfficiallySupported = $manager->isPluginOfficialAndNotBundledWithCore($plugin);
-
-            // Also load plugins which are Git repositories (eg. being developed)
-            $isPluginHasGitRepository = file_exists( PIWIK_INCLUDE_PATH . '/plugins/' . $plugin . '/.git/config');
-
-            echo "PLUGIN: ".$plugin." (".($isPluginBundledWithCore?'true':'false').", ".($isPluginOfficiallySupported?'true':'false').", ".($isPluginHasGitRepository?'true':'false').")\n";
-        }
-
+    {echo "plugins: " .print_r(\Piwik\Plugin\Manager::getInstance()->getPluginsToLoadDuringTests(), true);
         $this->setUpWebsite();
 
         // Track one visitor, with returning visit with advanced campaign use cases
