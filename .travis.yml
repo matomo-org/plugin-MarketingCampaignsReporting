@@ -35,6 +35,8 @@ before_script:
   - mysql -e 'create database piwik_tests;'
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
+  - wget https://raw.github.com/piwik/piwik-tests-plugins/master/activateplugin.php
+  - php activateplugin.php AdvancedCampaignReporting
   - cd tests/PHPUnit
 
 after_script:
