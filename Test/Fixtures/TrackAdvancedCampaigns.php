@@ -20,7 +20,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     public function setUp()
     {
-        $manager = \Piwik\Manager::getInstance();
+        $manager = \Piwik\Plugin\Manager::getInstance();
         foreach($manager->readPluginsDirectory() as $plugin) {
             $forceDisable = array(
                 'ExampleVisualization', // adds an icon
