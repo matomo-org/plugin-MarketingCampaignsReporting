@@ -19,7 +19,7 @@ class TrackAdvancedCampaigns extends Fixture
     const THIS_PAGE_VIEW_IS_GOAL_CONVERSION = 'this is a goal conversion';
 
     public function setUp()
-    {echo "plugins: " .print_r(\Piwik\Plugin\Manager::getInstance()->getPluginsToLoadDuringTests(), true);
+    {
         $this->setUpWebsite();
 
         // Track one visitor, with returning visit with advanced campaign use cases
