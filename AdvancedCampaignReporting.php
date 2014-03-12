@@ -84,7 +84,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     }
 
     public function enrichVisitWithAdvancedCampaign(&$visitorInfo, \Piwik\Tracker\Request $request)
-    {throw new \Exception("error");
+    {
         $campaignTracker = new Tracker($request);
         $campaignTracker->updateNewVisitWithCampaign($visitorInfo);
     }
