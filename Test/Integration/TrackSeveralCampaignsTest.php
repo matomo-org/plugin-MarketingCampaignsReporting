@@ -33,14 +33,6 @@ class TrackSeveralCampaignsTest extends \IntegrationTestCase
         return dirname(__FILE__);
     }
 
-    protected static function getPluginsToLoadDuringTests()
-    {
-        $load = parent::getPluginsToLoadDuringTests();
-        $load[] = 'AdvancedCampaignReporting';
-        return $load;
-    }
-
-
     /**
      * @dataProvider getApiForTesting
      * @group TrackSeveralCampaignsTest
