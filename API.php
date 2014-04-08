@@ -1,12 +1,11 @@
 <?php
 /**
- * Piwik - Open source web analytics
+ * Copyright (C) Piwik PRO - All rights reserved.
  *
- * @link http://piwik.org
- * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * Using this code requires that you first get a license from Piwik PRO.
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
  *
- * @category Piwik_Plugins
- * @package Piwik_AdvancedCampaignReporting
+ * @link http://piwik.pro
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
