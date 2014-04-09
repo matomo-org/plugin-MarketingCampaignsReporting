@@ -25,7 +25,6 @@ class Archiver extends \Piwik\Plugin\Archiver
     const CAMPAIGN_CONTENT_RECORD_NAME = 'AdvancedCampaignReporting_Content';
 
     const HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME = 'AdvancedCampaignReporting_SourceMedium_Name';
-    const HIERARCHICAL_NAME_RECORD_NAME = 'AdvancedCampaignReporting_Name_KeywordContent';
 
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTable;
