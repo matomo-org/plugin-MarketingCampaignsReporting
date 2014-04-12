@@ -14,7 +14,7 @@ An example landing page URL is:
 ```
 
 ## Features
- * Powerful Real time Analytics Reports of all your Campaign Marketing
+ * Real time Analytics Reports of all your Campaign Marketing
  * Detects Campaign parameters from the landing page URL, within the query string or in the #hash string
  * The Referrers>Overview report displays a left column "Referrers Overview" with a list of reports that can be loaded on click.
    This report viewer now also lists the new Campaign reports under "View Referrers by Campaign".

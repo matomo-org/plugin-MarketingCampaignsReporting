@@ -104,15 +104,15 @@ class Tracker
 
         $campaignDimensions = array();
 
-        // 1) Detect campaign from query string
-        if (isset($landingUrlParsed['query'])) {
-            $campaignDimensions = $this->detectCampaignFromString($landingUrlParsed['query']);
-        }
-        // 2) Detect from fragment #hash
-        if (empty($campaignDimensions) && isset($landingUrlParsed['fragment'])) {
+        // 1) Detect from fragment #hash
+        if (isset($landingUrlParsed['fragment'])) {
             $campaignDimensions = $this->detectCampaignFromString($landingUrlParsed['fragment']);
         }
 
+        // 2) Detect campaign from query string
+        if (empty($campaignDimensions) && isset($landingUrlParsed['query'])) {
+            $campaignDimensions = $this->detectCampaignFromString($landingUrlParsed['query']);
+        }
         return $campaignDimensions;
     }
 

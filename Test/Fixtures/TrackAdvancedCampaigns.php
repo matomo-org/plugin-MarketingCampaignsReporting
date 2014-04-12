@@ -130,6 +130,8 @@ class TrackAdvancedCampaigns extends Fixture
 
     protected function trackSixthVisit_withSuperLongLabels(\PiwikTracker $t)
     {
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
+
         $multiplier = 20;
         $name = urlencode(str_repeat('Lenghty "NAME"...', $multiplier));
         $keyword = urlencode(str_repeat('Lenghty "KEYWORD"...', $multiplier));
@@ -137,7 +139,6 @@ class TrackAdvancedCampaigns extends Fixture
         $medium = urlencode(str_repeat('Lenghty "MEDIUM"...', $multiplier));
         $content = urlencode(str_repeat('Lenghty "CONTENT"...', $multiplier));
         $campaignId = urlencode(str_repeat('Lenghty "CAMPAIGN_ID"...', $multiplier));
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
         $url = $this->getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId);
         $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Verrrrry long Campaign Dimensions, check they are truncated'));
