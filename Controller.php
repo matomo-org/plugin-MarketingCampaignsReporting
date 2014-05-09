@@ -9,7 +9,6 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
-use Piwik\Piwik;
 use Piwik\View;
 
 /**

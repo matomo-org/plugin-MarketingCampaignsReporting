@@ -9,7 +9,6 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
-use Exception;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataArray;

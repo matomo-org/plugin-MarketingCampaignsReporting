@@ -9,13 +9,9 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
-use Exception;
-use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
-use Piwik\Common;
-use Piwik\DataTable\Row;
 use Piwik\DataTable;
-use Piwik\Date;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
 

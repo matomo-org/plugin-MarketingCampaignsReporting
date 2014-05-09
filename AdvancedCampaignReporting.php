@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 use Piwik\Common;
 use Piwik\Db;
-use Piwik\Menu\MenuMain;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\View\ReportsByDimension;

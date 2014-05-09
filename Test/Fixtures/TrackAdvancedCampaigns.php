@@ -9,9 +9,9 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures;
 
-use Piwik\Date;
+use Fixture;
 use Piwik;
-use \Fixture;
+use Piwik\Date;
 
 class TrackAdvancedCampaigns extends Fixture
 {
