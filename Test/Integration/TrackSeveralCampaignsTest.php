@@ -12,13 +12,14 @@ namespace Piwik\Plugins\AdvancedCampaignReporting\tests;
 
 use Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures\TrackAdvancedCampaigns;
+use Piwik\Tests\IntegrationTestCase;
 
 /**
  * @group AdvancedCampaignReporting
  * @group TrackSeveralCampaignsTest
  * @group Integration
  */
-class TrackSeveralCampaignsTest extends \IntegrationTestCase
+class TrackSeveralCampaignsTest extends IntegrationTestCase
 {
     /**
      * @var TrackAdvancedCampaigns
@@ -93,4 +94,3 @@ class TrackSeveralCampaignsTest extends \IntegrationTestCase
 }
 
 TrackSeveralCampaignsTest::$fixture = new TrackAdvancedCampaigns();
-
