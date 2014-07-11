@@ -9,7 +9,7 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures;
 
-use Fixture;
+use Piwik\Tests\Fixture;
 use Piwik;
 use Piwik\Date;
 
