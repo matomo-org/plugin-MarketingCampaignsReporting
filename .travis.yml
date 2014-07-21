@@ -22,7 +22,6 @@ install:
   - git checkout master
   - git submodule init
   - git submodule update || true
-  - composer self-update
   - composer install
   - rm -rf plugins/$PLUGIN_NAME
   - cd ../
