@@ -4,7 +4,8 @@
 
 ## Description
 
-Track up to five Campaigns parameters (name, source, medium, keyword, content).
+Track up to five Campaigns parameters (name, source, medium, keyword, content), and access Campaign Analytics reports.
+
 
 ## Measuring campaigns
 
