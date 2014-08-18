@@ -64,10 +64,13 @@ install:
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
 
-before_script:
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master ./tests/travis ./plugins/CoreConsole
+  - git checkout master -- ./tests/travis ./plugins/CoreConsole
 
+  # clone dependent repos
+  - ./tests/travis/checkout_dependent_plugins.sh
+
+before_script:
   - ./tests/travis/configure_git.sh
 
   # print out mysql information
