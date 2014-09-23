@@ -15,6 +15,9 @@ env:
   global:
     - PLUGIN_NAME=AdvancedCampaignReporting
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
+    - secure: "eLgYutwUn2n0rmfm20l4RBnrMT51LhCq/j6xd2/Q6MUOLMiTFGK04HfuORWca5qE7mCeM1XEwYrNcFmKbPL28nKFnjpV1VqBGMHQTcjGyPNfV6Bp0h/J0aIYiLvKKaBUDo8EGl5IOfrPmCWNbfqLD9VPImgnJtgt7tgK+8GoZpE="
+    - secure: "YxvYmYzmwwwzE40ZMheq1SJw+NN7swtAIlbCLv6MJ44pEgqwtsncpYyWI0AZObVN1+rcMuyC4MdWioWNYxVhBeB7OWGsSyQUY2ELi7t436vSi15qC6VAlL5mkpUyPXzKgEPY2cFlE717HK3aFfT0XhHzvV3R5a6Bds1hlq7GdAQ="
+
   matrix:
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
