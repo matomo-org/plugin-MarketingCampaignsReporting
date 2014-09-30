@@ -215,7 +215,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     public function dispatchAdvancedCampaigns(&$module, &$action, &$parameters)
     {
         if($module == 'Referrers'
-            && $action == 'indexCampaigns') {
+            && $action == 'menuGetCampaigns') {
             $module = 'AdvancedCampaignReporting';
             $action = 'indexCampaigns';
         }
