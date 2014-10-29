@@ -12,6 +12,7 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Url;
 use Piwik\View\ReportsByDimension;
 use Piwik\WidgetsList;
 
@@ -30,7 +31,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'API.getSegmentDimensionMetadata'   => 'getSegmentDimensionMetadata',
             'Request.dispatch'                  => 'dispatchAdvancedCampaigns',
             'ViewDataTable.configure'           => 'configureViewDataTable',
-            'View.ReportsByDimension.render'    => 'configureReferrersReportsByDimension',
+            'View.ReportsByDimension.render'    => 'configureReportsByDimensionViews',
             'WidgetsList.addWidgets'            => 'addWidgets',
         );
     }
@@ -257,20 +258,58 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
         return Piwik::translate($labels[$method]);
     }
 
-    public function configureReferrersReportsByDimension(ReportsByDimension $reportList)
+    public function configureReportsByDimensionViews(ReportsByDimension $reportList)
     {
-        if($reportList->getId() != 'Referrers') {
-            return;
-        }
+        if ($reportList->getId() == 'Referrers') {
+            $this->addReportsByDimension($reportList, 'Referrers_ViewReferrersBy');
+        } else if ($reportList->getId() == 'Goals') {
+            $viewCategories = $reportList->getTemplateVars()['dimensionCategories'];
 
+            if (count($viewCategories) == 0
+                || (count($viewCategories) == 1
+                    && isset($viewCategories['Goals_EcommerceReports']))
+            ) {
+                return;
+            }
+
+            $customGoalsParams = array(
+                'viewDataTable' => 'tableGoals',
+                'documentationForGoalsPage' => '1'
+            );
+
+            if (Common::getRequestVar('idGoal', '') === '') { // code taken from Goals Controller
+                $customGoalsParams['idGoal'] = '0';
+            }
+
+            // check whether filterEcommerce was used in a URL & make sure it's used in new URLs (see Goals Controller code)
+            $firstCategory = reset($viewCategories);
+            $firstCategoryUrl = reset($firstCategory)['url'];
+
+            $filterEcommerceParam = Common::getRequestVar('filterEcommerce', false, null, Url::getQueryStringFromUrl($firstCategoryUrl));
+            if (!empty($filterEcommerceParam)) {
+                $customGoalsParams['filterEcommerce'] = $filterEcommerceParam;
+            }
+
+            $this->addReportsByDimension($reportList, 'Goals_ViewGoalsBy', $customGoalsParams);
+        }
+    }
+
+    private function addReportsByDimension(ReportsByDimension $reportList, $categoryTranslation, $defaultParams = array())
+    {
         $metadatas = array();
         $this->getReportMetadata($metadatas);
 
-        $byCampaign = Piwik::translate('Referrers_ViewReferrersBy', Piwik::translate('Referrers_ColumnCampaign'));
+        $byCampaign = Piwik::translate($categoryTranslation, Piwik::translate('Referrers_ColumnCampaign'));
         foreach($metadatas as $metadata) {
             $api = 'AdvancedCampaignReporting.' . $metadata['action'];
             $title = $this->getLabelFromMethod($metadata['action']);
-            $reportList->addReport($byCampaign, $title, $api);
+
+            $customParams = array();
+            foreach ($defaultParams as $key => $value) {
+                $customParams[$key] = !empty($metadata[$key]) ? $metadata[$key] : $value;
+            }
+
+            $reportList->addReport($byCampaign, $title, $api, $customParams);
         }
     }
 
