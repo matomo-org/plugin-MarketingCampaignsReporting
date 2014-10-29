@@ -3,12 +3,12 @@
     "description": "Track up to five Campaigns parameter (campaign, source, medium, keyword, content), Segment users by any campaign dimension, and get advanced reports",
     "version": "1.0.3",
     "keywords": ["Campaign", "Marketing"],
-    "license": "Paid plugin",
     "license_homepage": "http://piwik.pro/contact",
     "homepage": "http://piwik.pro",
+    "license": "GPL v3+",
     "authors": [
         {
-                "name": "Piwik PRO",
+            "name": "Piwik PRO",
             "email": "contact@piwik.pro",
             "homepage": "http://piwik.pro"
         }
