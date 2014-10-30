@@ -263,7 +263,8 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
         if ($reportList->getId() == 'Referrers') {
             $this->addReportsByDimension($reportList, 'Referrers_ViewReferrersBy');
         } else if ($reportList->getId() == 'Goals') {
-            $viewCategories = $reportList->getTemplateVars()['dimensionCategories'];
+            $templateVars = $reportList->getTemplateVars();
+            $viewCategories = $templateVars['dimensionCategories'];
 
             if (count($viewCategories) == 0
                 || (count($viewCategories) == 1
@@ -283,7 +284,8 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
 
             // check whether filterEcommerce was used in a URL & make sure it's used in new URLs (see Goals Controller code)
             $firstCategory = reset($viewCategories);
-            $firstCategoryUrl = reset($firstCategory)['url'];
+            $firstCategoryReport = reset($firstCategory);
+            $firstCategoryUrl = $firstCategoryReport['url'];
 
             $filterEcommerceParam = Common::getRequestVar('filterEcommerce', false, null, Url::getQueryStringFromUrl($firstCategoryUrl));
             if (!empty($filterEcommerceParam)) {

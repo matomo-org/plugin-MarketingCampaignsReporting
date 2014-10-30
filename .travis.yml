@@ -2,11 +2,8 @@
 
 language: php
 
-# We want to test against PHP 5.3.3/5.4/5.5
 php:
   - 5.6
-  - 5.5
-  - 5.4
   - 5.3.3
 #  - hhvm
 
@@ -15,20 +12,29 @@ env:
   global:
     - PLUGIN_NAME=AdvancedCampaignReporting
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
-    - secure: "eLgYutwUn2n0rmfm20l4RBnrMT51LhCq/j6xd2/Q6MUOLMiTFGK04HfuORWca5qE7mCeM1XEwYrNcFmKbPL28nKFnjpV1VqBGMHQTcjGyPNfV6Bp0h/J0aIYiLvKKaBUDo8EGl5IOfrPmCWNbfqLD9VPImgnJtgt7tgK+8GoZpE="
-    - secure: "YxvYmYzmwwwzE40ZMheq1SJw+NN7swtAIlbCLv6MJ44pEgqwtsncpYyWI0AZObVN1+rcMuyC4MdWioWNYxVhBeB7OWGsSyQUY2ELi7t436vSi15qC6VAlL5mkpUyPXzKgEPY2cFlE717HK3aFfT0XhHzvV3R5a6Bds1hlq7GdAQ="
-
+    - secure: "gI409KqKdq4XdXhtrYegEx9xqUu5BwMVFTUwplgqwBGYnD5QvHzuzOF0Bry8mqRb53k+m9ty/w8xXWjtSt4bEjsiO/kdzUkFaEcNBgrrSzAyFmtGv3pU8zUfzMsAVehbCk22+jHiDHFOVsAhI4V5oRcXxHuRuHPdi5XC8BvDo4E="
+    - secure: "WT7KcHzZQlrOt/+h6ovhhp2rTE79uhSNN0mAiDfskRAMwnZCCCGzL9uFiUKTLNTtLF+uqdbH0maisMziJqp3bLnzWWkBkUTR5Rsx8BM7V6P6na+fpqxs4JIGJ/FCtlStl67oZxKkWVTaSQFLMWBIg8rJ4b4gCuVEXszD5XN30w0="
   matrix:
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
+    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
 
 matrix:
   exclude:
-    # execute latest stable tests only w/ PHP 5.5
+    # execute latest stable tests only w/ PHP 5.6
     - php: 5.3.3
       env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
     - php: 5.4
       env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
+    # execute UI tests only w/ PHP 5.6
+    - php: 5.3.3
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 5.4
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
+    - php: 5.5
+      env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
+  allow_failures:
+    - env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
@@ -65,14 +71,22 @@ install:
   - rm -rf plugins/$PLUGIN_NAME
   - mv ../$PLUGIN_NAME plugins
 
+  # copy .coveralls.yml if none exists
+  - if [ ! -f ../coveralls.yml ];
+    then cp .coveralls.yml ../coveralls.yml;
+    fi
+
   # make sure travis test scripts are always latest (so in older releases/branches, the latest scripts will still be used)
-  - git checkout master -- ./tests/travis ./plugins/CoreConsole
+  - git checkout master -- ./tests/travis ./plugins/TestRunner
 
   # clone dependent repos
   - ./tests/travis/checkout_dependent_plugins.sh
 
 before_script:
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -n "$TEST_SUITE" ]);
+    then phpenv config-rm xdebug.ini;
+    fi
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
     fi
 
@@ -122,7 +136,7 @@ after_script:
   # change directory back to root travis dir
   - cd $PIWIK_ROOT_DIR
 
-  - if [ -z "$TEST_SUITE" ];
+  - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then php vendor/bin/coveralls -v;
     fi
 

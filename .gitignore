@@ -1,2 +1,3 @@
-tests/processed/*.xml
-Test/Integration/processed/*
+/tests/processed/*.xml
+/Test/Integration/processed/*
+/Test/UI/processed-ui-screenshots/
