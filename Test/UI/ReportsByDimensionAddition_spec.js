@@ -55,7 +55,7 @@ describe("AdvancedCampaignReporting_ReportsByDimensionAddition", function () {
     });
 
     it("should load correctly within the Ecommerce page", function (done) {
-        expect.screenshot("loaded_goals").to.be.capture(function (page) {
+        expect.screenshot("loaded_ecommerce").to.be.capture(function (page) {
             page.load(ecommerceUrl);
             page.evaluate(function () {
                 $('.dimensionCategory:contains(by Campaign) .reportDimension:eq(0)').click();
