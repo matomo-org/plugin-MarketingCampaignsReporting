@@ -16,8 +16,8 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
  * @group AdvancedCampaignReporting
- * @group TrackSeveralCampaignsTest
- * @group Integration
+ * @group AdvancedCampaignReporting_TrackSeveralCampaignsTest
+ * @group AdvancedCampaignReporting_Integration
  */
 class TrackSeveralCampaignsTest extends SystemTestCase
 {
