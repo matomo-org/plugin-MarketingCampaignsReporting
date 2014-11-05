@@ -1,6 +1,6 @@
 # Advanced Campaigns Reporting
 
-[![Build Status](https://magnum.travis-ci.com/PiwikPRO/plugin-AdvancedCampaignReporting.png?token=YG4RfcyzVryveJy9zhmw&branch=master)](https://magnum.travis-ci.com/PiwikPRO/plugin-AdvancedCampaignReporting)
+[![Build Status](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting.svg?branch=master)](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting)
 
 ## Description
 
