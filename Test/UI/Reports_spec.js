@@ -1,10 +1,10 @@
 /*!
- * Copyright (C) Piwik PRO - All rights reserved.
- *
- * AdvancedCampaignReporting report tests.
+ * Piwik PRO - cloud hosting and enterprise analytics consultancy
+ * from the creators of Piwik.org
  *
  * @link http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
  */
 describe("AdvancedCampaignReporting_Reports", function () {
     this.timeout(0);

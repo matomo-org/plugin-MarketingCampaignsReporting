@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (C) Piwik PRO - All rights reserved.
- *
- * Using this code requires that you first get a license from Piwik PRO.
- * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Piwik PRO - cloud hosting and enterprise analytics consultancy
+ * from the creators of Piwik.org
  *
  * @link http://piwik.pro
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
