@@ -83,11 +83,10 @@ install:
   - ./tests/travis/checkout_dependent_plugins.sh
 
 before_script:
-  - if ([ -n "$TEST_SUITE" ]);
-    then phpenv config-rm xdebug.ini;
-    fi
   - if ([ -z "$TEST_SUITE" ] || [ -n "$PLUGIN_NAME" ]);
     then composer require satooshi/php-coveralls dev-master;
+    else
+    phpenv config-rm xdebug.ini;
     fi
 
   - ./tests/travis/configure_git.sh
