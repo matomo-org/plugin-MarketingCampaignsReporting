@@ -6,8 +6,7 @@
 
 Track up to five Campaigns parameters (name, source, medium, keyword, content), and access Campaign Analytics reports.
 
-
-## Measuring campaigns
+### Measuring campaigns
 
 The default Campaign parameters are called: pk_campaign, pk_source, pk_medium, pk_keyword, pk_content and pk_cid.
 
@@ -18,7 +17,7 @@ An example landing page URL is:
 /offer?pk_campaign=Best-Seller&pk_source=Newsletter_7&pk_medium=email
 ```
 
-## Features
+### Features
  * Real time Analytics Reports of all your Campaign Marketing
  * Detects Campaign parameters from the landing page URL, within the query string or in the #hash string
  * The Referrers>Overview report displays a left column "Referrers Overview" with a list of reports that can be loaded on click.
@@ -32,7 +31,7 @@ An example landing page URL is:
  * Comes with automated tests to ensure the Plugin works as expected
  * Will track up to 250 characters for each of the five Campaign dimension
 
-## Notes
+### Notes
  * To archive all values in the Campaign reports and not truncate rows, set eg.
 
 ```
@@ -43,10 +42,22 @@ datatable_archiving_maximum_rows_referrers = 10000
 datatable_archiving_maximum_rows_subtable_referrers = 10000
 ```
 
-## Ideas for improvement
+### Ideas for improvement
  * To improve data acquisition accuracy, we could extend the piwik.js class to store in first party cookies
  the five campaign dimensions. This would increase the accuracy of Goal conversions and Ecommerce conversions attributions
  for these conversions made at least one day after the first visit with a campaign set.
  * Add friendly Tracking API parameters to collect campaign dimensions.
  campaignName cn, campaignSource cs, campaignMedium cm, campaignContent cc, campaignId ci.
  Currently it is possible if set in the parameters of the actual tracked URL set in parameter &url=
+
+## Changelog
+
+ * 1.0.5 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
+ * 1.0.4 (Nov 4th 2014) - View Goals by Campaign Dimension in the Goals & Ecommerce reports
+ * 1.0.3 (Oct 1st 2014) - Released for free on the [Piwik Marketplace](http://plugins.piwik.org/)
+ 
+## Support
+
+Plugin provided by [Piwik PRO](https://piwik.pro) - Cloud and Enterprise analytics from the creators of Piwik.org
+
+If you find a bug or have a suggestion please create an issue in: https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting/issues

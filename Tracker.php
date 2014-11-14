@@ -35,12 +35,12 @@ class Tracker
     protected function getCampaignParameters()
     {
         return array(
-            self::CAMPAIGN_NAME_FIELD => array('pk_campaign', 'utm_campaign'),
-            self::CAMPAIGN_KEYWORD_FIELD => array('pk_keyword', 'utm_term'),
-            self::CAMPAIGN_SOURCE_FIELD => array('pk_source', 'utm_source'),
-            self::CAMPAIGN_MEDIUM_FIELD => array('pk_medium', 'utm_medium'),
+            self::CAMPAIGN_NAME_FIELD    => array('pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign'),
+            self::CAMPAIGN_KEYWORD_FIELD => array('pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term'),
+            self::CAMPAIGN_SOURCE_FIELD  => array('pk_source', 'utm_source'),
+            self::CAMPAIGN_MEDIUM_FIELD  => array('pk_medium', 'utm_medium'),
             self::CAMPAIGN_CONTENT_FIELD => array('pk_content', 'utm_content'),
-            self::CAMPAIGN_ID_FIELD => array('pk_cid', 'utm_id'),
+            self::CAMPAIGN_ID_FIELD      => array('pk_cid', 'utm_id'),
         );
     }
 
