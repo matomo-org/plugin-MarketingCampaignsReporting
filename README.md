@@ -45,13 +45,13 @@ datatable_archiving_maximum_rows_subtable_referrers = 10000
 ### Ideas for improvement
  * To improve data acquisition accuracy, we could extend the piwik.js class to store in first party cookies
  the five campaign dimensions. This would increase the accuracy of Goal conversions and Ecommerce conversions attributions
- for these conversions made at least one day after the first visit with a campaign set.
+ for these conversions made at least one day after the first visit with a campaign set. #10
  * Add friendly Tracking API parameters to collect campaign dimensions.
- campaignName cn, campaignSource cs, campaignMedium cm, campaignContent cc, campaignId ci.
- Currently it is possible if set in the parameters of the actual tracked URL set in parameter &url=
+ campaignName `cn`, campaignSource `cs`, campaignMedium `cm`, campaignContent `cc`, campaignId `ci`.
 
 ## Changelog
 
+ * 1.0.6 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
  * 1.0.5 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
  * 1.0.4 (Nov 4th 2014) - View Goals by Campaign Dimension in the Goals & Ecommerce reports
  * 1.0.3 (Oct 1st 2014) - Released for free on the [Piwik Marketplace](http://plugins.piwik.org/)

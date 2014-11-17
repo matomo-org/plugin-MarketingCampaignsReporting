@@ -2,7 +2,7 @@
     "name": "piwikpro/AdvancedCampaignReporting",
     "type": "piwik-plugin",
     "description": "Track up to five Campaigns parameter (campaign, source, medium, keyword, content), Segment users by any campaign dimension, and get advanced reports",
-    "license": "Paid plugin",
+    "license": "GPL v3+",
     "license_homepage": "http://piwik.pro/contact",
     "homepage": "http://piwik.pro",
     "authors": [
