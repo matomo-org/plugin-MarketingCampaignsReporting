@@ -70,24 +70,25 @@ class TrackAdvancedCampaigns extends Fixture
         $this->idGoal2 = \Piwik\Plugins\Goals\API::getInstance()->addGoal(
             $this->idSite, 'title match', 'manually', '', 'contains'
         );
-
     }
 
     protected function trackFirstVisit_withGoogleAnalyticsParameters(\PiwikTracker $t)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
+        $this->moveTimeForward($t, 0.1);
         $t->setUrl('http://example.com/?utm_campaign=November_Offer&utm_term=Mot_clé_PÉPÈRE&utm_source=newsletter_7&utm_content=contains personalized campaigns for client&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM');
         self::checkResponse($t->doTrackPageView('Viewing homepage, will be recorded as a visit from Campaign'));
 
         // Same visit, check campaign is not overwritten
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
+        $this->moveTimeForward($t, 0.3);
         $t->setUrl('http://example.com/sub/page?utm_campaign=SHOULD_NOT_BE_TRACKED');
         self::checkResponse($t->doTrackPageView('Second page view, should not overwrite existing campaign'));
+
+
     }
 
     protected function trackSecondVisit_withPiwikCampaignParameters(\PiwikTracker $t)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(2)->getDatetime());
+        $this->moveTimeForward($t, 2);
         $url = $this->getLandingUrlWithCampaignParams(
             $name = 'October_Offer',
             $keyword = 'Mot_clé_PÉPÈRE',
@@ -104,7 +105,7 @@ class TrackAdvancedCampaigns extends Fixture
     {
         // using piwik_campaign and piwik_keyword will not be detected as advanced campaign
         // this will help us verify that when a "basic campaign" is detected, it is copied over the advanced campaign
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(4)->getDatetime());
+        $this->moveTimeForward($t, 4);
         $t->setUrl('http://example.com/?piwik_campaign=Default_Offer&piwik_kwd=Not_An_Advanced_Campaign_At_first');
         self::checkResponse($t->doTrackPageView('Coming back with a basic non advanced campaign which will be counted as advanced anyway. Kaboom.'));
     }
@@ -113,7 +114,7 @@ class TrackAdvancedCampaigns extends Fixture
     {
         // using piwik_campaign and piwik_keyword will not be detected as advanced campaign
         // this will help us verify that when a "basic campaign" is detected, it is copied over the advanced campaign
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(5)->getDatetime());
+        $this->moveTimeForward($t, 5);
         $baseUrl = 'http://example.com/homepage?utm_content=THIS_CAMPAIGN_CONTENT_SHOULD_NOT_BE_TRACKED';
         $urlHash = '#pk_campaign=Campaign_Hashed&pk_keyword=' . urlencode('Keyword from #hash tag parameter');
         $t->setUrl($baseUrl .$urlHash);
@@ -122,14 +123,14 @@ class TrackAdvancedCampaigns extends Fixture
 
     protected function trackFifthVisit_withCampaignNameOnly(\PiwikTracker $t)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(6)->getDatetime());
+        $this->moveTimeForward($t, 6);
         $t->setUrl('http://example.com/homepage?pk_campaign=CampaignNameDimension - No Other Dimension for this visit' );
         self::checkResponse($t->doTrackPageView('Campaign dimensions are found in the landing page #hash tag'));
     }
 
     protected function trackSixthVisit_withSuperLongLabels(\PiwikTracker $t)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(7)->getDatetime());
+        $this->moveTimeForward($t, 7);
 
         $multiplier = 20;
         $name = urlencode(str_repeat('Lenghty "NAME"...', $multiplier));
@@ -146,17 +147,17 @@ class TrackAdvancedCampaigns extends Fixture
 
     protected function trackSeventhVisit_withGoalConversion(\PiwikTracker $t)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(8)->getDatetime());
+        $this->moveTimeForward($t, 8);
         $t->setUrl('http://example.com/homepage?pk_campaign=Campaign_with_two_goals_conversions' );
         self::checkResponse($t->doTrackPageView(self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION . ' <-- goal conversion'));
 
         // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(8.1)->getDatetime());
+        $this->moveTimeForward($t, 8.1);
         $t->setUrl('http://example.com/anotherpage' );
         self::checkResponse($t->doTrackGoal($this->idGoal1, 1101));
 
         // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(8.2)->getDatetime());
+        $this->moveTimeForward($t, 8.2);
         $t->setUrl('http://example.com/anotherpage' );
         self::checkResponse($t->doTrackGoal($this->idGoal2, 3333));
     }
@@ -172,7 +173,7 @@ class TrackAdvancedCampaigns extends Fixture
         $hourOffset = 10;
         $this->track_ecommerceCartUpdate($t, $hourOffset);
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hourOffset + 0.3)->getDatetime());
+        $this->moveTimeForward($t, $hourOffset + 0.3);
         $t->setUrl('http://example.com/cart');
         $t->addEcommerceItem('item SKU', 'item name', 'item category', $price = 111, $qty = 5);
         self::checkResponse($t->doTrackEcommerceOrder('Ecommerce_ORDER_ID', '555'));
@@ -184,7 +185,7 @@ class TrackAdvancedCampaigns extends Fixture
      */
     protected function track_ecommerceCartUpdate(\PiwikTracker $t, $hourOffset)
     {
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hourOffset)->getDatetime());
+        $this->moveTimeForward($t, $hourOffset);
         $url = $this->getLandingUrlWithCampaignParams(
             $name = 'Ecommerce_campaign',
             $keyword = 'Ecommerce_keyword',
@@ -196,10 +197,20 @@ class TrackAdvancedCampaigns extends Fixture
         $t->setUrl($url);;
         self::checkResponse($t->doTrackPageView('Homepage'));
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hourOffset + 0.1)->getDatetime());
+        $this->moveTimeForward($t, $hourOffset + 0.1);
         $t->setUrl('http://example.com/cart');
         $t->addEcommerceItem('item SKU', 'item name', 'item category', $price = 111, $qty = 5);
         self::checkResponse($t->doTrackEcommerceCartUpdate('555'));
+    }
+
+    /**
+     * @param \PiwikTracker $t
+     * @param $hourForward
+     * @throws \Exception
+     */
+    protected function moveTimeForward(\PiwikTracker $t, $hourForward)
+    {
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour($hourForward)->getDatetime());
     }
 }
 

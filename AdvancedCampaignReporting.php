@@ -96,12 +96,12 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     public static function getAdvancedCampaignFields()
     {
         return array(
-            'campaign_name',
-            'campaign_keyword',
-            'campaign_source',
-            'campaign_medium',
-            'campaign_content',
-            'campaign_id',
+            Tracker::CAMPAIGN_NAME_FIELD,
+            Tracker::CAMPAIGN_KEYWORD_FIELD,
+            Tracker::CAMPAIGN_SOURCE_FIELD,
+            Tracker::CAMPAIGN_MEDIUM_FIELD,
+            Tracker::CAMPAIGN_CONTENT_FIELD,
+            Tracker::CAMPAIGN_ID_FIELD,
         );
     }
 
