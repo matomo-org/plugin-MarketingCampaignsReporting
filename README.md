@@ -45,7 +45,7 @@ datatable_archiving_maximum_rows_subtable_referrers = 10000
 ### Ideas for improvement
  * To improve data acquisition accuracy, we could extend the piwik.js class to store in first party cookies
  the five campaign dimensions. This would increase the accuracy of Goal conversions and Ecommerce conversions attributions
- for these conversions made at least one day after the first visit with a campaign set. #10
+ for these conversions made at least one day after the first visit with a campaign set. [#10](https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting/issues/10)
  * Add friendly Tracking API parameters to collect campaign dimensions.
  campaignName `cn`, campaignSource `cs`, campaignMedium `cm`, campaignContent `cc`, campaignId `ci`.
 
