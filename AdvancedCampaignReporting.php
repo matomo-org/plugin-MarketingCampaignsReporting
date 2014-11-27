@@ -281,17 +281,6 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             if (Common::getRequestVar('idGoal', '') === '') { // code taken from Goals Controller
                 $customGoalsParams['idGoal'] = '0';
             }
-
-            // check whether filterEcommerce was used in a URL & make sure it's used in new URLs (see Goals Controller code)
-            $firstCategory = reset($viewCategories);
-            $firstCategoryReport = reset($firstCategory);
-            $firstCategoryUrl = $firstCategoryReport['url'];
-
-            $filterEcommerceParam = Common::getRequestVar('filterEcommerce', false, null, Url::getQueryStringFromUrl($firstCategoryUrl));
-            if (!empty($filterEcommerceParam)) {
-                $customGoalsParams['filterEcommerce'] = $filterEcommerceParam;
-            }
-
             $this->addReportsByDimension($reportList, 'Goals_ViewGoalsBy', $customGoalsParams);
         }
     }
