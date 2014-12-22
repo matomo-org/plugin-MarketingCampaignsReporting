@@ -44,12 +44,12 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
         foreach($this->getTables() as $table) {
             try {
                 $query = "ALTER TABLE `" . $table . "`
-                    ADD `campaign_name` VARCHAR(255) NULL DEFAULT NULL AFTER `referer_keyword` ,
-                    ADD `campaign_keyword` VARCHAR(255) NULL DEFAULT NULL AFTER `campaign_name` ,
-                    ADD `campaign_source` VARCHAR(255) NULL DEFAULT NULL AFTER  `campaign_keyword` ,
-                    ADD `campaign_medium` VARCHAR(255) NULL DEFAULT NULL AFTER `campaign_source`,
-                    ADD `campaign_content` VARCHAR(255) NULL DEFAULT NULL AFTER `campaign_medium`,
-                    ADD `campaign_id` VARCHAR( 100 ) NULL DEFAULT NULL AFTER  `campaign_content`";
+                    ADD `campaign_name` VARCHAR(" . Tracker::$campaignFieldLengths['campaign_name'] . ") NULL DEFAULT NULL AFTER `referer_keyword` ,
+                    ADD `campaign_keyword` VARCHAR(" . Tracker::$campaignFieldLengths['campaign_keyword'] . ") NULL DEFAULT NULL AFTER `campaign_name` ,
+                    ADD `campaign_source` VARCHAR(" . Tracker::$campaignFieldLengths['campaign_source'] . ") NULL DEFAULT NULL AFTER  `campaign_keyword` ,
+                    ADD `campaign_medium` VARCHAR(" . Tracker::$campaignFieldLengths['campaign_medium'] . ") NULL DEFAULT NULL AFTER `campaign_source`,
+                    ADD `campaign_content` VARCHAR(" . Tracker::$campaignFieldLengths['campaign_content'] . ") NULL DEFAULT NULL AFTER `campaign_medium`,
+                    ADD `campaign_id` VARCHAR(" . Tracker::$campaignFieldLengths['campaign_id'] . ") NULL DEFAULT NULL AFTER  `campaign_content`";
                 Db::exec($query);
             } catch (\Exception $e) {
                 if (!Db::get()->isErrNo($e, '1060')) {

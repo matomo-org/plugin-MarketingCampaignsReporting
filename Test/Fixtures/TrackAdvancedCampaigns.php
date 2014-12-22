@@ -21,11 +21,12 @@ class TrackAdvancedCampaigns extends Fixture
 
     public function setUp()
     {
-        Piwik\Config::getInstance()->log['log_level'] = "DEBUG";
+        $GLOBALS['PIWIK_TRACKER_DEBUG'] = true;
+
         $this->setUpWebsite();
 
         // Track one visitor, with returning visit with advanced campaign use cases
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true, $useLocal = false);
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true, $useLocal = true);
 
         $this->trackFirstVisit_withGoogleAnalyticsParameters($t);
         $this->trackSecondVisit_withPiwikCampaignParameters($t);
@@ -79,9 +80,9 @@ class TrackAdvancedCampaigns extends Fixture
         $t->setUrl('http://example.com/?utm_campaign=November_Offer&utm_term=Mot_clé_PÉPÈRE&utm_source=newsletter_7&utm_content=contains personalized campaigns for client&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM');
         self::checkResponse($t->doTrackPageView('Viewing homepage, will be recorded as a visit from Campaign'));
 
-        // Same visit, check campaign is not overwritten
+        // Same visit, check campaign is not overwritten and new visit created
         $this->moveTimeForward($t, 0.3);
-        $t->setUrl('http://example.com/sub/page?utm_campaign=SHOULD_NOT_BE_TRACKED');
+        $t->setUrl('http://example.com/sub/page?utm_campaign=SHOULD_BE_NEW_VISIT');
         self::checkResponse($t->doTrackPageView('Second page view, should not overwrite existing campaign'));
 
 

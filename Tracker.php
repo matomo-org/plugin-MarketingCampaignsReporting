@@ -24,6 +24,22 @@ class Tracker
     const CAMPAIGN_CONTENT_FIELD = 'campaign_content';
     const CAMPAIGN_ID_FIELD = 'campaign_id';
 
+    const CAMPAIGN_NAME_COLUMN_LENGTH = 255;
+    const CAMPAIGN_KEYWORD_COLUMN_LENGTH = 255;
+    const CAMPAIGN_SOURCE_COLUMN_LENGTH = 255;
+    const CAMPAIGN_MEDIUM_COLUMN_LENGTH = 255;
+    const CAMPAIGN_CONTENT_COLUMN_LENGTH = 255;
+    const CAMPAIGN_ID_COLUMN_LENGTH = 100;
+
+    public static $campaignFieldLengths = array(
+        self::CAMPAIGN_NAME_FIELD => 255,
+        self::CAMPAIGN_KEYWORD_FIELD => 255,
+        self::CAMPAIGN_SOURCE_FIELD => 255,
+        self::CAMPAIGN_MEDIUM_FIELD => 255,
+        self::CAMPAIGN_CONTENT_FIELD => 255,
+        self::CAMPAIGN_ID_FIELD => 100
+    );
+
     public function __construct(\Piwik\Tracker\Request $request)
     {
         $this->request = $request;
@@ -165,7 +181,10 @@ class Tracker
         if(empty($campaignDimensions)) {
             return;
         }
-        Common::printDebug("Found Advanced Campaign: ");
+
+        $this->truncateDimensions($campaignDimensions);
+
+        Common::printDebug("Found Advanced Campaign (after truncation): ");
         Common::printDebug($campaignDimensions);
 
         // Set the new campaign fields on the visitor
@@ -181,6 +200,15 @@ class Tracker
         }
         if (isset($rowToInsert[self::CAMPAIGN_KEYWORD_FIELD])) {
             $rowToInsert['referer_keyword'] = $rowToInsert[self::CAMPAIGN_KEYWORD_FIELD];
+        }
+    }
+
+    private function truncateDimensions(&$campaignDimensions)
+    {
+        foreach (self::$campaignFieldLengths as $name => $length) {
+            if (!empty($campaignDimensions[$name])) {
+                $campaignDimensions[$name] = substr($campaignDimensions[$name], 0, $length);
+            }
         }
     }
 }
