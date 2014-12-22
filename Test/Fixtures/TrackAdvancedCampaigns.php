@@ -26,7 +26,7 @@ class TrackAdvancedCampaigns extends Fixture
         $this->setUpWebsite();
 
         // Track one visitor, with returning visit with advanced campaign use cases
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true, $useLocal = true);
+        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true, $useLocal = false);
 
         $this->trackFirstVisit_withGoogleAnalyticsParameters($t);
         $this->trackSecondVisit_withPiwikCampaignParameters($t);

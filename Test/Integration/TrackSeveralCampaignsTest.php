@@ -9,7 +9,6 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting\tests;
 
-use Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures\SimpleFixtureTrackFewVisits;
 use Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures\TrackAdvancedCampaigns;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
