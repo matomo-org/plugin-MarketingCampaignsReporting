@@ -21,8 +21,6 @@ class TrackAdvancedCampaigns extends Fixture
 
     public function setUp()
     {
-        $GLOBALS['PIWIK_TRACKER_DEBUG'] = true;
-
         $this->setUpWebsite();
 
         // Track one visitor, with returning visit with advanced campaign use cases

@@ -12,8 +12,6 @@ namespace Piwik\Plugins\AdvancedCampaignReporting\tests;
 use Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures\TrackAdvancedCampaigns;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = true;
-
 /**
  * @group AdvancedCampaignReporting
  * @group AdvancedCampaignReporting_TrackSeveralCampaignsTest
