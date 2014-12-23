@@ -196,10 +196,10 @@ class Tracker
         $rowToInsert['referer_type'] = Common::REFERRER_TYPE_CAMPAIGN;
 
         if (isset($rowToInsert[self::CAMPAIGN_NAME_FIELD])) {
-            $rowToInsert['referer_name'] = $rowToInsert[self::CAMPAIGN_NAME_FIELD];
+            $rowToInsert['referer_name'] = substr($rowToInsert[self::CAMPAIGN_NAME_FIELD], 0, 70);
         }
         if (isset($rowToInsert[self::CAMPAIGN_KEYWORD_FIELD])) {
-            $rowToInsert['referer_keyword'] = $rowToInsert[self::CAMPAIGN_KEYWORD_FIELD];
+            $rowToInsert['referer_keyword'] = substr($rowToInsert[self::CAMPAIGN_KEYWORD_FIELD], 0, 255);
         }
     }
 
