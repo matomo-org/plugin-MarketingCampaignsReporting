@@ -19,16 +19,16 @@ env:
     - secure: "WT7KcHzZQlrOt/+h6ovhhp2rTE79uhSNN0mAiDfskRAMwnZCCCGzL9uFiUKTLNTtLF+uqdbH0maisMziJqp3bLnzWWkBkUTR5Rsx8BM7V6P6na+fpqxs4JIGJ/FCtlStl67oZxKkWVTaSQFLMWBIg8rJ4b4gCuVEXszD5XN30w0="
   matrix:
     - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL
-    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
+    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik
     - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
 
 matrix:
   exclude:
     # execute latest stable tests only w/ PHP 5.6
     - php: 5.3.3
-      env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
+      env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik
     - php: 5.4
-      env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
+      env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=minimum_required_piwik
     # execute UI tests only w/ PHP 5.6
     - php: 5.3.3
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
@@ -36,8 +36,6 @@ matrix:
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
     - php: 5.5
       env: TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL
-  allow_failures:
-    - env: TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_CORE=latest_stable
 
 script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
