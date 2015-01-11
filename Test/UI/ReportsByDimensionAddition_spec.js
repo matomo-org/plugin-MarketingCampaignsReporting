@@ -17,8 +17,8 @@ describe("AdvancedCampaignReporting_ReportsByDimensionAddition", function () {
         referrersUrl = urlPrefix + withVisitsParams + "#/module=Referrers&action=index",
         goalsUrl = urlPrefix + withVisitsParams + "#/module=Goals&action=index",
         goalsNoConversionsUrl = urlPrefix + withoutVisitsParams + "#/module=Goals&action=index",
-        ecommerceUrl = urlPrefix + withVisitsParams + "#/module=Goals&action=ecommerceReport&idGoal=ecommerceOrder",
-        ecommerceNoConversionsUrl = urlPrefix + withVisitsParams + "#/module=Goals&action=ecommerceReport&idGoal=ecommerceOrder";
+        ecommerceUrl = urlPrefix + withVisitsParams + "#/module=Ecommerce&action=sales&idGoal=ecommerceOrder",
+        ecommerceNoConversionsUrl = urlPrefix + withVisitsParams + "#/module=Ecommerce&action=sales&idGoal=ecommerceOrder";
 
     it("should load correctly within the Referrers page", function (done) {
         expect.screenshot("loaded_referrers").to.be.capture(function (page) {

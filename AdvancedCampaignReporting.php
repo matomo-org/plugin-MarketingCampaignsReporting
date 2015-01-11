@@ -8,6 +8,7 @@
  *
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
+
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Piwik;
@@ -266,10 +267,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             $templateVars = $reportList->getTemplateVars();
             $viewCategories = $templateVars['dimensionCategories'];
 
-            if (count($viewCategories) == 0
-                || (count($viewCategories) == 1
-                    && isset($viewCategories['Goals_EcommerceReports']))
-            ) {
+            if (count($viewCategories) == 0) {
                 return;
             }
 
@@ -278,10 +276,16 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
                 'documentationForGoalsPage' => '1'
             );
 
-            if (Common::getRequestVar('idGoal', '') === '') { // code taken from Goals Controller
+            $idGoal = Common::getRequestVar('idGoal', '');
+            if ($idGoal === '') { // code taken from Goals Controller
                 $customGoalsParams['idGoal'] = '0';
             }
-            $this->addReportsByDimension($reportList, 'Goals_ViewGoalsBy', $customGoalsParams);
+
+            $isEcommerce = $idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
+                        || $idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
+            $viewByTranslationToken = $isEcommerce ? 'Ecommerce_ViewSalesBy' : 'Goals_ViewGoalsBy';
+
+            $this->addReportsByDimension($reportList, $viewByTranslationToken, $customGoalsParams);
         }
     }
 
