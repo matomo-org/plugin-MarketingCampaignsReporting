@@ -14,25 +14,10 @@ describe("AdvancedCampaignReporting_ReportsByDimensionAddition", function () {
     var withVisitsParams = "&idSite=1&date=2013-01-23&period=week",
         withoutVisitsParams = "&idSite=1&date=2013-02-02&period=day",
         urlPrefix = "?module=CoreHome&action=index&",
-        referrersUrl = urlPrefix + withVisitsParams + "#/module=Referrers&action=index",
         goalsUrl = urlPrefix + withVisitsParams + "#/module=Goals&action=index",
         goalsNoConversionsUrl = urlPrefix + withoutVisitsParams + "#/module=Goals&action=index",
         ecommerceUrl = urlPrefix + withVisitsParams + "#/module=Ecommerce&action=sales&idGoal=ecommerceOrder",
         ecommerceNoConversionsUrl = urlPrefix + withVisitsParams + "#/module=Ecommerce&action=sales&idGoal=ecommerceOrder";
-
-    it("should load correctly within the Referrers page", function (done) {
-        expect.screenshot("loaded_referrers").to.be.capture(function (page) {
-            page.load(referrersUrl);
-            page.evaluate(function () {
-                $('.dimensionCategory:contains(by Campaign) .reportDimension:eq(0)').click();
-
-                // capture selector doesn't work for some reason, so instead hide all other elements
-                $('#content>*:not(.reportsByDimensionView)').hide();
-                $('#root>*:not(.pageWrap)').hide();
-                $('.pageWrap>*:not(#content)').hide();
-            });
-        }, done);
-    });
 
     it("should load correctly within the Goals page", function (done) {
         expect.screenshot("loaded_goals").to.be.capture(function (page) {
