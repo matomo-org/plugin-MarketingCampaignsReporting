@@ -48,7 +48,7 @@ class Tracker
     /**
      * @return array
      */
-    protected function getCampaignParameters()
+    public static function getCampaignParameters()
     {
         return array(
             self::CAMPAIGN_NAME_FIELD    => array('pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign'),
@@ -139,7 +139,7 @@ class Tracker
      */
     protected function detectCampaignFromString($queryString)
     {
-        $parameters = $this->getCampaignParameters();
+        $parameters = self::getCampaignParameters();
 
         $campaignDimensions = array();
         foreach($parameters as $sqlField => $requestParams) {
