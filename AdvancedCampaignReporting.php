@@ -25,16 +25,16 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Tracker.newVisitorInformation'         => 'enrichVisitWithAdvancedCampaign',
-            'Tracker.newConversionInformation'      => 'enrichConversionWithAdvancedCampaign',
-            'Tracker.getQueryParametersToExclude'   => 'getQueryParametersToExclude',
-            'Tracker.getVisitFieldsToPersist'       => 'getVisitFieldsToPersist',
-            'API.getReportMetadata'                 => 'getReportMetadata',
-            'API.getSegmentDimensionMetadata'       => 'getSegmentDimensionMetadata',
-            'Request.dispatch'                      => 'dispatchAdvancedCampaigns',
-            'ViewDataTable.configure'               => 'configureViewDataTable',
-            'View.ReportsByDimension.render'        => 'configureReportsByDimensionViews',
-            'WidgetsList.addWidgets'                => 'addWidgets',
+            'Tracker.newVisitorInformation'                 => 'enrichVisitWithAdvancedCampaign',
+            'Tracker.newConversionInformation'              => 'enrichConversionWithAdvancedCampaign',
+            'Tracker.PageUrl.getQueryParametersToExclude'   => 'getQueryParametersToExclude',
+            'Tracker.getVisitFieldsToPersist'               => 'getVisitFieldsToPersist',
+            'API.getReportMetadata'                         => 'getReportMetadata',
+            'API.getSegmentDimensionMetadata'               => 'getSegmentDimensionMetadata',
+            'Request.dispatch'                              => 'dispatchAdvancedCampaigns',
+            'ViewDataTable.configure'                       => 'configureViewDataTable',
+            'View.ReportsByDimension.render'                => 'configureReportsByDimensionViews',
+            'WidgetsList.addWidgets'                        => 'addWidgets',
         );
     }
 
