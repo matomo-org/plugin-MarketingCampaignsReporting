@@ -25,15 +25,16 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'Tracker.newVisitorInformation'     => 'enrichVisitWithAdvancedCampaign',
-            'Tracker.newConversionInformation'  => 'enrichConversionWithAdvancedCampaign',
-            'Tracker.getVisitFieldsToPersist'   => 'getVisitFieldsToPersist',
-            'API.getReportMetadata'             => 'getReportMetadata',
-            'API.getSegmentDimensionMetadata'   => 'getSegmentDimensionMetadata',
-            'Request.dispatch'                  => 'dispatchAdvancedCampaigns',
-            'ViewDataTable.configure'           => 'configureViewDataTable',
-            'View.ReportsByDimension.render'    => 'configureReportsByDimensionViews',
-            'WidgetsList.addWidgets'            => 'addWidgets',
+            'Tracker.newVisitorInformation'                 => 'enrichVisitWithAdvancedCampaign',
+            'Tracker.newConversionInformation'              => 'enrichConversionWithAdvancedCampaign',
+            'Tracker.PageUrl.getQueryParametersToExclude'   => 'getQueryParametersToExclude',
+            'Tracker.getVisitFieldsToPersist'               => 'getVisitFieldsToPersist',
+            'API.getReportMetadata'                         => 'getReportMetadata',
+            'API.getSegmentDimensionMetadata'               => 'getSegmentDimensionMetadata',
+            'Request.dispatch'                              => 'dispatchAdvancedCampaigns',
+            'ViewDataTable.configure'                       => 'configureViewDataTable',
+            'View.ReportsByDimension.render'                => 'configureReportsByDimensionViews',
+            'WidgetsList.addWidgets'                        => 'addWidgets',
         );
     }
 
@@ -92,6 +93,15 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     public function getVisitFieldsToPersist(&$fields)
     {
         $fields = array_merge($fields, self::getAdvancedCampaignFields());
+    }
+
+    public function getQueryParametersToExclude(&$excludedParameters)
+    {
+        $advancedCampaignParameters = Tracker::getCampaignParameters();
+
+        foreach($advancedCampaignParameters as $advancedCampaignParameter) {
+            $excludedParameters = array_merge($excludedParameters, $advancedCampaignParameter);
+        }
     }
 
     public static function getAdvancedCampaignFields()
