@@ -6,7 +6,9 @@
  * @link http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- */namespace Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures;
+ */
+
+namespace Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures;
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik;
