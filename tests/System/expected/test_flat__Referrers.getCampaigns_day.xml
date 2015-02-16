@@ -40,6 +40,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==campaignnamedimension+-+no+other+dimension+for+this+visit</segment>
 	</row>
 	<row>
 		<label>campaign_hashed - keyword from #hash tag parameter</label>
@@ -75,6 +76,7 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>4444</revenue>
+		<segment>referrerType==campaign;referrerName==campaign_with_two_goals_conversions</segment>
 	</row>
 	<row>
 		<label>default_offer - not_an_advanced_campaign_at_first</label>
@@ -130,5 +132,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==should_be_new_visit</segment>
 	</row>
 </result>
