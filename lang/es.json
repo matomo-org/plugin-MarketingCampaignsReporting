@@ -1,0 +1,14 @@
+{
+    "AdvancedCampaignReporting": {
+        "CampaignId": "Id de Campaña",
+        "CombinedKeywordContent": "Palabra clave - Contenido",
+        "CombinedSourceMedium": "Fuente - Medio",
+        "CombinedSourcesMediums": "Fuente de campaña - Medio",
+        "Content": "Contenido",
+        "Contents": "Contenidos de campaña",
+        "Keyword": "Palabra clave",
+        "Keywords": "Palabras clave de campaña",
+        "Medium": "Medio",
+        "Name": "Nombre"
+    }
+}

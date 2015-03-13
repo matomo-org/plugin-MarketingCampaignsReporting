@@ -1,0 +1,14 @@
+{
+    "AdvancedCampaignReporting": {
+        "CampaignId": "Id de Campanya",
+        "CombinedKeywordContent": "Paraula clau - Contingut",
+        "CombinedSourceMedium": "Font - Mig",
+        "CombinedSourcesMediums": "Font de campanya - Mig",
+        "Content": "Contingut",
+        "Contents": "Continguts de campanya",
+        "Keyword": "Paraula clau",
+        "Keywords": "Paraules clau de campanya",
+        "Medium": "Mig",
+        "Name": "Nom"
+    }
+}
