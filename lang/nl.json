@@ -1,0 +1,19 @@
+{
+    "AdvancedCampaignReporting": {
+        "CampaignId": "Campagne Id",
+        "CombinedKeywordContent": "Zoekwoord - Inhoud",
+        "CombinedSourceMedium": "Bron - Medium",
+        "CombinedSourcesMediums": "Campagne Bron - Medium",
+        "Content": "Inhoud",
+        "Contents": "Campagne Inhoud",
+        "Keyword": "Zoekwoord",
+        "Keywords": "Campagne Zoekwoorden",
+        "Medium": "Medium",
+        "Mediums": "Campagne Media",
+        "Name": "Naam",
+        "Names": "Campagne Namen",
+        "Source": "Bron",
+        "Sources": "Campagne Bronnen",
+        "Title": "Campagnes"
+    }
+}
