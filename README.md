@@ -6,13 +6,6 @@
 
 Track up to five Campaigns parameters (name, source, medium, keyword, content), and access Campaign Analytics reports.
 
-## Changelog
- * 1.0.7 (Apr 1st 2015) - Exclude Google Analytics campaign parameters from the Page URLs
- * 1.0.6 (Nov 17th 2014) - Documentation
- * 1.0.5 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
- * 1.0.4 (Nov 4th 2014) - View Goals by Campaign Dimension in the Goals & Ecommerce reports
- * 1.0.3 (Oct 1st 2014) - Released for free on the [Piwik Marketplace](http://plugins.piwik.org/)
-
 ### Measuring campaigns
 
 The default Campaign parameters are called: pk_campaign, pk_source, pk_medium, pk_keyword, pk_content and pk_cid.
@@ -55,6 +48,13 @@ datatable_archiving_maximum_rows_subtable_referrers = 10000
  for these conversions made at least one day after the first visit with a campaign set. [#10](https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting/issues/10)
  * Add friendly Tracking API parameters to collect campaign dimensions.
  campaignName `cn`, campaignSource `cs`, campaignMedium `cm`, campaignContent `cc`, campaignId `ci`.
+
+## Changelog
+ * 1.0.8 (Apr 1st 2015) - Exclude Google Analytics campaign parameters from the Page URLs
+ * 1.0.6 (Nov 17th 2014) - Documentation
+ * 1.0.5 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
+ * 1.0.4 (Nov 4th 2014) - View Goals by Campaign Dimension in the Goals & Ecommerce reports
+ * 1.0.3 (Oct 1st 2014) - Released for free on the [Piwik Marketplace](http://plugins.piwik.org/)
 
  
 ## Support
