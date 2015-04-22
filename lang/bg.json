@@ -1,0 +1,12 @@
+{
+    "AdvancedCampaignReporting": {
+        "Title": "Кампании",
+        "Name": "Име",
+        "Keyword": "Ключова дума",
+        "Source": "Източник",
+        "Medium": "Средно",
+        "Content": "Съдържание",
+        "CampaignId": "Номер на кампания",
+        "Names": "Имена на кампанията"
+    }
+}

@@ -1,14 +1,16 @@
 {
     "AdvancedCampaignReporting": {
+        "Title": "Campañas",
+        "Name": "Nombre",
+        "Keyword": "Palabra clave",
+        "Source": "Fuente",
+        "Medium": "Medio",
+        "Content": "Contenido",
+        "CombinedSourceMedium": "Fuente - Medio",
         "CampaignId": "Id de Campaña",
         "CombinedKeywordContent": "Palabra clave - Contenido",
-        "CombinedSourceMedium": "Fuente - Medio",
-        "CombinedSourcesMediums": "Fuente de campaña - Medio",
-        "Content": "Contenido",
-        "Contents": "Contenidos de campaña",
-        "Keyword": "Palabra clave",
         "Keywords": "Palabras clave de campaña",
-        "Medium": "Medio",
-        "Name": "Nombre"
+        "Contents": "Contenidos de campaña",
+        "CombinedSourcesMediums": "Fuente de campaña - Medio"
     }
 }

@@ -1,0 +1,19 @@
+{
+    "AdvancedCampaignReporting": {
+        "Title": "Campagnes",
+        "Name": "Nom",
+        "Keyword": "Mot clef",
+        "Source": "Source",
+        "Medium": "Media",
+        "Content": "Contenu",
+        "CombinedSourceMedium": "Source - Media",
+        "CampaignId": "Id de campagne",
+        "CombinedKeywordContent": "Mot clef - Contenu",
+        "Names": "Noms de campagne",
+        "Keywords": "Mots clefs de la camapagne",
+        "Sources": "Sources de campagne",
+        "Mediums": "Media de campagne",
+        "Contents": "Contenus de la campagne",
+        "CombinedSourcesMediums": "Source de la campagne - Media"
+    }
+}

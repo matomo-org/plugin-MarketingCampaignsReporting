@@ -1,0 +1,13 @@
+{
+    "AdvancedCampaignReporting": {
+        "Title": "Kampanie reklamowe",
+        "Name": "Nazwa",
+        "Keyword": "Słowo kluczowe",
+        "Source": "Źródło",
+        "Medium": "Medium",
+        "Content": "Zawartość",
+        "CampaignId": "ID kampanii",
+        "Keywords": "Słowa kluczowe kampanii",
+        "Contents": "Zawartość kampanii"
+    }
+}

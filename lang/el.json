@@ -1,19 +1,19 @@
 {
     "AdvancedCampaignReporting": {
+        "Title": "Εκστρατείες",
+        "Name": "Ονομασία",
+        "Keyword": "Λέξη-κλειδί",
+        "Source": "Προέλευση",
+        "Medium": "Μέσο",
+        "Content": "Περιεχόμενο",
+        "CombinedSourceMedium": "Πηγή - Μέσο",
         "CampaignId": "Αναγνωριστικό Καμπάνιας",
         "CombinedKeywordContent": "Λέξη κλειδί - Περιεχόμενο",
-        "CombinedSourceMedium": "Πηγή - Μέσο",
-        "CombinedSourcesMediums": "Πηγή Καμπάνιας - Μέσο",
-        "Content": "Περιεχόμενο",
-        "Contents": "Περιεχόμενο Καμπάνιας",
-        "Keyword": "Λέξη Κλειδί",
-        "Keywords": "Λέξεις Κλειδιά Καμπάνιας",
-        "Medium": "Μέσο",
-        "Mediums": "Μέσα Καμπάνιας",
-        "Name": "Όνομα",
         "Names": "Ονόματα Καμπανιών",
-        "Source": "Πηγή",
+        "Keywords": "Λέξεις Κλειδιά Καμπάνιας",
         "Sources": "Πηγές Καμπάνιας",
-        "Title": "Καμπάνιες"
+        "Mediums": "Μέσα Καμπάνιας",
+        "Contents": "Περιεχόμενο Καμπάνιας",
+        "CombinedSourcesMediums": "Πηγή Καμπάνιας - Μέσο"
     }
 }

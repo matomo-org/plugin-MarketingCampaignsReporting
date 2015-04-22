@@ -1,14 +1,15 @@
 {
     "AdvancedCampaignReporting": {
+        "Title": "קמפיינים",
+        "Name": "שם",
+        "Keyword": "מונח חיפוש",
+        "Source": "דף מקור",
+        "Medium": "בינוני",
+        "Content": "תוכן",
         "CampaignId": "מזהה קמפיין",
         "CombinedKeywordContent": "חיפוש שאילתא - תוכן",
-        "Content": "תוכן",
-        "Contents": "תוכן קמפיין",
-        "Keyword": "מונח חיפוש",
-        "Keywords": "חיפוש קמפיין",
-        "Medium": "בינוני",
-        "Name": "שם",
         "Names": "שמות קמפיין",
-        "Source": "דף מקור"
+        "Keywords": "חיפוש קמפיין",
+        "Contents": "תוכן קמפיין"
     }
 }

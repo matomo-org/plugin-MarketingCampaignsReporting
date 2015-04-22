@@ -1,19 +1,19 @@
 {
     "AdvancedCampaignReporting": {
+        "Title": "Kampaně",
+        "Name": "Jméno",
+        "Keyword": "Klíčové slovo",
+        "Source": "Zdroj",
+        "Medium": "Médium",
+        "Content": "Obsah",
+        "CombinedSourceMedium": "Zdroj - médium",
         "CampaignId": "Id kampaně",
         "CombinedKeywordContent": "Klíčové slovo - obsah",
-        "CombinedSourceMedium": "Zdroj - médium",
-        "CombinedSourcesMediums": "Zdroj kampaně - médium",
-        "Content": "Obsah",
-        "Contents": "Obsah kampaně",
-        "Keyword": "Klíčové slovo",
-        "Keywords": "Klíčová slova kampaně",
-        "Medium": "Médium",
-        "Mediums": "Média kampaně",
-        "Name": "Jméno",
         "Names": "Jména kampaní",
-        "Source": "Zdroj",
+        "Keywords": "Klíčová slova kampaně",
         "Sources": "Zdroje kampaní",
-        "Title": "Kampaně"
+        "Mediums": "Média kampaně",
+        "Contents": "Obsah kampaně",
+        "CombinedSourcesMediums": "Zdroj kampaně - médium"
     }
 }

@@ -1,19 +1,19 @@
 {
     "AdvancedCampaignReporting": {
+        "Title": "Kampagnen",
+        "Name": "Name",
+        "Keyword": "Suchbegriff",
+        "Source": "Herkunftsseite",
+        "Medium": "Medium",
+        "Content": "Inhalt",
+        "CombinedSourceMedium": "Herkunftsseite - Medium",
         "CampaignId": "Kampagnen Id",
         "CombinedKeywordContent": "Suchbegriff - Inhalt",
-        "CombinedSourceMedium": "Herkunftsseite - Medium",
-        "CombinedSourcesMediums": "Kampagne Herkunftsseite - Medium",
-        "Content": "Inhalt",
-        "Contents": "Kampagneninhalte",
-        "Keyword": "Suchbegriff",
-        "Keywords": "Kampagnensuchbegriffe",
-        "Medium": "Medium",
-        "Mediums": "Kampagne Medien",
-        "Name": "Name",
         "Names": "Kampagnennamen",
-        "Source": "Herkunftsseite",
+        "Keywords": "Kampagnensuchbegriffe",
         "Sources": "Kampagnen Herkunftsseiten",
-        "Title": "Kampagnen"
+        "Mediums": "Kampagne Medien",
+        "Contents": "Kampagneninhalte",
+        "CombinedSourcesMediums": "Kampagne Herkunftsseite - Medium"
     }
 }

@@ -1,7 +1,10 @@
 {
     "AdvancedCampaignReporting": {
-        "CombinedKeywordContent": "关键字 - 内容",
+        "Title": "广告活动",
+        "Name": "网站名称",
+        "Keyword": "关键字",
+        "Source": "来源",
         "Content": "内容",
-        "Keyword": "关键字"
+        "CombinedKeywordContent": "关键字 - 内容"
     }
 }

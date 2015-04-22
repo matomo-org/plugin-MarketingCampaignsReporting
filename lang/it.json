@@ -1,13 +1,15 @@
 {
     "AdvancedCampaignReporting": {
+        "Title": "Campagne",
+        "Name": "Nome",
+        "Keyword": "Keyword",
+        "Source": "Origine",
+        "Content": "Contenuto",
         "CampaignId": "Id Campagna",
         "CombinedKeywordContent": "Keyword - Contenuto",
-        "Content": "Contenuto",
-        "Contents": "Contenuti Campagna",
-        "Keyword": "Keyword",
-        "Name": "Nome",
         "Names": "Nomi Campagna",
+        "Keywords": "Parole chiave campagna",
         "Sources": "Fonti della Campagna",
-        "Title": "Campagne"
+        "Contents": "Contenuti Campagna"
     }
 }
