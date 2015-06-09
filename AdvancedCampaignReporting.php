@@ -293,7 +293,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
 
             $isEcommerce = $idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER
                         || $idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
-            $viewByTranslationToken = $isEcommerce ? 'Ecommerce_ViewSalesBy' : 'Goals_ViewGoalsBy';
+            $viewByTranslationToken = $isEcommerce ? 'Ecommerce_SalesBy' : 'Goals_GoalsBy';
 
             $this->addReportsByDimension($reportList, $viewByTranslationToken, $customGoalsParams);
         }
