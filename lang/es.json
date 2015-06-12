@@ -9,7 +9,10 @@
         "CombinedSourceMedium": "Fuente - Medio",
         "CampaignId": "Id de Campaña",
         "CombinedKeywordContent": "Palabra clave - Contenido",
+        "Names": "Nombres de campaña",
         "Keywords": "Palabras clave de campaña",
+        "Sources": "Fuente de la campaña",
+        "Mediums": "Medios de la campaña",
         "Contents": "Contenidos de campaña",
         "CombinedSourcesMediums": "Fuente de campaña - Medio"
     }
