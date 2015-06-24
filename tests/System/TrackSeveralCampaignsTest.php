@@ -9,7 +9,7 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting\tests;
 
-use Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures\TrackAdvancedCampaigns;
+use Piwik\Plugins\AdvancedCampaignReporting\tests\Fixtures\TrackAdvancedCampaigns;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**

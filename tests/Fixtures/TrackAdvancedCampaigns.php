@@ -8,7 +8,7 @@
  *
  */
 
-namespace Piwik\Plugins\AdvancedCampaignReporting\tests\fixtures;
+namespace Piwik\Plugins\AdvancedCampaignReporting\tests\Fixtures;
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik;
