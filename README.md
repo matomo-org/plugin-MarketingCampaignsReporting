@@ -32,15 +32,15 @@ An example landing page URL is:
  * Will track up to 250 characters for each of the five Campaign dimension
 
 ### Notes
- * To archive all values in the Campaign reports and not truncate rows, set eg.
+
+In the Campaign reports by default Piwik will only archive the first 1000 rows. If you track many campaigns you can configure Piwik so it does not truncate your data. To have data truncated after 10,000 rows, edit your `config/config.ini.php` and add the following:
 
 ```
 [General]
-
 datatable_archiving_maximum_rows_referrers = 10000
-
 datatable_archiving_maximum_rows_subtable_referrers = 10000
 ```
+
 
 ### Ideas for improvement
  * To improve data acquisition accuracy, we could extend the piwik.js class to store in first party cookies
