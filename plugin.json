@@ -12,5 +12,8 @@
             "email": "contact@piwik.pro",
             "homepage": "http://piwik.pro"
         }
-    ]
+    ],
+    "require": {
+        "piwik": ">=2.14.0-b3"
+    }
 }
