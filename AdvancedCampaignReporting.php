@@ -272,7 +272,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     public function configureReportsByDimensionViews(ReportsByDimension $reportList)
     {
         if ($reportList->getId() == 'Referrers') {
-            $this->addReportsByDimension($reportList, 'Referrers_ViewReferrersBy');
+            $this->addReportsByDimension($reportList, 'Referrers_ReferrersBy');
         } else if ($reportList->getId() == 'Goals') {
             $templateVars = $reportList->getTemplateVars();
             $viewCategories = $templateVars['dimensionCategories'];
