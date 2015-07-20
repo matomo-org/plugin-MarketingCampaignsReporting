@@ -3,6 +3,17 @@
         "Title": "キャンペーン",
         "Name": "名前",
         "Keyword": "キーワード",
-        "Source": "ソース"
+        "Source": "ソース",
+        "Medium": "メディア",
+        "Content": "コンテンツ",
+        "CombinedSourceMedium": "ソース‐メディア",
+        "CampaignId": "キャンペーン ID",
+        "CombinedKeywordContent": "キーワード - コンテンツ",
+        "Names": "キャンペーン名",
+        "Keywords": "キャンペーンキーワード",
+        "Sources": "キャンペーンソース",
+        "Mediums": "キャンペーンメディア",
+        "Contents": "キャンペーンコンテンツ",
+        "CombinedSourcesMediums": "キャンペーンソース‐メディア"
     }
 }

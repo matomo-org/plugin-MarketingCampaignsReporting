@@ -3,6 +3,17 @@
         "Title": "अभियान",
         "Name": "नाम",
         "Keyword": "खोजशब्द",
-        "Source": "स्रोत"
+        "Source": "स्रोत",
+        "Medium": "मध्यम",
+        "Content": "सामग्री",
+        "CombinedSourceMedium": "स्रोत - मध्यम",
+        "CampaignId": "अभियान आईडी",
+        "CombinedKeywordContent": "कीवर्ड - सामग्री",
+        "Names": "अभियान के नाम",
+        "Keywords": "अभियान कीवर्ड",
+        "Sources": "अभियान सूत्रों का कहना है",
+        "Mediums": "अभियान माध्यमों",
+        "Contents": "अभियान सामग्री",
+        "CombinedSourcesMediums": "अभियान का स्रोत - मध्यम"
     }
 }

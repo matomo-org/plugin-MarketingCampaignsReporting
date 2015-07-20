@@ -4,12 +4,16 @@
         "Name": "Nome",
         "Keyword": "Keyword",
         "Source": "Origine",
+        "Medium": "Medium",
         "Content": "Contenuto",
+        "CombinedSourceMedium": "Origine - Medium",
         "CampaignId": "Id Campagna",
         "CombinedKeywordContent": "Keyword - Contenuto",
         "Names": "Nomi Campagna",
         "Keywords": "Parole chiave campagna",
         "Sources": "Fonti della Campagna",
-        "Contents": "Contenuti Campagna"
+        "Mediums": "Media delle Campagne",
+        "Contents": "Contenuti Campagna",
+        "CombinedSourcesMediums": "Origine delle Campagne - Medium"
     }
 }
