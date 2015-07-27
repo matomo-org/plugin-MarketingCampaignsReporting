@@ -1,6 +1,7 @@
 # Advanced Campaigns Reporting
 
-[![Build Status](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting.svg?branch=master)](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting)
+Master [![Build Status](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting.svg?branch=master)](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting)
+Develop [![Build Status](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting.svg?branch=develop)](https://travis-ci.org/PiwikPRO/plugin-AdvancedCampaignReporting)
 
 ## Description
 
