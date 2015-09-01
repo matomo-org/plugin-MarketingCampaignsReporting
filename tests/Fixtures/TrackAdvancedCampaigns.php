@@ -36,6 +36,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     public function trackCampaignVisits($disablePlugin, $dateTime)
     {
+        // since we're changing the list of activated plugins, we have to make sure file caches are reset
         Piwik\Cache::flushAll();
 
         $testVars = new Piwik\Tests\Framework\TestingEnvironmentVariables();

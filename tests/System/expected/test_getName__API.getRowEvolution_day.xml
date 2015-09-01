@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<label>campaign_hashed</label>
+	<reportData>
+		<result date="2013-01-20" />
+		<result date="2013-01-21" />
+		<result date="2013-01-22">
+			<row>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<conversion_rate>0%</conversion_rate>
+				<nb_actions_per_visit>1</nb_actions_per_visit>
+				<avg_time_on_site>0</avg_time_on_site>
+				<bounce_rate>100%</bounce_rate>
+			</row>
+		</result>
+		<result date="2013-01-23">
+			<row>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<conversion_rate>0%</conversion_rate>
+				<nb_actions_per_visit>1</nb_actions_per_visit>
+				<avg_time_on_site>0</avg_time_on_site>
+				<bounce_rate>100%</bounce_rate>
+			</row>
+		</result>
+		<result date="2013-01-24" />
+		<result date="2013-01-25" />
+	</reportData>
+	<metadata>
+		<metrics>
+			<nb_visits>
+				<name>Visits</name>
+				<min>0</min>
+				<max>1</max>
+			</nb_visits>
+			<nb_uniq_visitors>
+				<name>Unique visitors</name>
+				<min>0</min>
+				<max>1</max>
+			</nb_uniq_visitors>
+			<nb_actions>
+				<name>Actions</name>
+				<min>0</min>
+				<max>1</max>
+			</nb_actions>
+			<nb_users>
+				<name>Users</name>
+			</nb_users>
+			<nb_actions_per_visit>
+				<name>Actions per Visit</name>
+				<min>0</min>
+				<max>1</max>
+			</nb_actions_per_visit>
+			<avg_time_on_site>
+				<name>Avg. Time on Website</name>
+			</avg_time_on_site>
+			<bounce_rate>
+				<name>Bounce Rate</name>
+				<min>0</min>
+				<max>100</max>
+			</bounce_rate>
+			<conversion_rate>
+				<name>Conversion Rate</name>
+			</conversion_rate>
+		</metrics>
+		<dimension>Name</dimension>
+	</metadata>
+</result>

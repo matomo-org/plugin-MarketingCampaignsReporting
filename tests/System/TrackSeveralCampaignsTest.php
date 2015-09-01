@@ -96,6 +96,35 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             'testSuffix' => 'multipleDatesSites_',
         ));
 
+        // row evolution tests for methods that also use Referrers plugin data
+        $apiToTest[] = array('API.getRowEvolution', array(
+            'idSite' => self::$fixture->idSite,
+            'date' => self::$fixture->dateTime,
+            'testSuffix' => 'getName',
+            'otherRequestParameters' => array(
+                'date'      => '2013-01-20,2013-01-25',
+                'period'    => 'day',
+                'apiModule' => 'AdvancedCampaignReporting',
+                'apiAction' => 'getName',
+                'label'     => 'campaign_hashed',
+                'expanded'  => 0
+            )
+        ));
+
+        $apiToTest[] = array('API.getRowEvolution', array(
+            'idSite' => self::$fixture->idSite,
+            'date' => self::$fixture->dateTime,
+            'testSuffix' => 'getKeyword',
+            'otherRequestParameters' => array(
+                'date'      => '2013-01-20,2013-01-25',
+                'period'    => 'day',
+                'apiModule' => 'AdvancedCampaignReporting',
+                'apiAction' => 'getKeyword',
+                'label'     => 'mot_clé_pépère',
+                'expanded'  => 0
+            )
+        ));
+
         return $apiToTest;
     }
 

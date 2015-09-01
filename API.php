@@ -123,7 +123,12 @@ class API extends \Piwik\Plugin\API
                                         DataTable\DataTableInterface $referrersDataTable)
     {
         if ($dataTable instanceof DataTable) {
-            return $this->isTableEmpty($dataTable) ? $referrersDataTable : $dataTable;
+            if ($this->isTableEmpty($dataTable)) {
+                $referrersDataTable->setAllTableMetadata($dataTable->getAllTableMetadata());
+                return $referrersDataTable;
+            } else {
+                return $dataTable;
+            }
         } else if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $label => $childTable) {
                 $newTable = $this->mergeDataTableMaps($childTable, $referrersDataTable->getTable($label));
