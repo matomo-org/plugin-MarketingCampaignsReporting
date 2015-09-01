@@ -14,6 +14,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\Referrers\API as ReferrersAPI;
 
 /**
  * API for plugin AdvancedCampaignReporting
@@ -36,18 +37,37 @@ class API extends \Piwik\Plugin\API
     public function getName($idSite, $period, $date, $segment = false, $expanded = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+
+        if ($this->isTableEmpty($dataTable)) {
+            $dataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, $expanded);
+        }
+
         return $dataTable;
     }
 
     public function getKeywordContentFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+
+        if ($this->isTableEmpty($dataTable)) {
+            $dataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
+        }
+
         return $dataTable;
     }
 
     public function getKeyword($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_KEYWORD_RECORD_NAME, $idSite, $period, $date, $segment);
+
+        if ($this->isTableEmpty($dataTable)) {
+            $keywordsSegment = empty($segment) ? '' : ($segment . ';');
+            $keywordsSegment .= 'referrerType==campaign';
+
+            $dataTable = ReferrersAPI::getInstance()->getKeywords($idSite, $period, $date, $keywordsSegment);
+            $this->removeSubtables($dataTable);
+        }
+
         return $dataTable;
     }
 
@@ -79,6 +99,31 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         return $dataTable;
+    }
+
+    private function isTableEmpty(DataTable\DataTableInterface $dataTable)
+    {
+        if ($dataTable instanceof DataTable) {
+            return $dataTable->getRowsCount() == 0;
+        } else if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $childTable) {
+                if (!$this->isTableEmpty($childTable)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            throw new \Exception("Sanity check: unknown datatable type '" . get_class($dataTable) . "'.");
+        }
+    }
+
+    private function removeSubtables(DataTable\DataTableInterface $dataTable)
+    {
+        $dataTable->filter(function (DataTable $table) {
+            foreach ($table->getRows() as $row) {
+                $row->removeSubtable();
+            }
+        });
     }
 
 }
