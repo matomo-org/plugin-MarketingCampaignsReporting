@@ -39,7 +39,8 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
         if ($this->isTableEmpty($dataTable)) {
-            $dataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, $expanded);
+            $referrersDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, $expanded);
+            $dataTable = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
         }
 
         return $dataTable;
@@ -50,7 +51,8 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 
         if ($this->isTableEmpty($dataTable)) {
-            $dataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
+            $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
+            $dataTable = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
         }
 
         return $dataTable;
@@ -61,11 +63,11 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_KEYWORD_RECORD_NAME, $idSite, $period, $date, $segment);
 
         if ($this->isTableEmpty($dataTable)) {
-            $keywordsSegment = empty($segment) ? '' : ($segment . ';');
-            $keywordsSegment .= 'referrerType==campaign';
+            $referrersDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, $expanded = true);
+            $referrersDataTable->applyQueuedFilters();
+            $referrersDataTable = $referrersDataTable->mergeSubtables();
 
-            $dataTable = ReferrersAPI::getInstance()->getKeywords($idSite, $period, $date, $keywordsSegment);
-            $this->removeSubtables($dataTable);
+            $dataTable = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
         }
 
         return $dataTable;
@@ -106,24 +108,31 @@ class API extends \Piwik\Plugin\API
         if ($dataTable instanceof DataTable) {
             return $dataTable->getRowsCount() == 0;
         } else if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $childTable) {
-                if (!$this->isTableEmpty($childTable)) {
-                    return false;
+            foreach ($dataTable->getDataTables() as $label => $childTable) {
+                if ($this->isTableEmpty($childTable)) {
+                    return true;
                 }
             }
-            return true;
+            return false;
         } else {
             throw new \Exception("Sanity check: unknown datatable type '" . get_class($dataTable) . "'.");
         }
     }
 
-    private function removeSubtables(DataTable\DataTableInterface $dataTable)
+    private function mergeDataTableMaps(DataTable\DataTableInterface $dataTable,
+                                        DataTable\DataTableInterface $referrersDataTable)
     {
-        $dataTable->filter(function (DataTable $table) {
-            foreach ($table->getRows() as $row) {
-                $row->removeSubtable();
+        if ($dataTable instanceof DataTable) {
+            return $this->isTableEmpty($dataTable) ? $referrersDataTable : $dataTable;
+        } else if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $label => $childTable) {
+                $newTable = $this->mergeDataTableMaps($childTable, $referrersDataTable->getTable($label));
+                $dataTable->addTable($newTable, $label);
             }
-        });
+            return $dataTable;
+        } else {
+            throw new \Exception("Sanity check: unknown datatable type '" . get_class($dataTable) . "'.");
+        }
     }
 
 }
