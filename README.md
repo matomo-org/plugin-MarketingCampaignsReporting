@@ -51,6 +51,8 @@ datatable_archiving_maximum_rows_subtable_referrers = 10000
  campaignName `cn`, campaignSource `cs`, campaignMedium `cm`, campaignContent `cc`, campaignId `ci`.
 
 ## Changelog
+ * 1.1.1 (Sept 3rd 2015) - Campaign reports now display your campaign report data even for campaign data before you activated AdvancedCampaignReporting
+ * 1.1.0 (July 28th 2015)
  * 1.0.8 (Apr 1st 2015) - Exclude Google Analytics campaign parameters from the Page URLs
  * 1.0.6 (Nov 17th 2014) - Documentation
  * 1.0.5 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
