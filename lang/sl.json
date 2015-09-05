@@ -2,6 +2,7 @@
     "AdvancedCampaignReporting": {
         "Title": "Kampanje",
         "Name": "Ime",
-        "Keyword": "Ključna Beseda"
+        "Keyword": "Ključna Beseda",
+        "Source": "Vir"
     }
 }
