@@ -5,6 +5,8 @@
         "Keyword": "Nyckelord",
         "Source": "Källa",
         "Content": "Innehåll",
-        "CampaignId": "Kampanj-ID"
+        "CampaignId": "Kampanj-ID",
+        "CombinedKeywordContent": "Nyckelord - Innehåll",
+        "Keywords": "Nyckelord för kampanj"
     }
 }
