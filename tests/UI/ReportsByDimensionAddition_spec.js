@@ -9,7 +9,7 @@
 describe("AdvancedCampaignReporting_ReportsByDimensionAddition", function () {
     this.timeout(0);
 
-    this.fixture = 'Piwik\\Plugins\\AdvancedCampaignReporting\\tests\\fixtures\\TrackAdvancedCampaigns';
+    this.fixture = 'Piwik\\Plugins\\AdvancedCampaignReporting\\tests\\Fixtures\\TrackAdvancedCampaigns';
 
     var withVisitsParams = "&idSite=1&date=2013-01-23&period=week",
         withoutVisitsParams = "&idSite=1&date=2013-02-02&period=day",
