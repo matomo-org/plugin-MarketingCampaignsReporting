@@ -16,7 +16,7 @@ env:
     - PLUGIN_NAME=AdvancedCampaignReporting
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
     - UNPROTECTED_ARTIFACTS=1
-    - PIWIK_LATEST_STABLE_TEST_TARGET=2.14.1
+    - PIWIK_LATEST_STABLE_TEST_TARGET=2.15.0-rc4
     - secure: "gI409KqKdq4XdXhtrYegEx9xqUu5BwMVFTUwplgqwBGYnD5QvHzuzOF0Bry8mqRb53k+m9ty/w8xXWjtSt4bEjsiO/kdzUkFaEcNBgrrSzAyFmtGv3pU8zUfzMsAVehbCk22+jHiDHFOVsAhI4V5oRcXxHuRuHPdi5XC8BvDo4E="
     - secure: "WT7KcHzZQlrOt/+h6ovhhp2rTE79uhSNN0mAiDfskRAMwnZCCCGzL9uFiUKTLNTtLF+uqdbH0maisMziJqp3bLnzWWkBkUTR5Rsx8BM7V6P6na+fpqxs4JIGJ/FCtlStl67oZxKkWVTaSQFLMWBIg8rJ4b4gCuVEXszD5XN30w0="
   matrix:
@@ -84,7 +84,7 @@ install:
   - ./tests/travis/checkout_dependent_plugins.sh
 
 before_script:
-  - phpenv config-rm xdebug.ini;
+  - if [[ "$TRAVIS_PHP_VERSION" != 7* ]]; then phpenv config-rm xdebug.ini; fi
 
   # add always_populate_raw_post_data=-1 to php.ini
   - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
