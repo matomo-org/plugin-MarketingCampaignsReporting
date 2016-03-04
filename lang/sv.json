@@ -7,6 +7,9 @@
         "Content": "Innehåll",
         "CampaignId": "Kampanj-ID",
         "CombinedKeywordContent": "Nyckelord - Innehåll",
-        "Keywords": "Nyckelord för kampanj"
+        "Names": "Kampanjnamn",
+        "Keywords": "Nyckelord för kampanj",
+        "Sources": "Kampanjkällor",
+        "Contents": "Kampanjinnehåll"
     }
 }

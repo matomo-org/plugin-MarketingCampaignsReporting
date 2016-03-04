@@ -2,6 +2,7 @@
     "AdvancedCampaignReporting": {
         "Title": "Kampányok",
         "Name": "Név",
-        "Keyword": "Kulcsszó"
+        "Keyword": "Kulcsszó",
+        "Source": "Forrás"
     }
 }
