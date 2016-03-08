@@ -3,6 +3,10 @@
         "Title": "Fushata",
         "Name": "Emër",
         "Keyword": "Fjalëkyç",
-        "Source": "Source"
+        "Source": "Source",
+        "Content": "Lëndë",
+        "CampaignId": "ID Fushate",
+        "Keywords": "Fjalëkyçe Fushate",
+        "Sources": "Burime Fushate"
     }
 }

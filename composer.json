@@ -13,8 +13,8 @@
         }
     ],
     "require": {
-        "piwik/piwik": "2.15.*",
-        "php": ">=5.3.3"
+        "piwik/piwik": "2.16.*",
+        "php": ">=5.4"
     }
 }
 

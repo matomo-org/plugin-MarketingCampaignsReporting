@@ -2,18 +2,18 @@
     "AdvancedCampaignReporting": {
         "Title": "Kampanjer",
         "Name": "Navn",
-        "Keyword": "Nøkkel",
+        "Keyword": "Nøkkelord",
         "Source": "Kilde",
         "Medium": "Medium",
         "Content": "Innhold",
-        "CombinedSourceMedium": "Kilde - medium",
+        "CombinedSourceMedium": "Kilde – medium",
         "CampaignId": "Kampanje-ID",
-        "CombinedKeywordContent": "Nøkkelord - innhold",
+        "CombinedKeywordContent": "Nøkkelord – innhold",
         "Names": "Kampanjenavn",
         "Keywords": "Kampanjenøkkelord",
         "Sources": "Kampanjekilder",
         "Mediums": "Kampanjemedium",
         "Contents": "Kampanjeinnhold",
-        "CombinedSourcesMediums": "Kampanjekilde - medium"
+        "CombinedSourcesMediums": "Kampanjekilde – medium"
     }
 }

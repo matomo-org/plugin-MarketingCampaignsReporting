@@ -4,7 +4,16 @@
         "Name": "网站名称",
         "Keyword": "关键字",
         "Source": "来源",
+        "Medium": "中间",
         "Content": "内容",
-        "CombinedKeywordContent": "关键字 - 内容"
+        "CombinedSourceMedium": "来源 - 中",
+        "CampaignId": "活动ID",
+        "CombinedKeywordContent": "关键字 - 内容",
+        "Names": "活动名称",
+        "Keywords": "活动关键字",
+        "Sources": "活动源",
+        "Mediums": "活动介质",
+        "Contents": "活动内容",
+        "CombinedSourcesMediums": "活动源-中"
     }
 }
