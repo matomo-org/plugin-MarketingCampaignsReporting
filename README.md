@@ -51,6 +51,7 @@ datatable_archiving_maximum_rows_subtable_referrers = 10000
  campaignName `cn`, campaignSource `cs`, campaignMedium `cm`, campaignContent `cc`, campaignId `ci`.
 
 ## Changelog
+ * 1.3.0 PPCDEV-2609 Compatibility with Piwik 2.16.0
  * 1.2.0 (Nov 10th 2015) - Plugin comaptibility with Piwik 2.15.0
  * 1.1.1 (Sept 3rd 2015) - Campaign reports now display your campaign report data even for campaign data before you activated AdvancedCampaignReporting
  * 1.1.0 (July 28th 2015)
@@ -60,7 +61,7 @@ datatable_archiving_maximum_rows_subtable_referrers = 10000
  * 1.0.4 (Nov 4th 2014) - View Goals by Campaign Dimension in the Goals & Ecommerce reports
  * 1.0.3 (Oct 1st 2014) - Released for free on the [Piwik Marketplace](http://plugins.piwik.org/)
 
- 
+
 ## Support
 
 Plugin provided by [Piwik PRO](https://piwik.pro) - Cloud and Enterprise analytics from the creators of Piwik.org
