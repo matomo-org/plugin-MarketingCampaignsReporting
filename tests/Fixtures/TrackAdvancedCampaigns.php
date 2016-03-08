@@ -83,7 +83,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     private function setUpWebsite()
     {
-        $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+        $idSite = self::createWebsite($this->dateTime, $ecommerce = 1, Fixture::DEFAULT_SITE_NAME, 'http://example.com/');
         $this->assertTrue($idSite === $this->idSite);
 
         $this->idGoal1 = \Piwik\Plugins\Goals\API::getInstance()->addGoal(
@@ -216,7 +216,7 @@ class TrackAdvancedCampaigns extends Fixture
             $content = 'Ecommerce_content',
             $campaignId = 'Ecommmerce_CampaignId'
         );
-        $t->setUrl($url);;
+        $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Homepage'));
 
         $this->moveTimeForward($t, $hourOffset + 0.1, $dateTime);
