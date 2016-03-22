@@ -10,12 +10,20 @@
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
 use Piwik\Common;
-use Piwik\Tracker\PageUrl;
-use Piwik\UrlHelper;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\AdvancedCampaignReporting\Campaign\CampaignDetectorInterface;
 
 class Tracker
 {
+    /**
+     * @var \Piwik\Tracker\Request
+     */
     private $request;
+
+    /**
+     * @var CampaignDetectorInterface
+     */
+    private $campaignDetector;
 
     const CAMPAIGN_NAME_FIELD = 'campaign_name';
     const CAMPAIGN_KEYWORD_FIELD = 'campaign_keyword';
@@ -43,6 +51,7 @@ class Tracker
     public function __construct(\Piwik\Tracker\Request $request)
     {
         $this->request = $request;
+        $this->campaignDetector = StaticContainer::get('AdvancedCampaignReporting.campaign_detector');
     }
 
     /**
@@ -60,25 +69,19 @@ class Tracker
         );
     }
 
-    protected function detectCampaignFromVisit($visitorInfo)
-    {
-        $campaignFields = AdvancedCampaignReporting::getAdvancedCampaignFields();
-
-        $campaignDimensions = array_intersect_key($visitorInfo, array_flip($campaignFields));
-
-        foreach($campaignDimensions as $key => $value) {
-            if(is_null($value) || $value == '') {
-                unset($campaignDimensions[$key]);
-            }
-        }
-        return $campaignDimensions;
-    }
-
     public function updateNewConversionWithCampaign(&$conversionToInsert, $visitorInfo)
     {
-        $campaignDimensions = $this->detectCampaignFromVisit($visitorInfo);
+        $campaignParameters = self::getCampaignParameters();
+
+        $campaignDimensions = $this->campaignDetector->detectCampaignFromVisit(
+            $visitorInfo,
+            $campaignParameters
+        );
         if(empty($campaignDimensions)) {
-            $campaignDimensions = $this->detectCampaignFromRequest();
+            $campaignDimensions = $this->campaignDetector->detectCampaignFromRequest(
+                $this->request,
+                $campaignParameters
+            );
         }
 
         $this->addDimensionsToRow($conversionToInsert, $campaignDimensions);
@@ -86,7 +89,12 @@ class Tracker
 
     public function updateNewVisitWithCampaign(&$visitToInsert)
     {
-        $campaignDimensions = $this->detectCampaignFromRequest();
+        $campaignParameters = self::getCampaignParameters();
+
+        $campaignDimensions = $this->campaignDetector->detectCampaignFromRequest(
+            $this->request,
+            $campaignParameters
+        );
 
         if(empty($campaignDimensions)) {
 
@@ -104,71 +112,6 @@ class Tracker
         }
 
         $this->addDimensionsToRow($visitToInsert, $campaignDimensions);
-    }
-
-    protected function detectCampaignFromRequest()
-    {
-        $landingUrl = $this->request->getParam('url');
-        $landingUrl = PageUrl::cleanupUrl($landingUrl);
-        $landingUrlParsed = @parse_url($landingUrl);
-
-        if (!isset($landingUrlParsed['query'])
-            && !isset($landingUrlParsed['fragment'])
-        ) {
-            return false;
-        }
-
-        $campaignDimensions = array();
-
-        // 1) Detect from fragment #hash
-        if (isset($landingUrlParsed['fragment'])) {
-            $campaignDimensions = $this->detectCampaignFromString($landingUrlParsed['fragment']);
-        }
-
-        // 2) Detect campaign from query string
-        if (empty($campaignDimensions) && isset($landingUrlParsed['query'])) {
-            $campaignDimensions = $this->detectCampaignFromString($landingUrlParsed['query']);
-        }
-        return $campaignDimensions;
-    }
-
-
-    /**
-     * @param string $queryString
-     * @return array of campaign dimensions
-     */
-    protected function detectCampaignFromString($queryString)
-    {
-        $parameters = self::getCampaignParameters();
-
-        $campaignDimensions = array();
-        foreach($parameters as $sqlField => $requestParams) {
-            foreach($requestParams as $campaignDimensionParam) {
-                $value = $this->getValueFromQueryString($campaignDimensionParam, $queryString);
-                if(!empty($value)) {
-                    $campaignDimensions[$sqlField] = $value;
-                    break 1;
-                }
-            }
-        }
-        return $campaignDimensions;
-    }
-
-    /**
-     * @param $param
-     * @param $queryString
-     * @return bool|null|string
-     */
-    protected function getValueFromQueryString($param, $queryString)
-    {
-        $valueFromRequest = UrlHelper::getParameterFromQueryString($queryString, $param);
-        $valueFromRequest = trim(urldecode($valueFromRequest));
-        $valueFromRequest = Common::mb_strtolower($valueFromRequest);
-        $valueFromRequest = substr($valueFromRequest, 0, 250);
-        if (!empty($valueFromRequest)) {
-            return $valueFromRequest;
-        }
-        return false;
     }
 
     /**
