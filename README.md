@@ -51,6 +51,7 @@ datatable_archiving_maximum_rows_subtable_referrers = 10000
  campaignName `cn`, campaignSource `cs`, campaignMedium `cm`, campaignContent `cc`, campaignId `ci`.
 
 ## Changelog
+ * 1.3.2 Bugfix
  * 1.3.1 Better support for campaign parameters behind hash tag (#)
  * 1.3.0 PPCDEV-2609 Compatibility with Piwik 2.16.0
  * 1.2.0 (Nov 10th 2015) - Plugin comaptibility with Piwik 2.15.0
