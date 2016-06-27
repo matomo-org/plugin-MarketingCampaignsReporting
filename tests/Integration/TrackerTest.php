@@ -56,14 +56,14 @@ class TrackerTest extends IntegrationTestCase
             'normal case' => [
                 'goal'      => [],
                 'visitorInfo' => [
-                    'campaign_name' => 'camapaign1',
+                    'campaign_name' => 'campaign1',
                     'campaign_keyword' => 'kwd1',
                 ],
                 'expected' => [
-                    'campaign_name'     => 'camapaign1',
+                    'campaign_name'     => 'campaign1',
                     'campaign_keyword'  => 'kwd1',
                     'referer_type'      => Common::REFERRER_TYPE_CAMPAIGN,
-                    'referer_name'      => 'camapaign1',
+                    'referer_name'      => 'campaign1',
                     'referer_keyword'   => 'kwd1'
                 ],
             ],
@@ -89,18 +89,29 @@ class TrackerTest extends IntegrationTestCase
         return [
             'normal url' => [
                 'visitorInfo' => [],
-                'requestUrl' => 'http://example.com/?pk_campaign=camapaign1&pk_kwd=kwd1',
+                'requestUrl' => 'http://example.com/?pk_campaign=campaign1&pk_kwd=kwd1',
                 'expected' => [
-                    'campaign_name'     => 'camapaign1',
+                    'campaign_name'     => 'campaign1',
                     'campaign_keyword'  => 'kwd1',
                     'referer_type'      => Common::REFERRER_TYPE_CAMPAIGN,
-                    'referer_name'      => 'camapaign1',
+                    'referer_name'      => 'campaign1',
                     'referer_keyword'   => 'kwd1'
                 ],
             ],
             'url with params behind hash' => [
                 'visitorInfo' => [],
                 'requestUrl' => 'https://whatever.com/#/category/sub/1?pk_campaign=campName2&pk_kwd=sdf2',
+                'expected' => [
+                    'campaign_name'     => 'campname2',
+                    'campaign_keyword'  => 'sdf2',
+                    'referer_type'      => Common::REFERRER_TYPE_CAMPAIGN,
+                    'referer_name'      => 'campname2',
+                    'referer_keyword'   => 'sdf2'
+                ],
+            ],
+            'query string behind hash' => [
+                'visitorInfo' => [],
+                'requestUrl' => 'https://whatever.com/#pk_campaign=campName2&pk_kwd=sdf2',
                 'expected' => [
                     'campaign_name'     => 'campname2',
                     'campaign_keyword'  => 'sdf2',
