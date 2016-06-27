@@ -123,6 +123,21 @@ class TrackerTest extends IntegrationTestCase
                     'referer_name'      => 'campname2',
                     'referer_keyword'   => 'sdf2'
                 ],
+            ],
+            'campaign without parameters in url' => [
+                'visitorInfo' => [
+                    'referer_type'      => Common::REFERRER_TYPE_CAMPAIGN,
+                    'referer_name'      => 'campname2',
+                    'referer_keyword'   => 'sdf2'
+                ],
+                'requestUrl' => 'https://whatever.com/#/category/sub/1',
+                'expected' => [
+                    'campaign_name'     => 'campname2',
+                    'campaign_keyword'  => 'sdf2',
+                    'referer_type'      => Common::REFERRER_TYPE_CAMPAIGN,
+                    'referer_name'      => 'campname2',
+                    'referer_keyword'   => 'sdf2'
+                ],
             ]
         ];
     }

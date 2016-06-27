@@ -115,7 +115,9 @@ class CampaignDetector implements CampaignDetectorInterface
     {
         if (strpos($fragment, '/') === 0) {
             $parsed = parse_url($fragment);
-            $fragment = $parsed['query'];
+            if (isset($parsed['query'])) {
+                $fragment = $parsed['query'];
+            }
         }
 
         return $fragment;
