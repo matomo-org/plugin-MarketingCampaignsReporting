@@ -32,6 +32,13 @@ class Tracker
     const CAMPAIGN_CONTENT_FIELD = 'campaign_content';
     const CAMPAIGN_ID_FIELD = 'campaign_id';
 
+    const CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS    = array('pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
+    const CAMPAIGN_KEYWORD_FIELD_DEFAULT_URL_PARAMS = array('pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term');
+    const CAMPAIGN_SOURCE_FIELD_DEFAULT_URL_PARAMS  = array('pk_source', 'utm_source');
+    const CAMPAIGN_MEDIUM_FIELD_DEFAULT_URL_PARAMS  = array('pk_medium', 'utm_medium');
+    const CAMPAIGN_CONTENT_FIELD_DEFAULT_URL_PARAMS = array('pk_content', 'utm_content');
+    const CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS      = array('pk_cid', 'utm_id');
+
     const CAMPAIGN_NAME_COLUMN_LENGTH = 255;
     const CAMPAIGN_KEYWORD_COLUMN_LENGTH = 255;
     const CAMPAIGN_SOURCE_COLUMN_LENGTH = 255;
@@ -51,7 +58,7 @@ class Tracker
     public function __construct(\Piwik\Tracker\Request $request)
     {
         $this->request = $request;
-        $this->campaignDetector = StaticContainer::get('AdvancedCampaignReporting.campaign_detector');
+        $this->campaignDetector = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
     }
 
     /**
@@ -59,13 +66,13 @@ class Tracker
      */
     public static function getCampaignParameters()
     {
-        return array(
-            self::CAMPAIGN_NAME_FIELD    => array('pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign'),
-            self::CAMPAIGN_KEYWORD_FIELD => array('pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term'),
-            self::CAMPAIGN_SOURCE_FIELD  => array('pk_source', 'utm_source'),
-            self::CAMPAIGN_MEDIUM_FIELD  => array('pk_medium', 'utm_medium'),
-            self::CAMPAIGN_CONTENT_FIELD => array('pk_content', 'utm_content'),
-            self::CAMPAIGN_ID_FIELD      => array('pk_cid', 'utm_id'),
+        return array_merge(
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_name'),
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_keyword'),
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_source'),
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_medium'),
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_content'),
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_id')
         );
     }
 
