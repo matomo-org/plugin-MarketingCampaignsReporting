@@ -1,82 +1,82 @@
 language: php
 group: legacy
 php:
-- 5.6
-- 5.3.3
+  - 5.6
+  - 5.3.3
 services:
-- redis-server
+  - redis-server
 addons:
   apt:
     sources:
-    - deadsnakes
+      - deadsnakes
     packages:
-    - python2.6
-    - python2.6-dev
-    - nginx
-    - realpath
-    - lftp
+      - python2.6
+      - python2.6-dev
+      - nginx
+      - realpath
+      - lftp
 env:
   global:
-  - PLUGIN_NAME=AdvancedCampaignReporting
-  - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
-  - UNPROTECTED_ARTIFACTS=1
-  - PIWIK_REPOSITORY_SLUG=PiwikPRO/piwik.git
-  - PIWIK_LATEST_STABLE_TEST_TARGET=master
-  - secure: ABA2aoMjCx0u/hkPJuZae8C0iYYqcXl/COYnKYeTzqPhsP0+ZJkLRpHfYNStsIjQe/L9moMC2uFvkwQ4Bq1KlUf/RsZhXaK3UOCa6iDebOD6Nmheq82X4ub7C6Kf43goQss+uaPz0BP/JdB2w6iDYpYFXMjd/gkEaUXyfhoGkbE=
-  - secure: WIScdXC7IIZkmEZ0XTGvF6lN/p97CVaqFyJhcDWvHZuBLDdumSCnAE3Y+nj1iPpjwQnHweV1iph4gF3oriMBBYNEV9thLsddhL7O4nV4qXf9UoFN6ajLsn6UBtWzDPgtuiMSyWFJsCtUygAavH2vTbs1HJTrwpD8vW3McFzC0qA=
+    - PLUGIN_NAME=AdvancedCampaignReporting
+    - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
+    - UNPROTECTED_ARTIFACTS=1
+    - PIWIK_REPOSITORY_SLUG=PiwikPRO/piwik.git
+    - PIWIK_LATEST_STABLE_TEST_TARGET=master
+    - secure: ABA2aoMjCx0u/hkPJuZae8C0iYYqcXl/COYnKYeTzqPhsP0+ZJkLRpHfYNStsIjQe/L9moMC2uFvkwQ4Bq1KlUf/RsZhXaK3UOCa6iDebOD6Nmheq82X4ub7C6Kf43goQss+uaPz0BP/JdB2w6iDYpYFXMjd/gkEaUXyfhoGkbE=
+    - secure: WIScdXC7IIZkmEZ0XTGvF6lN/p97CVaqFyJhcDWvHZuBLDdumSCnAE3Y+nj1iPpjwQnHweV1iph4gF3oriMBBYNEV9thLsddhL7O4nV4qXf9UoFN6ajLsn6UBtWzDPgtuiMSyWFJsCtUygAavH2vTbs1HJTrwpD8vW3McFzC0qA=
   matrix:
-  - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_LATEST_STABLE_TEST_TARGET
-  - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_LATEST_STABLE_TEST_TARGET
+    - TEST_SUITE=PluginTests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_LATEST_STABLE_TEST_TARGET
+    - TEST_SUITE=UITests MYSQL_ADAPTER=PDO_MYSQL TEST_AGAINST_PIWIK_BRANCH=$PIWIK_LATEST_STABLE_TEST_TARGET
 matrix:
   exclude:
-  - php: 5.3.3
+    - php: 5.3.3
 sudo: required
 script: "$PIWIK_ROOT_DIR/tests/travis/travis.sh"
 before_install:
-- '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
+  - '[[ "$TRAVIS_PHP_VERSION" == 5.3* ]] && export USE_ZEND_ALLOC=0 || true'
 install:
-- mkdir $PLUGIN_NAME
-- cp -R !($PLUGIN_NAME) $PLUGIN_NAME
-- cp -R .git/ $PLUGIN_NAME/
-- cp .travis.yml $PLUGIN_NAME
-- git clone -q https://$GITHUB_USER_TOKEN:@github.com/$PIWIK_REPOSITORY_SLUG piwik
-- cd piwik
-- git fetch -q --all
-- git submodule update
-- '[ -d ./tests/travis/.git ] || sh -c "rm -rf ./tests/travis && git clone https://$GITHUB_USER_TOKEN:@github.com/PiwikPRO/travis-scripts.git ./tests/travis"'
-- cd ./tests/travis ; git checkout master ; cd ../..
-- "./tests/travis/checkout_test_against_branch.sh"
-- '[ "$PLUGIN_NAME" == "" ] || [ ! -f ./tests/travis/check_plugin_compatible_with_piwik.php ] || php ./tests/travis/check_plugin_compatible_with_piwik.php "$PLUGIN_NAME"'
-- "./tests/travis/configure_git.sh"
-- '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
-- rm -rf plugins/$PLUGIN_NAME
-- mv ../$PLUGIN_NAME plugins
-- "./tests/travis/checkout_dependent_plugins.sh"
+  - mkdir $PLUGIN_NAME
+  - cp -R !($PLUGIN_NAME) $PLUGIN_NAME
+  - cp -R .git/ $PLUGIN_NAME/
+  - cp .travis.yml $PLUGIN_NAME
+  - git clone -q https://$GITHUB_USER_TOKEN:@github.com/$PIWIK_REPOSITORY_SLUG piwik
+  - cd piwik
+  - git fetch -q --all
+  - git submodule update
+  - '[ -d ./tests/travis/.git ] || sh -c "rm -rf ./tests/travis && git clone https://$GITHUB_USER_TOKEN:@github.com/PiwikPRO/travis-scripts.git ./tests/travis"'
+  - cd ./tests/travis ; git checkout master ; cd ../..
+  - "./tests/travis/checkout_test_against_branch.sh"
+  - '[ "$PLUGIN_NAME" == "" ] || [ ! -f ./tests/travis/check_plugin_compatible_with_piwik.php ] || php ./tests/travis/check_plugin_compatible_with_piwik.php "$PLUGIN_NAME"'
+  - "./tests/travis/configure_git.sh"
+  - '[ "$SKIP_COMPOSER_INSTALL" == "1" ] || travis_retry composer install'
+  - rm -rf plugins/$PLUGIN_NAME
+  - mv ../$PLUGIN_NAME plugins
+  - "./tests/travis/checkout_dependent_plugins.sh"
 before_script:
-- if [[ "$TRAVIS_PHP_VERSION" != 7* ]]; then phpenv config-rm xdebug.ini; fi
-- echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-- echo "opcache.enable=0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-- mysql --version
-- mysql -e "SELECT VERSION();"
-- mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'"
-- mysql -e "SET GLOBAL wait_timeout = 36000;"
-- mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
-- mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
-- mysql -e "SHOW VARIABLES LIKE 'wait_timeout';"
-- mysql -e "SELECT @@sql_mode;"
-- uname -a
-- date
-- php -r "var_dump(gd_info());"
-- mysql -e 'create database piwik_tests;'
-- "./tests/travis/prepare.sh"
-- "./tests/travis/setup_webserver.sh"
-- cd tests/PHPUnit
+  - if [[ "$TRAVIS_PHP_VERSION" != 7* ]]; then phpenv config-rm xdebug.ini; fi
+  - echo "always_populate_raw_post_data=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "opcache.enable=0" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - mysql --version
+  - mysql -e "SELECT VERSION();"
+  - mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES'"
+  - mysql -e "SET GLOBAL wait_timeout = 36000;"
+  - mysql -e "SET GLOBAL max_allowed_packet = 134209536;"
+  - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
+  - mysql -e "SHOW VARIABLES LIKE 'wait_timeout';"
+  - mysql -e "SELECT @@sql_mode;"
+  - uname -a
+  - date
+  - php -r "var_dump(gd_info());"
+  - mysql -e 'create database piwik_tests;'
+  - "./tests/travis/prepare.sh"
+  - "./tests/travis/setup_webserver.sh"
+  - cd tests/PHPUnit
 after_script:
-- cd $PIWIK_ROOT_DIR
-- cat $PIWIK_ROOT_DIR/tests/travis/error.log
-- cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
-- cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
-- cat $PIWIK_ROOT_DIR/config/config.ini.php
-- "./tests/travis/upload_artifacts.sh"
+  - cd $PIWIK_ROOT_DIR
+  - cat $PIWIK_ROOT_DIR/tests/travis/error.log
+  - cat $PIWIK_ROOT_DIR/tmp/php-fpm.log
+  - cat $PIWIK_ROOT_DIR/tmp/logs/piwik.log
+  - cat $PIWIK_ROOT_DIR/config/config.ini.php
+  - "./tests/travis/upload_artifacts.sh"
 after_success:
-- cd $PIWIK_ROOT_DIR
+  - cd $PIWIK_ROOT_DIR
