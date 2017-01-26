@@ -46,16 +46,16 @@ class CustomDimensionConfigTest extends IntegrationTestCase
         $testVars->configOverride = $configOverride;
         $testVars->save();
 
+        $this->configureTracker();
+
         parent::setUp();
     }
 
     public function testTrackingWithCustomParameters()
     {
-        $this->givenWebsite();
+        $this->givenWebsite('TestWebsite');
 
-        $this->givenTracker();
-
-        $this->givenUrl();
+        $this->givenUrl('http://example.com/?custom_name_parameter=%s&custom_keyword_parameter=%s&custom_source_parameter=%s&custom_content_parameter=%s&custom_medium_parameter=%s&custom_id_parameter=%s');
 
         $this->whenWebsiteTracksUrlWithCustomCampaignParameters();
 
@@ -157,17 +157,17 @@ class CustomDimensionConfigTest extends IntegrationTestCase
         Fixture::checkResponse($this->tracker->doTrackPageView('Track visit with custom campaign parameters'));
     }
 
-    private function givenWebsite()
+    private function givenWebsite($name)
     {
         $sitesManager = SitesManager::getInstance();
 
         $this->idSite = $sitesManager->addSite(
-            'TestSite',
+            $name,
             'http://example.com'
         );
     }
 
-    private function givenTracker()
+    private function configureTracker()
     {
         $this->testDate = new \DateTime();
 
@@ -179,10 +179,10 @@ class CustomDimensionConfigTest extends IntegrationTestCase
         );
     }
 
-    private function givenUrl()
+    private function givenUrl($url)
     {
         $this->testUrl = sprintf(
-            'http://example.com/?custom_name_parameter=%s&custom_keyword_parameter=%s&custom_source_parameter=%s&custom_content_parameter=%s&custom_medium_parameter=%s&custom_id_parameter=%s',
+            $url,
             'custom_name_value',
             'custom_keyword_value',
             'custom_source_value',
