@@ -40,13 +40,11 @@ class CustomDimensionConfigTest extends IntegrationTestCase
             Tracker::CAMPAIGN_KEYWORD_FIELD => 'pk_keyword,custom_keyword_parameter',
             Tracker::CAMPAIGN_SOURCE_FIELD => 'pk_source,custom_source_parameter',
             Tracker::CAMPAIGN_MEDIUM_FIELD => 'pk_medium,custom_medium_parameter',
-            Tracker::CAMPAIGN_CONTENT_FIELD => 'pk_content,custom_content_parameter',
-            Tracker::CAMPAIGN_ID_FIELD => 'pk_id,custom_id_parameter'
+            Tracker::CAMPAIGN_CONTENT_FIELD => 'pk_content ,custom_content_parameter',
+            Tracker::CAMPAIGN_ID_FIELD => 'pk_id, custom_id_parameter'
         ];
         $testVars->configOverride = $configOverride;
         $testVars->save();
-
-        $this->configureTracker();
 
         parent::setUp();
     }
@@ -56,6 +54,8 @@ class CustomDimensionConfigTest extends IntegrationTestCase
         $this->givenWebsite('TestWebsite');
 
         $this->givenUrl('http://example.com/?custom_name_parameter=%s&custom_keyword_parameter=%s&custom_source_parameter=%s&custom_content_parameter=%s&custom_medium_parameter=%s&custom_id_parameter=%s');
+
+        $this->givenTrackerConfiguration();
 
         $this->whenWebsiteTracksUrlWithCustomCampaignParameters();
 
@@ -167,7 +167,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
         );
     }
 
-    private function configureTracker()
+    private function givenTrackerConfiguration()
     {
         $this->testDate = new \DateTime();
 
