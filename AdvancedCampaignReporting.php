@@ -7,9 +7,7 @@
  */
 namespace Piwik\Plugins\AdvancedCampaignReporting;
 
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\AdvancedCampaignReporting\Columns\Base;
 use Piwik\Plugins\Referrers\Reports\GetCampaigns;
@@ -33,21 +31,6 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'Report.filterReports'                        => 'filterReports',
         );
     }
-
-    /**
-     * @todo    Implement a way to overwrite the campaign parameters set in core if an campaign was detected by plugin
-     *
-     * Overwrite core referer_ fields when an advanced campaign was detected
-     * $rowToInsert['referer_type'] = Common::REFERRER_TYPE_CAMPAIGN;
-     *
-     * if (isset($rowToInsert[self::CAMPAIGN_NAME_FIELD])) {
-     *    $rowToInsert['referer_name'] = substr($rowToInsert[self::CAMPAIGN_NAME_FIELD], 0, 70);
-     * }
-     * if (isset($rowToInsert[self::CAMPAIGN_KEYWORD_FIELD])) {
-     *    $rowToInsert['referer_keyword'] = substr($rowToInsert[self::CAMPAIGN_KEYWORD_FIELD], 0, 255);
-     * }
-     *
-     */
 
     public function getQueryParametersToExclude(&$excludedParameters)
     {

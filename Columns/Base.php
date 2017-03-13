@@ -66,19 +66,6 @@ abstract class Base extends VisitDimension
         return $campaignDimensions;
     }
 
-    protected function getCampaignValue($field, Request $request, Visitor $visitor)
-    {
-        if (empty($detectedCampaignParameters)) {
-            $this->detectedCampaignParameters = $this->detectCampaign($request, $visitor);
-        }
-
-        if (array_key_exists($field, $this->detectedCampaignParameters)) {
-            return substr($this->detectedCampaignParameters[$field], 0, $field == 'campaign_id' ? 100 : 255);
-        }
-
-        return null;
-    }
-
     /**
      * @param Request     $request
      * @param Visitor     $visitor
