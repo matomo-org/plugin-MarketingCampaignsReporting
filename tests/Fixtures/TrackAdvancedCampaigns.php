@@ -24,6 +24,8 @@ class TrackAdvancedCampaigns extends Fixture
 
     public function setUp()
     {
+        Piwik\Plugin\Manager::getInstance()->activatePlugin('AdvancedCampaignReporting');
+
         $this->orderIndex = 0;
 
         $this->setUpWebsite();

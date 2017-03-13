@@ -67,6 +67,7 @@ For example, by default parameter `campaign_name` track following parameters if 
  campaignName `cn`, campaignSource `cs`, campaignMedium `cm`, campaignContent `cc`, campaignId `ci`.
 
 ## Changelog
+ * 3.0.0 Compatibility with Piwik 3
  * 1.4.0 [improvement] added possibility to configure custom campaign parameters names
  * 1.3.2 Bugfix
  * 1.3.1 Better support for campaign parameters behind hash tag (#)

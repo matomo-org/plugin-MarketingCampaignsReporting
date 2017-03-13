@@ -44,6 +44,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
     public function getApiForTesting()
     {
         $dateWithPluginEnabled = self::$fixture->dateTimeWithPluginEnabled;
+        $dateTime = self::$fixture->dateTime;
 
         $apiToTest[] = array('API.get',
                              array('idSite'  => self::$fixture->idSite,
@@ -88,7 +89,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         $apiToTest[] = array('AdvancedCampaignReporting', array(
             'idSite' => 'all',
-            'date' => self::$fixture->dateTime,
+            'date' => $dateTime,
             'periods' => 'day',
             'setDateLastN' => true,
             'testSuffix' => 'multipleDatesSites_',
@@ -97,7 +98,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         // row evolution tests for methods that also use Referrers plugin data
         $apiToTest[] = array('API.getRowEvolution', array(
             'idSite' => self::$fixture->idSite,
-            'date' => self::$fixture->dateTime,
+            'date' => $dateTime,
             'testSuffix' => 'getName',
             'otherRequestParameters' => array(
                 'date'      => '2013-01-20,2013-01-25',
@@ -111,7 +112,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         $apiToTest[] = array('API.getRowEvolution', array(
             'idSite' => self::$fixture->idSite,
-            'date' => self::$fixture->dateTime,
+            'date' => $dateTime,
             'testSuffix' => 'getKeyword',
             'otherRequestParameters' => array(
                 'date'      => '2013-01-20,2013-01-25',
