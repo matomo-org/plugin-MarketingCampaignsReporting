@@ -1,7 +1,7 @@
 {
     "name": "AdvancedCampaignReporting",
     "description": "Track up to five Campaigns parameter (campaign, source, medium, keyword, content). Lets you also segment users by any campaign dimension, and provides new reports for campaign tracking.",
-    "version": "1.4.0",
+    "version": "3.0.0",
     "keywords": ["Campaign", "Marketing"],
     "license_homepage": "http://piwik.pro/contact",
     "homepage": "http://piwik.pro",
@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "piwik": ">=2.16.0",
+        "piwik": ">=3.0.0-b1,<4.0.0-b1",
         "php": ">=5.4"
     }
 }
