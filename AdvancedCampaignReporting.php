@@ -28,7 +28,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     {
         return array(
             'Tracker.PageUrl.getQueryParametersToExclude' => 'getQueryParametersToExclude',
-            'Report.filterReports'                        => 'filterReports',
+            'Report.filterReports'                        => 'removeOriginalCampaignReport',
         );
     }
 
@@ -59,11 +59,11 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     /**
      * @param Report[] $reports
      */
-    public function filterReports(&$reports)
+    public function removeOriginalCampaignReport(&$reports)
     {
         foreach ($reports as $index => $report) {
             if ($report instanceof GetCampaigns) {
-                unset($reports[$index]); // remove original campaign report
+                unset($reports[$index]);
             }
         }
     }
