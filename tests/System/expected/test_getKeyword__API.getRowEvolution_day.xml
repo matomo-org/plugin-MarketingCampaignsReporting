@@ -10,7 +10,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_users>0</nb_users>
-				<conversion_rate>0%</conversion_rate>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -22,7 +21,6 @@
 				<nb_visits>2</nb_visits>
 				<nb_actions>2</nb_actions>
 				<nb_users>0</nb_users>
-				<conversion_rate>0%</conversion_rate>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
 				<avg_time_on_site>0</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
@@ -64,9 +62,6 @@
 				<min>0</min>
 				<max>100</max>
 			</bounce_rate>
-			<conversion_rate>
-				<name>Conversion Rate</name>
-			</conversion_rate>
 		</metrics>
 		<dimension>Keyword</dimension>
 	</metadata>

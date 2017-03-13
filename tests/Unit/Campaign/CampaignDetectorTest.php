@@ -19,7 +19,6 @@ use Piwik\Tracker\Request;
 
 /**
  * @group AdvancedCampaignReporting
- * @group AdvancedCampaignReporting_Unit
  * @group Plugins
  */
 class CampaignDetectorTest extends \PHPUnit_Framework_TestCase

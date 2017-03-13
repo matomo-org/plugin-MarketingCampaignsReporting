@@ -19,6 +19,10 @@ use Piwik\Plugins\AdvancedCampaignReporting\API as AdvancedCampaignReportingAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+/**
+ * @group AdvancedCampaignReporting
+ * @group Plugins
+ */
 class CustomDimensionConfigTest extends IntegrationTestCase
 {
 
