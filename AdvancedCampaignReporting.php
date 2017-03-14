@@ -29,6 +29,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
         return array(
             'Tracker.PageUrl.getQueryParametersToExclude' => 'getQueryParametersToExclude',
             'Report.filterReports'                        => 'removeOriginalCampaignReport',
+            'Live.getAllVisitorDetails'                   => 'extendVisitorDetails',
         );
     }
 
@@ -65,6 +66,21 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             if ($report instanceof GetCampaigns) {
                 unset($reports[$index]);
             }
+        }
+    }
+
+    public function extendVisitorDetails(&$visitor, $details)
+    {
+        $fields = array(
+            'campaignContent' => 'campaign_content',
+            'campaignKeyword' => 'campaign_keyword',
+            'campaignMedium'  => 'campaign_medium',
+            'campaignName'    => 'campaign_name',
+            'campaignSource'  => 'campaign_source',
+        );
+
+        foreach ($fields as $name => $field) {
+            $visitor[$name] = $details[$field];
         }
     }
 
