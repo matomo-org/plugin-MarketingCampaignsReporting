@@ -30,7 +30,7 @@ If you already have URLs tagged with Google Analytics parameters these are also 
 * `utm_source`, 
 * `utm_medium`, 
 * `utm_term`, 
-* `utm_conten`t,
+* `utm_content`,
 * `utm_id`.
 
 For example if your Ad URL or landing page URL is `example.com/offer`, you would track all clicks on this URL by 
@@ -90,7 +90,7 @@ For example, by default parameter `campaign_name` track following parameters if 
  * 1.3.1 Better support for campaign parameters behind hash tag (#)
  * 1.3.0 Compatibility with Piwik 2.16.0
  * 1.2.0 (Nov 10th 2015) - Plugin comaptibility with Piwik 2.15.0
- * 1.1.1 (Sept 3rd 2015) - Campaign reports now display your campaign report data even for campaign data before you activated MarketingCampaignsReporting
+ * 1.1.1 (Sept 3rd 2015) - Campaign reports now display your campaign report data even for campaign data before you activated AdvancedCampaignReporting
  * 1.1.0 (July 28th 2015)
  * 1.0.8 (Apr 1st 2015) - Exclude Google Analytics campaign parameters from the Page URLs
  * 1.0.6 (Nov 17th 2014) - Documentation
