@@ -5,17 +5,19 @@
  * @link    http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting;
+namespace Piwik\Plugins\MarketingCampaignsReporting;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Db;
+use Piwik\Plugin;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\Base;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\Base;
 use Piwik\Plugins\Referrers\Reports\GetCampaigns;
 
 /**
- * @package AdvancedCampaignReporting
+ * @package MarketingCampaignsReporting
  */
-class AdvancedCampaignReporting extends \Piwik\Plugin
+class MarketingCampaignsReporting extends \Piwik\Plugin
 {
     public static $CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS    = array('pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
     public static $CAMPAIGN_KEYWORD_FIELD_DEFAULT_URL_PARAMS = array('pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term');
@@ -31,6 +33,18 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
             'Report.filterReports'                        => 'removeOriginalCampaignReport',
             'Live.getAllVisitorDetails'                   => 'extendVisitorDetails',
         );
+    }
+
+    public function install()
+    {
+        $tables = \Piwik\DbHelper::getTablesInstalled();
+        foreach ($tables as $tableName) {
+            if (strpos($tableName, 'archive_') !== false) {
+                Db::exec('UPDATE `' . $tableName . '` SET `name`=REPLACE(`name`, \'AdvancedCampaignReporting_\', \'MarketingCampaignsReporting_\') WHERE `name` LIKE \'AdvancedCampaignReporting_%\'');
+            }
+        }
+
+        Plugin\Manager::getInstance()->deactivatePlugin('AdvancedCampaignReporting');
     }
 
     public function getQueryParametersToExclude(&$excludedParameters)

@@ -6,10 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting\Columns;
+namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 use Piwik\Piwik;
-use Piwik\Plugins\AdvancedCampaignReporting\Segment;
+use Piwik\Plugins\MarketingCampaignsReporting\Segment;
 
 class CampaignId extends Base
 {
@@ -20,12 +20,12 @@ class CampaignId extends Base
     {
         $segment = new Segment();
         $segment->setSegment('campaignId');
-        $segment->setName('AdvancedCampaignReporting_CampaignId');
+        $segment->setName('MarketingCampaignsReporting_CampaignId');
         $this->addSegment($segment);
     }
 
     public function getName()
     {
-        return Piwik::translate('AdvancedCampaignReporting_CampaignId');
+        return Piwik::translate('MarketingCampaignsReporting_CampaignId');
     }
 }

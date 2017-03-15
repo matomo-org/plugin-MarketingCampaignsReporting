@@ -25,7 +25,7 @@ addons:
 # Separate different test suites
 env:
   global:
-    - PLUGIN_NAME=AdvancedCampaignReporting
+    - PLUGIN_NAME=MarketingCampaignsReporting
     - PIWIK_ROOT_DIR=$TRAVIS_BUILD_DIR/piwik
     - UNPROTECTED_ARTIFACTS=1
     - PIWIK_REPOSITORY_SLUG=PiwikPRO/piwik.git
@@ -64,7 +64,7 @@ install:
   - '[ -d ./tests/travis/.git ] || sh -c "rm -rf ./tests/travis && git clone https://github.com/piwik/travis-scripts.git ./tests/travis"'
   - cd ./tests/travis ; git checkout master ; cd ../..
 
-  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --plugin=\"AdvancedCampaignReporting\" --verbose"
+  - export GENERATE_TRAVIS_YML_COMMAND="php ./tests/travis/generator/main.php generate:travis-yml --plugin=\"MarketingCampaignsReporting\" --verbose"
   - '[[ "$TRAVIS_JOB_NUMBER" != *.1 || "$TRAVIS_PULL_REQUEST" != "false" ]] || ./tests/travis/autoupdate_travis_yml.sh'
 
   - ./tests/travis/checkout_test_against_branch.sh

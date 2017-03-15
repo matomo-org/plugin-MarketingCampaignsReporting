@@ -6,21 +6,21 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\AdvancedCampaignReporting\tests\Integration;
+namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignContent;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignId;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignKeyword;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignMedium;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignName;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignSource;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignContent;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignId;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignKeyword;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
 use Piwik\Plugins\SitesManager\API as SitesManager;
-use Piwik\Plugins\AdvancedCampaignReporting\API as AdvancedCampaignReportingAPI;
+use Piwik\Plugins\MarketingCampaignsReporting\API as MarketingCampaignsReportingAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
- * @group AdvancedCampaignReporting
+ * @group MarketingCampaignsReporting
  * @group Plugins
  */
 class CustomDimensionConfigTest extends IntegrationTestCase
@@ -42,7 +42,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
     {
         $testVars                                    = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $configOverride                              = $testVars->configOverride;
-        $configOverride['AdvancedCampaignReporting'] = [
+        $configOverride['MarketingCampaignsReporting'] = [
             (new CampaignName())->getColumnName()    => 'pk_campaign,custom_name_parameter',
             (new CampaignKeyword())->getColumnName() => 'pk_keyword,custom_keyword_parameter',
             (new CampaignSource())->getColumnName()  => 'pk_source,custom_source_parameter',
@@ -79,7 +79,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
 
     private function thenNameDimensionShouldBeTracked()
     {
-        $api = AdvancedCampaignReportingAPI::getInstance();
+        $api = MarketingCampaignsReportingAPI::getInstance();
 
         $nameReport = $api->getName(
             $this->idSite,
@@ -95,7 +95,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
 
     private function thenKeywordDimensionShouldBeTracked()
     {
-        $api = AdvancedCampaignReportingAPI::getInstance();
+        $api = MarketingCampaignsReportingAPI::getInstance();
 
         $keywordReport = $api->getKeyword(
             $this->idSite,
@@ -111,7 +111,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
 
     private function thenSourceDimensionShouldBeTracked()
     {
-        $api = AdvancedCampaignReportingAPI::getInstance();
+        $api = MarketingCampaignsReportingAPI::getInstance();
 
         $keywordReport = $api->getSource(
             $this->idSite,
@@ -127,7 +127,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
 
     private function thenMediumDimensionShouldBeTracked()
     {
-        $api = AdvancedCampaignReportingAPI::getInstance();
+        $api = MarketingCampaignsReportingAPI::getInstance();
 
         $keywordReport = $api->getMedium(
             $this->idSite,
@@ -143,7 +143,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
 
     private function thenContentDimensionShouldBeTracked()
     {
-        $api = AdvancedCampaignReportingAPI::getInstance();
+        $api = MarketingCampaignsReportingAPI::getInstance();
 
         $keywordReport = $api->getContent(
             $this->idSite,

@@ -6,13 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting\Columns;
+namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\AdvancedCampaignReporting\AdvancedCampaignReporting;
+use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -33,7 +33,7 @@ abstract class Base extends VisitDimension
     protected function detectCampaign(Request $request, Visitor $visitor)
     {
         $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
-        $campaignParameters = AdvancedCampaignReporting::getCampaignParameters();
+        $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
@@ -75,7 +75,7 @@ abstract class Base extends VisitDimension
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
-        $campaignParameters = AdvancedCampaignReporting::getCampaignParameters();
+        $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
@@ -114,7 +114,7 @@ abstract class Base extends VisitDimension
     public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
         $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
-        $campaignParameters = AdvancedCampaignReporting::getCampaignParameters();
+        $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
 
         $visitProperties = $visitor->visitProperties->getProperties();
 

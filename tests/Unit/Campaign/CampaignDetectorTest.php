@@ -6,19 +6,19 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\AdvancedCampaignReporting\tests\Unit\Campaign;
+namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Unit\Campaign;
 
-use Piwik\Plugins\AdvancedCampaignReporting\Campaign\CampaignDetector;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignContent;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignId;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignKeyword;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignMedium;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignName;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignSource;
+use Piwik\Plugins\MarketingCampaignsReporting\Campaign\CampaignDetector;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignContent;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignId;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignKeyword;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
 use Piwik\Tracker\Request;
 
 /**
- * @group AdvancedCampaignReporting
+ * @group MarketingCampaignsReporting
  * @group Plugins
  */
 class CampaignDetectorTest extends \PHPUnit_Framework_TestCase

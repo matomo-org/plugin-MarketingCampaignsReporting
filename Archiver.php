@@ -5,7 +5,7 @@
  * @link http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting;
+namespace Piwik\Plugins\MarketingCampaignsReporting;
 
 use Piwik\Common;
 use Piwik\Config;
@@ -15,13 +15,13 @@ use Piwik\Metrics;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
-    const CAMPAIGN_NAME_RECORD_NAME = 'AdvancedCampaignReporting_Name';
-    const CAMPAIGN_KEYWORD_RECORD_NAME = 'AdvancedCampaignReporting_Keyword';
-    const CAMPAIGN_SOURCE_RECORD_NAME = 'AdvancedCampaignReporting_Source';
-    const CAMPAIGN_MEDIUM_RECORD_NAME = 'AdvancedCampaignReporting_Medium';
-    const CAMPAIGN_CONTENT_RECORD_NAME = 'AdvancedCampaignReporting_Content';
+    const CAMPAIGN_NAME_RECORD_NAME = 'MarketingCampaignsReporting_Name';
+    const CAMPAIGN_KEYWORD_RECORD_NAME = 'MarketingCampaignsReporting_Keyword';
+    const CAMPAIGN_SOURCE_RECORD_NAME = 'MarketingCampaignsReporting_Source';
+    const CAMPAIGN_MEDIUM_RECORD_NAME = 'MarketingCampaignsReporting_Medium';
+    const CAMPAIGN_CONTENT_RECORD_NAME = 'MarketingCampaignsReporting_Content';
 
-    const HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME = 'AdvancedCampaignReporting_SourceMedium_Name';
+    const HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME = 'MarketingCampaignsReporting_SourceMedium_Name';
 
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTable;

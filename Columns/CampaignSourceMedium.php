@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting\Columns;
+namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 use Piwik\Columns\Dimension;
 use Piwik\Piwik;
@@ -15,6 +15,6 @@ class CampaignSourceMedium extends Dimension
 {
     public function getName()
     {
-        return Piwik::translate('AdvancedCampaignReporting_CombinedSourceMedium');
+        return Piwik::translate('MarketingCampaignsReporting_CombinedSourceMedium');
     }
 }

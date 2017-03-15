@@ -6,11 +6,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting\Reports;
+namespace Piwik\Plugins\MarketingCampaignsReporting\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignSourceMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSourceMedium;
 
 class GetSourceMedium extends Base
 {
@@ -18,7 +18,7 @@ class GetSourceMedium extends Base
     {
         parent::init();
         $this->dimension             = new CampaignSourceMedium();
-        $this->name                  = Piwik::translate('AdvancedCampaignReporting_CombinedSourcesMediums');
+        $this->name                  = Piwik::translate('MarketingCampaignsReporting_CombinedSourcesMediums');
         $this->actionToLoadSubTables = 'getNameFromSourceMediumId';
         $this->hasGoalMetrics        = true;
         $this->order                 = 6;

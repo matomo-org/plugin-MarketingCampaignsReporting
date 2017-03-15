@@ -5,7 +5,7 @@
  * @link http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting;
+namespace Piwik\Plugins\MarketingCampaignsReporting;
 
 use Piwik\Archive;
 use Piwik\DataTable;
@@ -15,10 +15,10 @@ use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as ReferrersAPI;
 
 /**
- * API for plugin AdvancedCampaignReporting
+ * API for plugin MarketingCampaignsReporting
  *
- * @package AdvancedCampaignReporting
- * @method static \Piwik\Plugins\AdvancedCampaignReporting\API getInstance()
+ * @package MarketingCampaignsReporting
+ * @method static \Piwik\Plugins\MarketingCampaignsReporting\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
