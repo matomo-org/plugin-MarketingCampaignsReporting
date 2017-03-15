@@ -19,6 +19,5 @@ class GetKeywordContentFromNameId extends Base
         $this->dimension        = new CombinedKeywordContent();
         $this->name             = Piwik::translate('MarketingCampaignsReporting_CombinedKeywordContent');
         $this->isSubtableReport = true;
-        $this->hasGoalMetrics   = true;
     }
 }

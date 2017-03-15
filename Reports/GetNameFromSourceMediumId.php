@@ -21,6 +21,5 @@ class GetNameFromSourceMediumId extends Base
         $this->dimension        = new CampaignName();
         $this->name             = Piwik::translate('MarketingCampaignsReporting_CombinedSourcesMediums');
         $this->isSubtableReport = true;
-        $this->hasGoalMetrics   = true;
     }
 }
