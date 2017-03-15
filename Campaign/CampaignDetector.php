@@ -6,10 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\AdvancedCampaignReporting\Campaign;
+namespace Piwik\Plugins\MarketingCampaignsReporting\Campaign;
 
 use Piwik\Common;
-use Piwik\Plugins\AdvancedCampaignReporting\AdvancedCampaignReporting;
+use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Tracker\PageUrl;
 use Piwik\Tracker\Request;
 use Piwik\UrlHelper;
@@ -97,7 +97,7 @@ class CampaignDetector implements CampaignDetectorInterface
      */
     public function detectCampaignFromVisit($visitorInfo, $campaignParameters)
     {
-        $campaignFields = AdvancedCampaignReporting::getAdvancedCampaignFields();
+        $campaignFields = MarketingCampaignsReporting::getAdvancedCampaignFields();
 
         $campaignDimensions = array_intersect_key($visitorInfo, array_flip($campaignFields));
 

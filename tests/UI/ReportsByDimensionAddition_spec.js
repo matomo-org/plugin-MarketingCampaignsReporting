@@ -6,10 +6,10 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
-describe("AdvancedCampaignReporting_ReportsByDimensionAddition", function () {
+describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
     this.timeout(0);
 
-    this.fixture = 'Piwik\\Plugins\\AdvancedCampaignReporting\\tests\\Fixtures\\TrackAdvancedCampaigns';
+    this.fixture = 'Piwik\\Plugins\\MarketingCampaignsReporting\\tests\\Fixtures\\TrackAdvancedCampaigns';
 
     var withVisitsParams = "&idSite=1&date=2013-01-23&period=week",
         urlPrefix = "?module=CoreHome&action=index&",

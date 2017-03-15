@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\AdvancedCampaignReporting\tests\Fixtures;
+namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Fixtures;
 
 use Piwik\Tests\Framework\Fixture;
 use Piwik;
@@ -24,7 +24,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     public function setUp()
     {
-        Piwik\Plugin\Manager::getInstance()->activatePlugin('AdvancedCampaignReporting');
+        Piwik\Plugin\Manager::getInstance()->activatePlugin('MarketingCampaignsReporting');
 
         $this->orderIndex = 0;
 
@@ -41,9 +41,9 @@ class TrackAdvancedCampaigns extends Fixture
 
         $testVars = new Piwik\Tests\Framework\TestingEnvironmentVariables();
         if ($disablePlugin) {
-            $testVars->_disableAdvancedCampaignReporting = true;
+            $testVars->_disableMarketingCampaignsReporting = true;
         } else {
-            $testVars->_disableAdvancedCampaignReporting = false;
+            $testVars->_disableMarketingCampaignsReporting = false;
         }
         $testVars->save();
 
@@ -243,15 +243,15 @@ class TrackAdvancedCampaigns extends Fixture
             'observers.global' => \DI\add(array(
                 array('Environment.bootstrapped', function () use ($testVars) {
                     $plugins = Piwik\Config::getInstance()->Plugins['Plugins'];
-                    $index = array_search('AdvancedCampaignReporting', $plugins);
+                    $index = array_search('MarketingCampaignsReporting', $plugins);
 
-                    if ($testVars->_disableAdvancedCampaignReporting) {
+                    if ($testVars->_disableMarketingCampaignsReporting) {
                         if ($index !== false) {
                             unset($plugins[$index]);
                         }
                     } else {
                         if ($index === false) {
-                            $plugins[] = 'AdvancedCampaignReporting';
+                            $plugins[] = 'MarketingCampaignsReporting';
                         }
                     }
 

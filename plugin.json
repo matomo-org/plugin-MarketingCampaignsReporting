@@ -1,5 +1,5 @@
 {
-    "name": "AdvancedCampaignReporting",
+    "name": "MarketingCampaignsReporting",
     "description": "Measure the effectiveness of your marketing campaigns. New reports, segments & track up to five channels: campaign, source, medium, keyword, content.",
     "version": "3.0.0",
     "keywords": ["Campaign", "Marketing", "Channels", "UTM tags"],
@@ -10,10 +10,10 @@
     },
     "support": {
         "email": "hello@piwik.org",
-        "issues": "https://github.com/piwik/plugin-AdvancedCampaignReporting/issues",
+        "issues": "https://github.com/piwik/plugin-MarketingCampaignsReporting/issues",
         "forum": "https://forum.piwik.org",
-        "source": "https://github.com/piwik/plugin-AdvancedCampaignReporting",
-        "wiki": "https://github.com/piwik/plugin-AdvancedCampaignReporting/wiki"
+        "source": "https://github.com/piwik/plugin-MarketingCampaignsReporting",
+        "wiki": "https://github.com/piwik/plugin-MarketingCampaignsReporting/wiki"
     },
     "authors": [
         {

@@ -5,14 +5,14 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting\Tracker;
+namespace Piwik\Plugins\MarketingCampaignsReporting\Tracker;
 
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignContent;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignId;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignKeyword;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignMedium;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignName;
-use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignSource;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignContent;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignId;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignKeyword;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
 use Piwik\Tracker;
 use Piwik\Common;
 

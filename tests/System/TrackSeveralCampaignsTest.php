@@ -5,15 +5,15 @@
  * @link    http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-namespace Piwik\Plugins\AdvancedCampaignReporting\tests\System;
+namespace Piwik\Plugins\MarketingCampaignsReporting\tests\System;
 
 use Piwik\Cache;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\AdvancedCampaignReporting\tests\Fixtures\TrackAdvancedCampaigns;
+use Piwik\Plugins\MarketingCampaignsReporting\tests\Fixtures\TrackAdvancedCampaigns;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
- * @group AdvancedCampaignReporting
+ * @group MarketingCampaignsReporting
  * @group Plugins
  */
 class TrackSeveralCampaignsTest extends SystemTestCase
@@ -52,10 +52,10 @@ class TrackSeveralCampaignsTest extends SystemTestCase
      */
     public function testAnotherApi($api, $params)
     {
-        Manager::getInstance()->unloadPlugin('AdvancedCampaignReporting');
+        Manager::getInstance()->unloadPlugin('MarketingCampaignsReporting');
         Cache::flushAll();
         $this->runApiTests($api, $params);
-        Manager::getInstance()->loadPlugin('AdvancedCampaignReporting');
+        Manager::getInstance()->loadPlugin('MarketingCampaignsReporting');
         Cache::flushAll();
     }
 
@@ -75,7 +75,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         );
 
         $api         = array(
-            'AdvancedCampaignReporting'
+            'MarketingCampaignsReporting'
         );
         $apiToTest[] = array(
             $api,
@@ -121,7 +121,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         );
 
         $apiToTest[] = array(
-            'AdvancedCampaignReporting',
+            'MarketingCampaignsReporting',
             array(
                 'idSite'       => 'all',
                 'date'         => $dateTime,
@@ -141,7 +141,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'otherRequestParameters' => array(
                     'date'      => '2013-01-20,2013-01-25',
                     'period'    => 'day',
-                    'apiModule' => 'AdvancedCampaignReporting',
+                    'apiModule' => 'MarketingCampaignsReporting',
                     'apiAction' => 'getName',
                     'label'     => 'campaign_hashed',
                     'expanded'  => 0
@@ -158,7 +158,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'otherRequestParameters' => array(
                     'date'      => '2013-01-20,2013-01-25',
                     'period'    => 'day',
-                    'apiModule' => 'AdvancedCampaignReporting',
+                    'apiModule' => 'MarketingCampaignsReporting',
                     'apiAction' => 'getKeyword',
                     'label'     => 'mot_clé_pépère',
                     'expanded'  => 0

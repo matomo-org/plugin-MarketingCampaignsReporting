@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\AdvancedCampaignReporting\Campaign;
+namespace Piwik\Plugins\MarketingCampaignsReporting\Campaign;
 
 use Piwik\Tracker\Request;
 
