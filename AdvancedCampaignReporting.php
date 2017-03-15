@@ -72,6 +72,7 @@ class AdvancedCampaignReporting extends \Piwik\Plugin
     public function extendVisitorDetails(&$visitor, $details)
     {
         $fields = array(
+            'campaignId'      => 'campaign_id',
             'campaignContent' => 'campaign_content',
             'campaignKeyword' => 'campaign_keyword',
             'campaignMedium'  => 'campaign_medium',
