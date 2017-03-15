@@ -32,6 +32,7 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>555</revenue>
+				<segment>campaignContent==ecommerce_content</segment>
 			</row>
 			<row>
 				<label>contains personalized campaigns for client</label>
@@ -43,6 +44,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignContent==contains+personalized+campaigns+for+client</segment>
 			</row>
 			<row>
 				<label>none</label>
@@ -54,6 +56,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignContent==none</segment>
 			</row>
 		</result>
 		<result date="2013-01-24" />

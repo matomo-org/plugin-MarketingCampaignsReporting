@@ -270,6 +270,7 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>555</revenue>
+				<segment>campaignName==ecommerce_campaign</segment>
 				<subtable>
 					<row>
 						<label>ecommerce_keyword - ecommerce_content</label>
@@ -313,6 +314,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignName==campaignnamedimension+-+no+other+dimension+for+this+visit</segment>
 			</row>
 			<row>
 				<label>campaign_hashed</label>
@@ -324,6 +326,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignName==campaign_hashed</segment>
 				<subtable>
 					<row>
 						<label>keyword from #hash tag parameter</label>
@@ -361,6 +364,7 @@
 				</goals>
 				<nb_conversions>3</nb_conversions>
 				<revenue>4444</revenue>
+				<segment>campaignName==campaign_with_two_goals_conversions</segment>
 			</row>
 			<row>
 				<label>default_offer</label>
@@ -372,6 +376,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignName==default_offer</segment>
 				<subtable>
 					<row>
 						<label>not_an_advanced_campaign_at_first</label>
@@ -396,6 +401,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignName==lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22nam</segment>
 				<subtable>
 					<row>
 						<label>lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;k</label>
@@ -420,6 +426,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignName==november_offer</segment>
 				<subtable>
 					<row>
 						<label>mot_clé_pépère - contains personalized campaigns for client</label>
@@ -444,6 +451,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignName==october_offer</segment>
 				<subtable>
 					<row>
 						<label>mot_clé_pépère - none</label>
@@ -468,6 +476,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignName==should_be_new_visit</segment>
 			</row>
 		</result>
 		<result date="2013-01-24" />

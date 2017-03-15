@@ -29,6 +29,7 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>555</revenue>
+		<segment>campaignSource==ecommerce_source</segment>
 	</row>
 	<row>
 		<label>lenghty &quot;source&quot;...lenghty &quot;source&quot;...lenghty &quot;source&quot;...</label>
@@ -40,6 +41,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>campaignSource==lenghty+%22source%22...lenghty+%22source%22...lenghty+%22source%22...</segment>
 	</row>
 	<row>
 		<label>newsletter_6</label>
@@ -51,6 +53,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>campaignSource==newsletter_6</segment>
 	</row>
 	<row>
 		<label>newsletter_7</label>
@@ -62,5 +65,6 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<segment>campaignSource==newsletter_7</segment>
 	</row>
 </result>
