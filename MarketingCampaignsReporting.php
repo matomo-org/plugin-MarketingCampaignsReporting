@@ -8,6 +8,8 @@
 namespace Piwik\Plugins\MarketingCampaignsReporting;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Db;
+use Piwik\Plugin;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\Base;
 use Piwik\Plugins\Referrers\Reports\GetCampaigns;
@@ -31,6 +33,18 @@ class MarketingCampaignsReporting extends \Piwik\Plugin
             'Report.filterReports'                        => 'removeOriginalCampaignReport',
             'Live.getAllVisitorDetails'                   => 'extendVisitorDetails',
         );
+    }
+
+    public function install()
+    {
+        $tables = \Piwik\DbHelper::getTablesInstalled();
+        foreach ($tables as $tableName) {
+            if (strpos($tableName, 'archive_') !== false) {
+                Db::exec('UPDATE `' . $tableName . '` SET `name`=REPLACE(`name`, \'AdvancedCampaignReporting_\', \'MarketingCampaignsReporting_\') WHERE `name` LIKE \'AdvancedCampaignReporting_%\'');
+            }
+        }
+
+        Plugin\Manager::getInstance()->deactivatePlugin('AdvancedCampaignReporting');
     }
 
     public function getQueryParametersToExclude(&$excludedParameters)
