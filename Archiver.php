@@ -124,7 +124,6 @@ class Archiver extends \Piwik\Plugin\Archiver
         $recordToDimensions = $this->getRecordToDimensions();
 
         while ($row = $query->fetch()) {
-            //var_dump($row);exit;
             foreach($recordToDimensions as $record => $dimensionsForRecord) {
                 $dataArray = $this->getDataArray($record);
 

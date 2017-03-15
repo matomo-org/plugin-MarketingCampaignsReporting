@@ -25,10 +25,8 @@ class API extends \Piwik\Plugin\API
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $dataTable = Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, false, $idSubtable);
         $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
-        $dataTable->queueFilter('ReplaceColumnNames');
-        $dataTable->queueFilter('ReplaceSummaryRowLabel');
         return $dataTable;
     }
 

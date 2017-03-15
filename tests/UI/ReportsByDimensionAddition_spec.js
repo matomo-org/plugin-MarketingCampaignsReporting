@@ -12,40 +12,25 @@ describe("AdvancedCampaignReporting_ReportsByDimensionAddition", function () {
     this.fixture = 'Piwik\\Plugins\\AdvancedCampaignReporting\\tests\\Fixtures\\TrackAdvancedCampaigns';
 
     var withVisitsParams = "&idSite=1&date=2013-01-23&period=week",
-        withoutVisitsParams = "&idSite=1&date=2013-02-02&period=day",
         urlPrefix = "?module=CoreHome&action=index&",
-        goalsUrl = urlPrefix + withVisitsParams + "#/module=Goals&action=index",
-        goalsNoConversionsUrl = urlPrefix + withoutVisitsParams + "#/module=Goals&action=index",
-        ecommerceUrl = urlPrefix + withVisitsParams + "#/module=Ecommerce&action=sales&idGoal=ecommerceOrder",
-        ecommerceNoConversionsUrl = urlPrefix + withVisitsParams + "#/module=Ecommerce&action=sales&idGoal=ecommerceOrder";
+        goalsUrl = urlPrefix + withVisitsParams + "#?category=Goals_Goals&subcategory=General_Overview" + withVisitsParams,
+        ecommerceUrl = urlPrefix + withVisitsParams + "#?category=Goals_Ecommerce&subcategory=Ecommerce_Sales" + withVisitsParams;
 
     it("should load correctly within the Goals page", function (done) {
-        expect.screenshot("loaded_goals").to.be.captureSelector('.reportsByDimensionView,.reportsByDimensionView .dataTable', function (page) {
+        expect.screenshot("loaded_goals").to.be.captureSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer', function (page) {
             page.load(goalsUrl);
             page.evaluate(function () {
-                $('.dimensionCategory:contains(by Campaign) .reportDimension:eq(0)').click();
+                $('.dimensionCategory .dimension:contains(Campaign Names)').click();
             });
-        }, done);
-    });
-
-    it("should not display in the Goals page when there are no conversions", function (done) {
-        expect.page(goalsNoConversionsUrl).to.not.contains('.dimensionCategory:contains("View goals by Campaigns")', function (page) {
-            // empty
         }, done);
     });
 
     it("should load correctly within the Ecommerce page", function (done) {
-        expect.screenshot("loaded_ecommerce").to.be.captureSelector('.reportsByDimensionView,.reportsByDimensionView .dataTable', function (page) {
+        expect.screenshot("loaded_ecommerce").to.be.captureSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer', function (page) {
             page.load(ecommerceUrl);
             page.evaluate(function () {
-                $('.dimensionCategory:contains(by Campaign) .reportDimension:eq(0)').click();
+                $('.dimensionCategory .dimension:contains(Campaign Names)').click();
             });
-        }, done);
-    });
-
-    it("should not display in the Ecommerce page when there are no conversions", function (done) {
-        expect.page(ecommerceNoConversionsUrl).to.not.contains('.dimensionCategory:contains("View goals by Campaigns")', function (page) {
-            // empty
         }, done);
     });
 });

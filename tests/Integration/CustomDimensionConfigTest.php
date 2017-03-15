@@ -2,18 +2,27 @@
 /**
  * Piwik PRO -  Premium functionality and enterprise-level support for Piwik Analytics
  *
- * @link http://piwik.pro
+ * @link    http://piwik.pro
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
 namespace Piwik\Plugins\AdvancedCampaignReporting\tests\Integration;
 
-use Piwik\Plugins\AdvancedCampaignReporting\Tracker;
+use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignContent;
+use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignId;
+use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignKeyword;
+use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignMedium;
+use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignName;
+use Piwik\Plugins\AdvancedCampaignReporting\Columns\CampaignSource;
 use Piwik\Plugins\SitesManager\API as SitesManager;
 use Piwik\Plugins\AdvancedCampaignReporting\API as AdvancedCampaignReportingAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+/**
+ * @group AdvancedCampaignReporting
+ * @group Plugins
+ */
 class CustomDimensionConfigTest extends IntegrationTestCase
 {
 
@@ -31,17 +40,17 @@ class CustomDimensionConfigTest extends IntegrationTestCase
 
     public function setUp()
     {
-        $testVars = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
-        $configOverride = $testVars->configOverride;
+        $testVars                                    = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
+        $configOverride                              = $testVars->configOverride;
         $configOverride['AdvancedCampaignReporting'] = [
-            Tracker::CAMPAIGN_NAME_FIELD => 'pk_campaign,custom_name_parameter',
-            Tracker::CAMPAIGN_KEYWORD_FIELD => 'pk_keyword,custom_keyword_parameter',
-            Tracker::CAMPAIGN_SOURCE_FIELD => 'pk_source,custom_source_parameter',
-            Tracker::CAMPAIGN_MEDIUM_FIELD => 'pk_medium,custom_medium_parameter',
-            Tracker::CAMPAIGN_CONTENT_FIELD => 'pk_content ,custom_content_parameter',
-            Tracker::CAMPAIGN_ID_FIELD => 'pk_id, custom_id_parameter'
+            (new CampaignName())->getColumnName()    => 'pk_campaign,custom_name_parameter',
+            (new CampaignKeyword())->getColumnName() => 'pk_keyword,custom_keyword_parameter',
+            (new CampaignSource())->getColumnName()  => 'pk_source,custom_source_parameter',
+            (new CampaignMedium())->getColumnName()  => 'pk_medium,custom_medium_parameter',
+            (new CampaignContent())->getColumnName() => 'pk_content ,custom_content_parameter',
+            (new CampaignId())->getColumnName()      => 'pk_id, custom_id_parameter'
         ];
-        $testVars->configOverride = $configOverride;
+        $testVars->configOverride                    = $configOverride;
         $testVars->save();
 
         parent::setUp();
