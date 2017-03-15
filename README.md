@@ -1,5 +1,7 @@
 # Marketing Campaigns Reporting
 
+[![Build Status](https://travis-ci.org/piwik/plugin-MarketingCampaignsReporting.svg?branch=master)](https://travis-ci.org/piwik/plugin-MarketingCampaignsReporting)
+
 ## Description
 
 Measure the effectiveness of your marketing campaigns. 
