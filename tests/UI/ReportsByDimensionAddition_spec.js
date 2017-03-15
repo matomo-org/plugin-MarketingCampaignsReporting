@@ -1,10 +1,10 @@
 /*!
- * Piwik PRO - cloud hosting and enterprise analytics consultancy
- * from the creators of Piwik.org
+ * Piwik - free/libre analytics platform
  *
- * @link http://piwik.pro
+ * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
+ * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later: https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
  */
 describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
     this.timeout(0);
