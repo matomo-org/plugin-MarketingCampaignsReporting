@@ -34,6 +34,7 @@ class MarketingCampaignsReporting extends \Piwik\Plugin
             'Tracker.PageUrl.getQueryParametersToExclude' => 'getQueryParametersToExclude',
             'Report.filterReports'                        => 'removeOriginalCampaignReport',
             'Live.getAllVisitorDetails'                   => 'extendVisitorDetails',
+            'Insights.addReportToOverview'                => 'addReportToInsightsOverview',
         );
     }
 
@@ -56,6 +57,12 @@ class MarketingCampaignsReporting extends \Piwik\Plugin
         foreach ($advancedCampaignParameters as $advancedCampaignParameter) {
             $excludedParameters = array_merge($excludedParameters, $advancedCampaignParameter);
         }
+    }
+
+    public function addReportToInsightsOverview(&$reports)
+    {
+        unset($reports['Referrers_getCampaigns']);
+        $reports['MarketingCampaignsReporting_getName'] = array();
     }
 
     /**
