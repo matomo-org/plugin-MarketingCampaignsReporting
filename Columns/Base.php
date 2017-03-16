@@ -98,7 +98,7 @@ abstract class Base extends VisitDimension
             }
         }
 
-        if (array_key_exists($this->getColumnName(), $campaignDimensions)) {
+        if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
             return substr($campaignDimensions[$this->getColumnName()], 0, $this->getColumnName() == 'campaign_id' ? 100 : 255);
         }
 
