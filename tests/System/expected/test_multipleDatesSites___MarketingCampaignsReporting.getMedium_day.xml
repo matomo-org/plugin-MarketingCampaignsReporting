@@ -32,6 +32,7 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>555</revenue>
+				<segment>campaignMedium==ecommerce_medium</segment>
 			</row>
 			<row>
 				<label>email</label>
@@ -43,6 +44,7 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>2</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignMedium==email</segment>
 			</row>
 		</result>
 		<result date="2013-01-24" />

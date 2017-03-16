@@ -35,6 +35,7 @@ class API extends \Piwik\Plugin\API
     public function getName($idSite, $period, $date, $segment = false, $expanded = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable->filter('AddSegmentValue');
 
         if ($this->isTableEmpty($dataTable)) {
             $referrersDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, $expanded);
@@ -59,6 +60,7 @@ class API extends \Piwik\Plugin\API
     public function getKeyword($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_KEYWORD_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
 
         if ($this->isTableEmpty($dataTable)) {
             $referrersDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, $expanded = true);
@@ -74,18 +76,21 @@ class API extends \Piwik\Plugin\API
     public function getSource($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_SOURCE_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
         return $dataTable;
     }
 
     public function getMedium($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
         return $dataTable;
     }
 
     public function getContent($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_CONTENT_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
         return $dataTable;
     }
 
