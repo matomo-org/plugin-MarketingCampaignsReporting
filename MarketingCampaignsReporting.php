@@ -38,6 +38,11 @@ class MarketingCampaignsReporting extends \Piwik\Plugin
         );
     }
 
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
+
     public function install()
     {
         $tables = \Piwik\DbHelper::getTablesInstalled();
