@@ -1,8 +1,19 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Yönlendirici Kampanyaları",
-        "Name": "İsim",
-        "Keyword": "Anahtar Kelime",
-        "Source": "Kaynak"
+        "Title": "Kampanyalar",
+        "Name": "Ad",
+        "Keyword": "Anahtar Sözcük",
+        "Source": "Kaynak",
+        "Medium": "Ortam",
+        "Content": "İçerik",
+        "CombinedSourceMedium": "Kaynak - Ortam",
+        "CampaignId": "Kampanya Kodu",
+        "CombinedKeywordContent": "Anahtar Sözcük - İçerik",
+        "Names": "Kampanya Adları",
+        "Keywords": "Kampanya Anahtar Sözcükleri",
+        "Sources": "Kampanya Kaynakları",
+        "Mediums": "Kampanya Ortamları",
+        "Contents": "Kampanya İçerikleri",
+        "CombinedSourcesMediums": "Kampanya Kaynağı - Ortam"
     }
 }

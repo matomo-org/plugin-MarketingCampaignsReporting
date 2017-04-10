@@ -4,12 +4,16 @@
         "Name": "Namn",
         "Keyword": "Nyckelord",
         "Source": "Källa",
+        "Medium": "Medie",
         "Content": "Innehåll",
+        "CombinedSourceMedium": "Källa - Medie",
         "CampaignId": "Kampanj-ID",
         "CombinedKeywordContent": "Nyckelord - Innehåll",
         "Names": "Kampanjnamn",
         "Keywords": "Nyckelord för kampanj",
         "Sources": "Kampanjkällor",
-        "Contents": "Kampanjinnehåll"
+        "Mediums": "Kampanjmedie",
+        "Contents": "Kampanjinnehåll",
+        "CombinedSourcesMediums": "Kampanjkälla - Medium"
     }
 }

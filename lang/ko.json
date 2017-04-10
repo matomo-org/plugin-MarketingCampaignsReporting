@@ -3,6 +3,17 @@
         "Title": "캠페인",
         "Name": "이름",
         "Keyword": "검색어",
-        "Source": "소스"
+        "Source": "소스",
+        "Medium": "매체",
+        "Content": "내용",
+        "CombinedSourceMedium": "소스 - 매체",
+        "CampaignId": "캠페인 아이디",
+        "CombinedKeywordContent": "키워드 - 내용",
+        "Names": "캠페인 이름들",
+        "Keywords": "캠페인 키워드들",
+        "Sources": "캠페인 소스들",
+        "Mediums": "캠페인 매체들",
+        "Contents": "캠페인 내용들",
+        "CombinedSourcesMediums": "캠페인 소스 - 매체"
     }
 }

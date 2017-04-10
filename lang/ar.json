@@ -2,6 +2,7 @@
     "MarketingCampaignsReporting": {
         "Title": "الحملات",
         "Name": "الاسم",
-        "Keyword": "كلمة دلالية"
+        "Keyword": "كلمة دلالية",
+        "Source": "المصدر"
     }
 }

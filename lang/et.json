@@ -2,7 +2,11 @@
     "MarketingCampaignsReporting": {
         "Title": "Kampaaniad",
         "Name": "Nimi",
-        "Keyword": "Võtmesõna",
-        "Source": "Allikas"
+        "Keyword": "Märksõna",
+        "Source": "Allikas",
+        "Medium": "Keskmine",
+        "Content": "Sisu",
+        "CampaignId": "Kampaania ID",
+        "Names": "Kampaaniate nimed"
     }
 }

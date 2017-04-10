@@ -1,7 +1,19 @@
 {
     "MarketingCampaignsReporting": {
         "Title": "廣告活動",
-        "Name": "姓名",
-        "Keyword": "關鍵字"
+        "Name": "名稱",
+        "Keyword": "關鍵字",
+        "Source": "來源",
+        "Medium": "媒介",
+        "Content": "內容",
+        "CombinedSourceMedium": "來源 - 媒介",
+        "CampaignId": "廣告活動 ID",
+        "CombinedKeywordContent": "關鍵字 - 內容",
+        "Names": "廣告活動名稱",
+        "Keywords": "廣告活動關鍵字",
+        "Sources": "廣告活動來源",
+        "Mediums": "廣告活動媒介",
+        "Contents": "廣告活動內容",
+        "CombinedSourcesMediums": "廣告活動來源 - 媒介"
     }
 }

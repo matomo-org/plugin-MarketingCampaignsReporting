@@ -3,10 +3,17 @@
         "Title": "Fushata",
         "Name": "Emër",
         "Keyword": "Fjalëkyç",
-        "Source": "Source",
+        "Source": "Burim",
+        "Medium": "Medium",
         "Content": "Lëndë",
+        "CombinedSourceMedium": "Burim - Medium",
         "CampaignId": "ID Fushate",
-        "Keywords": "Fjalëkyçe Fushate",
-        "Sources": "Burime Fushate"
+        "CombinedKeywordContent": "Fjalëkyç - Lëndë",
+        "Names": "Emra Fushatash",
+        "Keywords": "Fjalëkyçe Fushatash",
+        "Sources": "Burime Fushatash",
+        "Mediums": "Mediume Fushatash",
+        "Contents": "Lëndë Fushatash",
+        "CombinedSourcesMediums": "Burim Fushate - Medium"
     }
 }

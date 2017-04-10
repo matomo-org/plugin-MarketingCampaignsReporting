@@ -2,6 +2,7 @@
     "MarketingCampaignsReporting": {
         "Title": "Kampanjar",
         "Name": "Namn",
-        "Keyword": "Nøkkelord"
+        "Keyword": "Nøkkelord",
+        "Source": "Bron"
     }
 }
