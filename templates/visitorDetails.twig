@@ -1,0 +1,8 @@
+{% if campaign %}
+<div class="visitorCampaign">
+    <b>{{ 'Referrers_ColumnCampaign'|translate }}</b><br/>
+    {% for name,value in campaign %}
+        {{ name }}: {{ value }}<br />
+    {% endfor %}
+</div>
+{% endif %}
