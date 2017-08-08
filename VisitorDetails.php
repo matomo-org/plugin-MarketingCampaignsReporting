@@ -50,6 +50,6 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         $view           = new View('@MarketingCampaignsReporting/visitorDetails');
         $view->campaign = $campaignData;
-        return $view->render();
+        return [[ 30, $view->render() ]];
     }
 }
