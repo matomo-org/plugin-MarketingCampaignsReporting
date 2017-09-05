@@ -87,6 +87,7 @@ For example, by default parameter `campaign_name` track following parameters if 
 
 ## Changelog
 
+ * 3.1.0 (Sept 5th 2017) Show campaign information in visitor log and profile
  * 3.0.1 (Mar 16th 2017) Enables segmented visitorlog for campaign reports
  * 3.0.0 (March 2017) Plugin forked by Piwik team + Renamed + Compatibility with Piwik 3
  * 1.4.0 Added possibility to configure custom campaign parameters names
