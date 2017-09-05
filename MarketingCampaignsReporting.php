@@ -33,9 +33,14 @@ class MarketingCampaignsReporting extends \Piwik\Plugin
         return array(
             'Tracker.PageUrl.getQueryParametersToExclude' => 'getQueryParametersToExclude',
             'Report.filterReports'                        => 'removeOriginalCampaignReport',
-            'Live.getAllVisitorDetails'                   => 'extendVisitorDetails',
             'Insights.addReportToOverview'                => 'addReportToInsightsOverview',
+            'AssetManager.getStylesheetFiles'             => 'getStylesheetFiles',
         );
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/MarketingCampaignsReporting/stylesheets/styles.less";
     }
 
     public function install()
@@ -89,22 +94,6 @@ class MarketingCampaignsReporting extends \Piwik\Plugin
             if ($report instanceof GetCampaigns) {
                 unset($reports[$index]);
             }
-        }
-    }
-
-    public function extendVisitorDetails(&$visitor, $details)
-    {
-        $fields = array(
-            'campaignId'      => 'campaign_id',
-            'campaignContent' => 'campaign_content',
-            'campaignKeyword' => 'campaign_keyword',
-            'campaignMedium'  => 'campaign_medium',
-            'campaignName'    => 'campaign_name',
-            'campaignSource'  => 'campaign_source',
-        );
-
-        foreach ($fields as $name => $field) {
-            $visitor[$name] = $details[$field];
         }
     }
 

@@ -1,12 +1,12 @@
 {
     "name": "MarketingCampaignsReporting",
     "description": "Measure the effectiveness of your marketing campaigns. New reports, segments & track up to five channels: campaign, source, medium, keyword, content.",
-    "version": "3.0.2",
+    "version": "3.1.0",
     "keywords": ["Campaign", "Marketing", "Channels", "UTM tags"],
     "license": "GPL v3+",
     "homepage": "https://piwik.org",
     "require": {
-        "piwik": ">=3.0.0,<4.0.0-b1"
+        "piwik": ">=3.1.0-rc1,<4.0.0-b1"
     },
     "support": {
         "email": "hello@piwik.org",
