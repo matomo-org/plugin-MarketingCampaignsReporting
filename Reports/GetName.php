@@ -8,6 +8,7 @@
  */
 namespace Piwik\Plugins\MarketingCampaignsReporting\Reports;
 
+use Piwik\EventDispatcher;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
@@ -30,5 +31,19 @@ class GetName extends Base
     {
         parent::configureView($view);
         $view->config->subtable_controller_action = 'getKeywordContentFromNameId';
+        $this->configureFooterMessage($view);
+    }
+
+
+    protected function configureFooterMessage(ViewDataTable $view)
+    {
+        if ($this->isSubtableReport) {
+            // no footer message for subtables
+            return;
+        }
+
+        $out = '';
+        EventDispatcher::getInstance()->postEvent('Template.afterCampaignsReport', array(&$out));
+        $view->config->show_footer_message = $out;
     }
 }
