@@ -3,6 +3,12 @@
         "Title": "Kampanye",
         "Name": "Nama",
         "Keyword": "Kata Kunci",
-        "Source": "Sumber"
+        "Source": "Sumber",
+        "Content": "Konten",
+        "CombinedKeywordContent": "Katakunci - Konten",
+        "Names": "Nama Kampanye",
+        "Keywords": "Katakunci Kampanye",
+        "Sources": "Sumber Kampanye",
+        "Contents": "Konten Kampanye"
     }
 }
