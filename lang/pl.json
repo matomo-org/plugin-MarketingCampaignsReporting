@@ -6,8 +6,14 @@
         "Source": "Źródło",
         "Medium": "Medium",
         "Content": "Zawartość",
+        "CombinedSourceMedium": "Źródło - Medium",
         "CampaignId": "ID kampanii",
-        "Keywords": "Słowa kluczowe kampanii",
-        "Contents": "Zawartość kampanii"
+        "CombinedKeywordContent": "Słowo kluczowe - Zawartość",
+        "Names": "Nazwa Kampanii",
+        "Keywords": "Słowa kluczowe Kampanii",
+        "Sources": "Źródła Kampanii",
+        "Mediums": "Media Kampanii",
+        "Contents": "Zawartość kampanii",
+        "CombinedSourcesMediums": "Źródło Kampanii - Medium"
     }
 }
