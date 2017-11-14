@@ -17,12 +17,13 @@ use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
 use Piwik\Tracker\Request;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group MarketingCampaignsReporting
  * @group Plugins
  */
-class CampaignDetectorTest extends \PHPUnit_Framework_TestCase
+class CampaignDetectorTest extends TestCase
 {
     /**
      * @dataProvider provideRequestData
