@@ -1,25 +1,25 @@
 {
     "name": "MarketingCampaignsReporting",
     "description": "Measure the effectiveness of your marketing campaigns. New reports, segments & track up to five channels: campaign, source, medium, keyword, content.",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "keywords": ["Campaign", "Marketing", "Channels", "UTM tags"],
     "license": "GPL v3+",
-    "homepage": "https://piwik.org",
+    "homepage": "https://matomo.org",
     "require": {
         "piwik": ">=3.1.0-rc1,<4.0.0-b1"
     },
     "support": {
-        "email": "hello@piwik.org",
-        "issues": "https://github.com/piwik/plugin-MarketingCampaignsReporting/issues",
-        "forum": "https://forum.piwik.org",
-        "source": "https://github.com/piwik/plugin-MarketingCampaignsReporting",
-        "wiki": "https://github.com/piwik/plugin-MarketingCampaignsReporting/wiki"
+        "email": "hello@matomo.org",
+        "issues": "https://github.com/matomo-org/plugin-MarketingCampaignsReporting/issues",
+        "forum": "https://forum.matomo.org",
+        "source": "https://github.com/matomo-org/plugin-MarketingCampaignsReporting",
+        "wiki": "https://github.com/matomo-org/plugin-MarketingCampaignsReporting/wiki"
     },
     "authors": [
         {
-            "name": "Piwik",
-            "email": "hello@piwik.org",
-            "homepage": "https://piwik.org"
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
         }
     ]
 }
