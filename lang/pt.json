@@ -2,6 +2,7 @@
     "MarketingCampaignsReporting": {
         "Title": "Campanhas",
         "Name": "Nome",
-        "Keyword": "Palavra Chave"
+        "Keyword": "Palavra Chave",
+        "Source": "Fonte"
     }
 }

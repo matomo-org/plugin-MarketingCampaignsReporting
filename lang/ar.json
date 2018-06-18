@@ -3,6 +3,17 @@
         "Title": "الحملات",
         "Name": "الاسم",
         "Keyword": "كلمة دلالية",
-        "Source": "المصدر"
+        "Source": "المصدر",
+        "Medium": "الوسيلة",
+        "Content": "المحتوى",
+        "CombinedSourceMedium": "المصدر - الوسيلة",
+        "CampaignId": "معرّف الحملة",
+        "CombinedKeywordContent": "الكلمة الأساسية - المحتوى",
+        "Names": "أسماء الحملة",
+        "Keywords": "الكلمات الأساسية للحملة",
+        "Sources": "مصادر الحملة",
+        "Mediums": "وسائل الحملة",
+        "Contents": "محتويات الحملة",
+        "CombinedSourcesMediums": "مصدر - وسيلة الحملة"
     }
 }
