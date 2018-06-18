@@ -1,6 +1,6 @@
 # Marketing Campaigns Reporting
 
-[![Build Status](https://travis-ci.org/piwik/plugin-MarketingCampaignsReporting.svg?branch=master)](https://travis-ci.org/piwik/plugin-MarketingCampaignsReporting)
+[![Build Status](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting.svg?branch=master)](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting)
 
 ## Description
 
@@ -11,7 +11,7 @@ Supports any kind of campaign and channel: Adwords, Facebook, Twitter, Youtube, 
 
 ### The Marketing URL Builder
 
-[Generate your trackable marketing URLs with our URL Builder tool.](https://piwik.org/docs/tracking-campaigns-url-builder/)
+[Generate your trackable marketing URLs with our URL Builder tool.](https://matomo.org/docs/tracking-campaigns-url-builder/)
 
 ### Tracking campaigns
 
@@ -48,17 +48,17 @@ example.com/offer?pk_campaign=Best-Seller&pk_source=Newsletter_7&pk_medium=email
    This report viewer now also lists the new Campaign reports under "View Referrers by Campaign".
  * The content of Referrers> Campaign will be replaced with the new enhanced Campaigns reports.
  * The default Referrers Campaign widget and API are working as before.
- * The campaign reports are available in Piwik Mobile and can be sent as Scheduled reports (by email, as HTML or PDF).
+ * The campaign reports are available in Matomo Mobile and can be sent as Scheduled reports (by email, as HTML or PDF).
  * Segment editor: a new "Campaigns" category lists the five new segment for each campaign dimension (campaign name, campaign keyword, campaign source, campaign medium, campaign content).
  * Add Marketing campaign reports to your personalized Dashboard.
  * Access the Campaign Report data with the Marketing Campaigns Reporting API.
  * Will track up to 250 characters for each of the five Campaign dimension.
- * Get automatic [email and sms reports](https://piwik.org/docs/email-reports/) for your campaigns, or send them to your colleagues or customers. 
+ * Get automatic [email and sms reports](https://matomo.org/docs/email-reports/) for your campaigns, or send them to your colleagues or customers. 
 
 ### Reports for more than 1,000 campaigns
 
-In the Campaign reports by default Piwik will only archive the first 1000 rows (your 1000 most popular campaigns). 
-To report on all your campaigns you can configure Piwik so it does not truncate your data. 
+In the Campaign reports by default Matomo will only archive the first 1000 rows (your 1000 most popular campaigns). 
+To report on all your campaigns you can configure Matomo so it does not truncate your data. 
 For example to keep the top 10,000 campaigns edit your `config/config.ini.php` and add the following:
 
 ```
@@ -87,6 +87,7 @@ For example, by default parameter `campaign_name` track following parameters if 
 
 ## Changelog
 
+ * 3.1.1 (June 18th 2018) Rebrand and translation updates
  * 3.1.0 (Sept 5th 2017) Show campaign information in visitor log and profile
  * 3.0.1 (Mar 16th 2017) Enables segmented visitorlog for campaign reports
  * 3.0.0 (March 2017) Plugin forked by Piwik team + Renamed + Compatibility with Piwik 3
