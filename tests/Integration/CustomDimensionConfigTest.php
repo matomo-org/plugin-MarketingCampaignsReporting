@@ -199,4 +199,10 @@ class CustomDimensionConfigTest extends IntegrationTestCase
             'custom_id_value'
         );
     }
+
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->createSuperUser = true;
+    }
 }
