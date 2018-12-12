@@ -30,6 +30,8 @@
 		<nb_conversions>1</nb_conversions>
 		<revenue>555</revenue>
 		<segment>referrerType==campaign;referrerName==ecommerce_campaign;referrerType==campaign;referrerKeyword==ecommerce_keyword</segment>
+		<Referrers_Campaign>ecommerce_campaign</Referrers_Campaign>
+		<Referrers_Keyword>ecommerce_keyword</Referrers_Keyword>
 	</row>
 	<row>
 		<label>campaignnamedimension - no other dimension for this visit</label>
@@ -42,6 +44,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==campaign;referrerName==campaignnamedimension+-+no+other+dimension+for+this+visit</segment>
+		<Referrers_Campaign>campaignnamedimension - no other dimension for this visit</Referrers_Campaign>
 	</row>
 	<row>
 		<label>campaign_hashed - keyword from #hash tag parameter</label>
@@ -54,6 +57,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==campaign;referrerName==campaign_hashed;referrerType==campaign;referrerKeyword==keyword+from+%23hash+tag+parameter</segment>
+		<Referrers_Campaign>campaign_hashed</Referrers_Campaign>
+		<Referrers_Keyword>keyword from #hash tag parameter</Referrers_Keyword>
 	</row>
 	<row>
 		<label>campaign_with_two_goals_conversions</label>
@@ -79,6 +84,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>4444</revenue>
 		<segment>referrerType==campaign;referrerName==campaign_with_two_goals_conversions</segment>
+		<Referrers_Campaign>campaign_with_two_goals_conversions</Referrers_Campaign>
 	</row>
 	<row>
 		<label>default_offer - not_an_advanced_campaign_at_first</label>
@@ -91,6 +97,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==campaign;referrerName==default_offer;referrerType==campaign;referrerKeyword==not_an_advanced_campaign_at_first</segment>
+		<Referrers_Campaign>default_offer</Referrers_Campaign>
+		<Referrers_Keyword>not_an_advanced_campaign_at_first</Referrers_Keyword>
 	</row>
 	<row>
 		<label>lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...le - lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keywor</label>
@@ -103,6 +111,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==campaign;referrerName==lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...le;referrerType==campaign;referrerKeyword==lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keyword%22...lenghty+%22keywor</segment>
+		<Referrers_Campaign>lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...le</Referrers_Campaign>
+		<Referrers_Keyword>lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keywor</Referrers_Keyword>
 	</row>
 	<row>
 		<label>november_offer - mot_clé_pépère</label>
@@ -115,6 +125,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==campaign;referrerName==november_offer;referrerType==campaign;referrerKeyword==mot_cl%C3%A9_p%C3%A9p%C3%A8re</segment>
+		<Referrers_Campaign>november_offer</Referrers_Campaign>
+		<Referrers_Keyword>mot_clé_pépère</Referrers_Keyword>
 	</row>
 	<row>
 		<label>october_offer - mot_clé_pépère</label>
@@ -127,6 +139,8 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==campaign;referrerName==october_offer;referrerType==campaign;referrerKeyword==mot_cl%C3%A9_p%C3%A9p%C3%A8re</segment>
+		<Referrers_Campaign>october_offer</Referrers_Campaign>
+		<Referrers_Keyword>mot_clé_pépère</Referrers_Keyword>
 	</row>
 	<row>
 		<label>should_be_new_visit</label>
@@ -139,5 +153,6 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==campaign;referrerName==should_be_new_visit</segment>
+		<Referrers_Campaign>should_be_new_visit</Referrers_Campaign>
 	</row>
 </result>

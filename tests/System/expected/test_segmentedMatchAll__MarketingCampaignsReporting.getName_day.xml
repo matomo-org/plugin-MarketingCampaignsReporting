@@ -29,6 +29,9 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>555</revenue>
+		<MarketingCampaignsReporting_CampaignName>ecommerce_campaign</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>ecommerce_keyword - ecommerce_content</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==ecommerce_campaign</segment>
 	</row>
 	<row>
 		<label>campaignnamedimension - no other dimension for this visit</label>
@@ -40,6 +43,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>campaignnamedimension - no other dimension for this visit</MarketingCampaignsReporting_CampaignName>
 		<segment>campaignName==campaignnamedimension+-+no+other+dimension+for+this+visit</segment>
 	</row>
 	<row>
@@ -52,6 +56,9 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>campaign_hashed</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword from #hash tag parameter</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==campaign_hashed</segment>
 	</row>
 	<row>
 		<label>campaign_with_two_goals_conversions</label>
@@ -76,6 +83,7 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>4444</revenue>
+		<MarketingCampaignsReporting_CampaignName>campaign_with_two_goals_conversions</MarketingCampaignsReporting_CampaignName>
 		<segment>campaignName==campaign_with_two_goals_conversions</segment>
 	</row>
 	<row>
@@ -88,6 +96,9 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>default_offer</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>not_an_advanced_campaign_at_first</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==default_offer</segment>
 	</row>
 	<row>
 		<label>lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;nam - lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;k</label>
@@ -99,6 +110,9 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;nam</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;k</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22nam</segment>
 	</row>
 	<row>
 		<label>november_offer - mot_clé_pépère - contains personalized campaigns for client</label>
@@ -110,6 +124,9 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>november_offer</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>mot_clé_pépère - contains personalized campaigns for client</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==november_offer</segment>
 	</row>
 	<row>
 		<label>october_offer - mot_clé_pépère - none</label>
@@ -121,6 +138,9 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>october_offer</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>mot_clé_pépère - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==october_offer</segment>
 	</row>
 	<row>
 		<label>should_be_new_visit</label>
@@ -132,6 +152,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>should_be_new_visit</MarketingCampaignsReporting_CampaignName>
 		<segment>campaignName==should_be_new_visit</segment>
 	</row>
 </result>

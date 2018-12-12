@@ -29,6 +29,8 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>555</revenue>
+		<MarketingCampaignsReporting_CampaignSourceMedium>ecommerce_source - ecommerce_medium</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>ecommerce_campaign</MarketingCampaignsReporting_CampaignName>
 	</row>
 	<row>
 		<label>lenghty &quot;source&quot;...lenghty &quot;source&quot;...lenghty &quot;source&quot;... - lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;nam</label>
@@ -40,6 +42,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>lenghty &quot;source&quot;...lenghty &quot;source&quot;...lenghty &quot;source&quot;...</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;nam</MarketingCampaignsReporting_CampaignName>
 	</row>
 	<row>
 		<label>newsletter_6 - email - october_offer</label>
@@ -51,6 +55,8 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_6 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>october_offer</MarketingCampaignsReporting_CampaignName>
 	</row>
 	<row>
 		<label>newsletter_7 - email - november_offer</label>
@@ -62,5 +68,7 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_7 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>november_offer</MarketingCampaignsReporting_CampaignName>
 	</row>
 </result>
