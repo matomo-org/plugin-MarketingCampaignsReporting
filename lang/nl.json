@@ -10,10 +10,10 @@
         "CampaignId": "Campagne Id",
         "CombinedKeywordContent": "Sleutelwoord - inhoud",
         "Names": "Campagne Namen",
-        "Keywords": "Campagne Zoekwoorden",
+        "Keywords": "Campagne Sleutelwoorden",
         "Sources": "Campagne Bronnen",
         "Mediums": "Campagne Media",
-        "Contents": "Inhoud campagne",
+        "Contents": "Campagne Inhoud",
         "CombinedSourcesMediums": "Campagne Bron - Medium"
     }
 }
