@@ -13,6 +13,7 @@ use Piwik\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\MarketingCampaignsReporting\tests\Fixtures\TrackAdvancedCampaigns;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Version;
 
 /**
  * @group MarketingCampaignsReporting
@@ -79,6 +80,12 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         $api         = array(
             'MarketingCampaignsReporting'
         );
+
+        $columnsToHide = '';
+        if (version_compare(Version::VERSION, '3.8.0-b4', '<')) {
+            $columnsToHide = 'MarketingCampaignsReporting_CampaignName,MarketingCampaignsReporting_CampaignContent,MarketingCampaignsReporting_CampaignMedium,MarketingCampaignsReporting_CombinedKeywordContent,MarketingCampaignsReporting_CampaignSource,MarketingCampaignsReporting_CampaignSourceMedium,segment';
+        }
+
         $apiToTest[] = array(
             $api,
             array(
@@ -96,7 +103,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'flat',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
             )
         );
         $apiToTest[] = array(
@@ -107,7 +114,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'                => array('day'),
                 'testSuffix'             => 'segmentedMatchAll',
                 'segment'                => 'campaignName!=test;campaignKeyword!=test;campaignSource!=test;campaignMedium!=test;campaignContent!=test;campaignId!=test',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
             )
         );
         $apiToTest[] = array(
@@ -118,7 +125,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'                => array('day'),
                 'testSuffix'             => 'segmentedMatchNone',
                 'segment'                => 'campaignName==test,campaignKeyword==test,campaignSource==test,campaignMedium==test,campaignContent==test,campaignId==test',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
             )
         );
 
@@ -179,6 +186,12 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         $api         = array(
             'Referrers.getCampaigns',
         );
+
+        $columnsToHide = '';
+        if (version_compare(Version::VERSION, '3.8.0-b4', '<')) {
+            $columnsToHide = 'Referrers_Campaign,Referrers_Keyword';
+        }
+
         $apiToTest[] = array(
             $api,
             array(
@@ -196,7 +209,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'flat',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
             )
         );
 
