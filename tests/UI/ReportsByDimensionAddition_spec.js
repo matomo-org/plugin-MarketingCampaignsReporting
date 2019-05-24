@@ -16,21 +16,21 @@ describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
         goalsUrl = urlPrefix + withVisitsParams + "#?category=Goals_Goals&subcategory=General_Overview" + withVisitsParams,
         ecommerceUrl = urlPrefix + withVisitsParams + "#?category=Goals_Ecommerce&subcategory=Ecommerce_Sales" + withVisitsParams;
 
-    it("should load correctly within the Goals page", function (done) {
-        expect.screenshot("loaded_goals").to.be.captureSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer', function (page) {
-            page.load(goalsUrl);
-            page.evaluate(function () {
-                $('.dimensionCategory .dimension:contains(Campaign Names)').click();
-            });
-        }, done);
+    it("should load correctly within the Goals page", async function () {
+        await page.goto(goalsUrl);
+        await page.evaluate(function () {
+            $('.dimensionCategory .dimension:contains(Campaign Names)').click();
+        });
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer')).to.matchImage('loaded_goals');
     });
 
-    it("should load correctly within the Ecommerce page", function (done) {
-        expect.screenshot("loaded_ecommerce").to.be.captureSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer', function (page) {
-            page.load(ecommerceUrl);
-            page.evaluate(function () {
-                $('.dimensionCategory .dimension:contains(Campaign Names)').click();
-            });
-        }, done);
+    it("should load correctly within the Ecommerce page", async function () {
+        await page.goto(ecommerceUrl);
+        await page.evaluate(function () {
+            $('.dimensionCategory .dimension:contains(Campaign Names)').click();
+        });
+        await page.waitForNetworkIdle();
+        expect(await page.screenshotSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer')).to.matchImage('loaded_ecommerce');
     });
 });
