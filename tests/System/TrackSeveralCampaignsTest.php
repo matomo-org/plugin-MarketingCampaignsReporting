@@ -68,14 +68,16 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         $dateWithPluginEnabled = self::$fixture->dateTimeWithPluginEnabled;
         $dateTime              = self::$fixture->dateTime;
 
-        $apiToTest[] = array(
-            'API.get',
-            array(
-                'idSite'  => self::$fixture->idSite,
-                'date'    => $dateWithPluginEnabled,
-                'periods' => array('day'),
-            )
-        );
+        if (version_compare(Version::VERSION, '3.8.0-b4', '>')) {
+            $apiToTest[] = array(
+                'API.get',
+                array(
+                    'idSite'  => self::$fixture->idSite,
+                    'date'    => $dateWithPluginEnabled,
+                    'periods' => array('day'),
+                )
+            );
+        }
 
         $api         = array(
             'MarketingCampaignsReporting'
@@ -83,7 +85,16 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         $columnsToHide = '';
         if (version_compare(Version::VERSION, '3.8.0-b4', '<')) {
-            $columnsToHide = 'MarketingCampaignsReporting_CampaignName,MarketingCampaignsReporting_CampaignContent,MarketingCampaignsReporting_CampaignMedium,MarketingCampaignsReporting_CombinedKeywordContent,MarketingCampaignsReporting_CampaignSource,MarketingCampaignsReporting_CampaignSourceMedium,segment';
+            $columnsToHide = [
+                'MarketingCampaignsReporting_CampaignName',
+                'MarketingCampaignsReporting_CampaignContent',
+                'MarketingCampaignsReporting_CampaignMedium',
+                'MarketingCampaignsReporting_CampaignKeyword',
+                'MarketingCampaignsReporting_CombinedKeywordContent',
+                'MarketingCampaignsReporting_CampaignSource',
+                'MarketingCampaignsReporting_CampaignSourceMedium',
+                'segment'
+            ];
         }
 
         $apiToTest[] = array(
@@ -103,7 +114,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'flat',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
+                'xmlFieldsToRemove'      => $columnsToHide
             )
         );
         $apiToTest[] = array(
@@ -114,7 +126,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'                => array('day'),
                 'testSuffix'             => 'segmentedMatchAll',
                 'segment'                => 'campaignName!=test;campaignKeyword!=test;campaignSource!=test;campaignMedium!=test;campaignContent!=test;campaignId!=test',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
+                'xmlFieldsToRemove'      => $columnsToHide
             )
         );
         $apiToTest[] = array(
@@ -125,7 +138,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'                => array('day'),
                 'testSuffix'             => 'segmentedMatchNone',
                 'segment'                => 'campaignName==test,campaignKeyword==test,campaignSource==test,campaignMedium==test,campaignContent==test,campaignId==test',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
+                'xmlFieldsToRemove'      => $columnsToHide
             )
         );
 
@@ -187,9 +201,9 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             'Referrers.getCampaigns',
         );
 
-        $columnsToHide = '';
+        $columnsToHide = [];
         if (version_compare(Version::VERSION, '3.8.0-b4', '<')) {
-            $columnsToHide = 'Referrers_Campaign,Referrers_Keyword';
+            $columnsToHide = ['Referrers_Campaign', 'Referrers_Keyword'];
         }
 
         $apiToTest[] = array(
@@ -209,7 +223,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'flat',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0, 'hideColumns' => $columnsToHide)
+                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
+                'xmlFieldsToRemove'      => $columnsToHide
             )
         );
 
