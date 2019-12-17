@@ -26,7 +26,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         );
 
         foreach ($fields as $name => $field) {
-            $visitor[$name] = $this->details[$field];
+            $visitor[$name] = empty($this->details[$field]) ? '' : $this->details[$field];
         }
     }
 
