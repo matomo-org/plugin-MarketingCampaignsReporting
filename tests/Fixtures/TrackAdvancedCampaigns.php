@@ -97,7 +97,12 @@ class TrackAdvancedCampaigns extends Fixture
         );
     }
 
-    protected function trackFirstVisit_withGoogleAnalyticsParameters(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackFirstVisit_withGoogleAnalyticsParameters($t, $dateTime)
     {
         $this->moveTimeForward($t, 0.1, $dateTime);
         $t->setUrl('http://example.com/?utm_campaign=November_Offer&utm_term=Mot_clé_PÉPÈRE&utm_source=newsletter_7&utm_content=contains personalized campaigns for client&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM');
@@ -111,7 +116,12 @@ class TrackAdvancedCampaigns extends Fixture
 
     }
 
-    protected function trackSecondVisit_withPiwikCampaignParameters(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackSecondVisit_withPiwikCampaignParameters($t, $dateTime)
     {
         $this->moveTimeForward($t, 2, $dateTime);
         $url = $this->getLandingUrlWithCampaignParams(
@@ -126,14 +136,24 @@ class TrackAdvancedCampaigns extends Fixture
         self::checkResponse($t->doTrackPageView('Coming back with another campaign'));
     }
 
-    protected function trackThirdVisit_withStandardCampaignOnly(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackThirdVisit_withStandardCampaignOnly($t, $dateTime)
     {
         $this->moveTimeForward($t, 4, $dateTime);
         $t->setUrl('http://example.com/?piwik_campaign=Default_Offer&piwik_kwd=Not_An_Advanced_Campaign_At_first');
         self::checkResponse($t->doTrackPageView('Coming back with a basic non advanced campaign which will be counted as advanced anyway. Kaboom.'));
     }
 
-    protected function trackFourthVisit_withDimensionsInUrlHash(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackFourthVisit_withDimensionsInUrlHash($t, $dateTime)
     {
         // using piwik_campaign and piwik_keyword will not be detected as advanced campaign
         // this will help us verify that when a "basic campaign" is detected, it is copied over the advanced campaign
@@ -144,14 +164,24 @@ class TrackAdvancedCampaigns extends Fixture
         self::checkResponse($t->doTrackPageView('Campaign dimensions are found in the landing page #hash tag'));
     }
 
-    protected function trackFifthVisit_withCampaignNameOnly(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackFifthVisit_withCampaignNameOnly($t, $dateTime)
     {
         $this->moveTimeForward($t, 6, $dateTime);
         $t->setUrl('http://example.com/homepage?pk_campaign=CampaignNameDimension - No Other Dimension for this visit' );
         self::checkResponse($t->doTrackPageView('Campaign dimensions are found in the landing page #hash tag'));
     }
 
-    protected function trackSixthVisit_withSuperLongLabels(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackSixthVisit_withSuperLongLabels($t, $dateTime)
     {
         $this->moveTimeForward($t, 7, $dateTime);
 
@@ -168,7 +198,12 @@ class TrackAdvancedCampaigns extends Fixture
     }
 
 
-    protected function trackSeventhVisit_withGoalConversion(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackSeventhVisit_withGoalConversion($t, $dateTime)
     {
         $this->moveTimeForward($t, 8, $dateTime);
         $t->setUrl('http://example.com/homepage?pk_campaign=Campaign_with_two_goals_conversions' );
@@ -185,13 +220,23 @@ class TrackAdvancedCampaigns extends Fixture
         self::checkResponse($t->doTrackGoal($this->idGoal2, 3333));
     }
 
-    protected function trackEigthVisit_withEcommerceAbandonedCart(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackEigthVisit_withEcommerceAbandonedCart($t, $dateTime)
     {
         $hourOffset = 9;
         $this->track_ecommerceCartUpdate($t, $hourOffset, $dateTime);
     }
 
-    protected function trackNinthVisit_withEcommerceOrder(\PiwikTracker $t, $dateTime)
+    /**
+     * @param \MatomoTracker $t
+     * @param $dateTime
+     * @throws \Exception
+     */
+    protected function trackNinthVisit_withEcommerceOrder($t, $dateTime)
     {
         $hourOffset = 10;
         $this->track_ecommerceCartUpdate($t, $hourOffset, $dateTime);
@@ -203,10 +248,12 @@ class TrackAdvancedCampaigns extends Fixture
     }
 
     /**
-     * @param \PiwikTracker $t
+     * @param \MatomoTracker $t
      * @param $hourOffset
+     * @param $dateTime
+     * @throws \Exception
      */
-    protected function track_ecommerceCartUpdate(\PiwikTracker $t, $hourOffset, $dateTime)
+    protected function track_ecommerceCartUpdate($t, $hourOffset, $dateTime)
     {
         $this->moveTimeForward($t, $hourOffset, $dateTime);
         $url = $this->getLandingUrlWithCampaignParams(
@@ -227,11 +274,12 @@ class TrackAdvancedCampaigns extends Fixture
     }
 
     /**
-     * @param \PiwikTracker $t
+     * @param \MatomoTracker $t
      * @param $hourForward
+     * @param $dateTime
      * @throws \Exception
      */
-    protected function moveTimeForward(\PiwikTracker $t, $hourForward, $dateTime)
+    protected function moveTimeForward($t, $hourForward, $dateTime)
     {
         $t->setForceVisitDateTime(Date::factory($dateTime)->addHour($hourForward)->getDatetime());
     }
