@@ -28,7 +28,7 @@ class MarketingCampaignsReporting extends \Piwik\Plugin
     public static $CAMPAIGN_CONTENT_FIELD_DEFAULT_URL_PARAMS = array('pk_content', 'utm_content');
     public static $CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS      = array('pk_cid', 'utm_id');
 
-    public function getListHooksRegistered()
+    public function registerEvents()
     {
         return array(
             'Tracker.PageUrl.getQueryParametersToExclude' => 'getQueryParametersToExclude',
