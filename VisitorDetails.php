@@ -49,6 +49,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         $view           = new View('@MarketingCampaignsReporting/visitorDetails');
+        $view->sendHeadersWhenRendering = false;
         $view->campaign = $campaignData;
         return [[ 30, $view->render() ]];
     }
