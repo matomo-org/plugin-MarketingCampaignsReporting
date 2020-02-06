@@ -3,6 +3,17 @@
         "Title": "Campañas",
         "Name": "Nombre",
         "Keyword": "Palabra clave",
-        "Source": "Fuente"
+        "Source": "Fuente",
+        "Medium": "Medio",
+        "Content": "Contenido",
+        "CombinedSourceMedium": "Fuente - Medio",
+        "CampaignId": "Identificador de campaña",
+        "CombinedKeywordContent": "Palabra clave - Contenido",
+        "Names": "Nombres de campaña",
+        "Keywords": "Palabras clave de campaña",
+        "Sources": "Fuentes de campaña",
+        "Mediums": "Medios de campaña",
+        "Contents": "Contenidos de campaña",
+        "CombinedSourcesMediums": "Fuente - Medio de campaña"
     }
 }
