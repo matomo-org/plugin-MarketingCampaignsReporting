@@ -39,7 +39,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
     /** @var \DateTime $testDate */
     private $testDate;
 
-    public function setUp()
+    public function setUp(): void
     {
         $testVars                                    = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $configOverride                              = $testVars->configOverride;
