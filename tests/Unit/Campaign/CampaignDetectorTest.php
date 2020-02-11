@@ -22,7 +22,7 @@ use Piwik\Tracker\Request;
  * @group MarketingCampaignsReporting
  * @group Plugins
  */
-class CampaignDetectorTest extends \PHPUnit_Framework_TestCase
+class CampaignDetectorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideRequestData
