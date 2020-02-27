@@ -23,7 +23,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     const THIS_PAGE_VIEW_IS_GOAL_CONVERSION = 'this is a goal conversion';
 
-    public function setUp()
+    public function setUp(): void
     {
         Piwik\Plugin\Manager::getInstance()->activatePlugin('MarketingCampaignsReporting');
 
@@ -62,7 +62,7 @@ class TrackAdvancedCampaigns extends Fixture
         $this->trackNinthVisit_withEcommerceOrder($t, $dateTime);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // empty
     }
