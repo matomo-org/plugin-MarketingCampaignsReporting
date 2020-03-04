@@ -16,13 +16,21 @@ describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
         goalsUrl = urlPrefix + withVisitsParams + "#?category=Goals_Goals&subcategory=General_Overview" + withVisitsParams,
         ecommerceUrl = urlPrefix + withVisitsParams + "#?category=Goals_Ecommerce&subcategory=Ecommerce_Sales" + withVisitsParams;
 
+    before(async function() {
+        await page.webpage.setViewport({
+            width: 1500,
+            height: 768
+        });
+    });
+
     it("should load correctly within the Goals page", async function () {
         await page.goto(goalsUrl);
         await page.evaluate(function () {
             $('.dimensionCategory .dimension:contains(Campaign Names)').click();
         });
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer')).to.matchImage('loaded_goals');
+        pageWrap = await page.$('.reportsByDimensionView');
+        expect(await pageWrap.screenshot()).to.matchImage('loaded_goals');
     });
 
     it("should load correctly within the Ecommerce page", async function () {
@@ -31,6 +39,7 @@ describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
             $('.dimensionCategory .dimension:contains(Campaign Names)').click();
         });
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector('.reportsByDimensionView,.reportsByDimensionView .reportContainer')).to.matchImage('loaded_ecommerce');
+        pageWrap = await page.$('.reportsByDimensionView');
+        expect(await pageWrap.screenshot()).to.matchImage('loaded_ecommerce');
     });
 });
