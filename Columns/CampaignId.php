@@ -8,21 +8,17 @@
  */
 namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Piwik;
 use Piwik\Plugins\MarketingCampaignsReporting\Segment;
+use Piwik\Segment\SegmentsList;
 
 class CampaignId extends Base
 {
     protected $columnName = 'campaign_id';
     protected $columnType = 'VARCHAR(100) NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('campaignId');
-        $segment->setName('MarketingCampaignsReporting_CampaignId');
-        $this->addSegment($segment);
-    }
+    protected $segmentName = 'campaignId';
+    protected $nameSingular = 'MarketingCampaignsReporting_CampaignId';
 
     public function getName()
     {
