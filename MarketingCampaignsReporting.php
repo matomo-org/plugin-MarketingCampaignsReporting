@@ -19,7 +19,7 @@ use Piwik\Plugins\Referrers\Reports\GetCampaigns;
 /**
  * @package MarketingCampaignsReporting
  */
-class MarketingCampaignsReporting extends \Piwik\Plugin
+class MarketingCampaignsReporting extends Plugin
 {
     public static $CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS    = array('pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
     public static $CAMPAIGN_KEYWORD_FIELD_DEFAULT_URL_PARAMS = array('pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term');

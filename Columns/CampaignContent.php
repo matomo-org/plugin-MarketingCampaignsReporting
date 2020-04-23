@@ -8,24 +8,10 @@
  */
 namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
-use Piwik\Piwik;
-use Piwik\Plugins\MarketingCampaignsReporting\Segment;
-
 class CampaignContent extends Base
 {
     protected $columnName = 'campaign_content';
     protected $columnType = 'VARCHAR(255) NULL';
-
-    protected function configureSegments()
-    {
-        $segment = new Segment();
-        $segment->setSegment('campaignContent');
-        $segment->setName('MarketingCampaignsReporting_Content');
-        $this->addSegment($segment);
-    }
-
-    public function getName()
-    {
-        return Piwik::translate('MarketingCampaignsReporting_Content');
-    }
+    protected $segmentName = 'campaignContent';
+    protected $nameSingular = 'MarketingCampaignsReporting_Content';
 }
