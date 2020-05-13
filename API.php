@@ -32,6 +32,13 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    public function getId($idSite, $period, $date, $segment = false)
+    {
+        $dataTable = $this->getDataTable(Archiver::CAMPAIGN_ID_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
+        return $dataTable;
+    }
+
     public function getName($idSite, $period, $date, $segment = false, $expanded = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
