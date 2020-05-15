@@ -74,15 +74,15 @@ If you configure any campaign parameter this configuration will overwrite defaul
 
 ```
 [MarketingCampaignsReporting]
-campaign_name = "pk_campaign,piwik_campaign,pk_cpn,utm_campaign"
-campaign_keyword = "pk_keyword,piwik_kwd,pk_kwd,utm_term"
+campaign_name = "pk_campaign,matomo_campaign,pk_cpn,utm_campaign"
+campaign_keyword = "pk_keyword,matomo_kwd,pk_kwd,utm_term"
 campaign_source = "pk_source,utm_source"
 campaign_medium = "pk_medium,utm_medium"
 campaign_content = "pk_content,utm_content"
 campaign_id = "pk_cid,utm_id"
 ```
 
-For example, by default parameter `campaign_name` track following parameters if they are found in URL: `'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign'`. If you configure `campaign_name` like this `campaign_name="pk_campaign,custom_name_parameter"`, then parameter `campaign_name` will detect only presence of `pk_campaign` and `custom_name_parameter` in URL. `piwik_campaign`, `pk_cpn`, `utm_campaign` will be ignored until they are present in config.  
+For example, by default parameter `campaign_name` track following parameters if they are found in URL: `'pk_campaign', 'matomo_campaign', 'pk_cpn', 'utm_campaign'`. If you configure `campaign_name` like this `campaign_name="pk_campaign,custom_name_parameter"`, then parameter `campaign_name` will detect only presence of `pk_campaign` and `custom_name_parameter` in URL. `matomo_campaign`, `pk_cpn`, `utm_campaign` will be ignored until they are present in config.
 
 
 ## Changelog

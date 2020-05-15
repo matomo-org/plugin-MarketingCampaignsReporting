@@ -128,8 +128,8 @@ class CampaignDetectorTest extends \PHPUnit\Framework\TestCase
     public function getCampaignParameters()
     {
         return [
-            (new CampaignName())->getColumnName()    => ['pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign'],
-            (new CampaignKeyword())->getColumnName() => ['pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term'],
+            (new CampaignName())->getColumnName()    => ['pk_campaign', 'piwik_campaign', 'matomo_campaign', 'pk_cpn', 'utm_campaign'],
+            (new CampaignKeyword())->getColumnName() => ['pk_keyword', 'piwik_kwd', 'matomo_kwd', 'pk_kwd', 'utm_term'],
             (new CampaignSource())->getColumnName()  => ['pk_source', 'utm_source'],
             (new CampaignMedium())->getColumnName()  => ['pk_medium', 'utm_medium'],
             (new CampaignContent())->getColumnName() => ['pk_content', 'utm_content'],

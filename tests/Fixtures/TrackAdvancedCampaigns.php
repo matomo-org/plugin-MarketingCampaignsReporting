@@ -144,7 +144,7 @@ class TrackAdvancedCampaigns extends Fixture
     protected function trackThirdVisit_withStandardCampaignOnly($t, $dateTime)
     {
         $this->moveTimeForward($t, 4, $dateTime);
-        $t->setUrl('http://example.com/?piwik_campaign=Default_Offer&piwik_kwd=Not_An_Advanced_Campaign_At_first');
+        $t->setUrl('http://example.com/?matomo_campaign=Default_Offer&matomo_kwd=Not_An_Advanced_Campaign_At_first');
         self::checkResponse($t->doTrackPageView('Coming back with a basic non advanced campaign which will be counted as advanced anyway. Kaboom.'));
     }
 
@@ -155,7 +155,7 @@ class TrackAdvancedCampaigns extends Fixture
      */
     protected function trackFourthVisit_withDimensionsInUrlHash($t, $dateTime)
     {
-        // using piwik_campaign and piwik_keyword will not be detected as advanced campaign
+        // using matomo_campaign and matomo_keyword will not be detected as advanced campaign
         // this will help us verify that when a "basic campaign" is detected, it is copied over the advanced campaign
         $this->moveTimeForward($t, 5, $dateTime);
         $baseUrl = 'http://example.com/homepage?utm_content=THIS_CAMPAIGN_CONTENT_SHOULD_NOT_BE_TRACKED';
