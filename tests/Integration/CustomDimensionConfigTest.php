@@ -44,12 +44,12 @@ class CustomDimensionConfigTest extends IntegrationTestCase
         $testVars                                    = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $configOverride                              = $testVars->configOverride;
         $configOverride['MarketingCampaignsReporting'] = [
-            (new CampaignName())->getColumnName()    => 'pk_campaign,custom_name_parameter',
-            (new CampaignKeyword())->getColumnName() => 'pk_keyword,custom_keyword_parameter',
-            (new CampaignSource())->getColumnName()  => 'pk_source,custom_source_parameter',
-            (new CampaignMedium())->getColumnName()  => 'pk_medium,custom_medium_parameter',
-            (new CampaignContent())->getColumnName() => 'pk_content ,custom_content_parameter',
-            (new CampaignId())->getColumnName()      => 'pk_id, custom_id_parameter'
+            (new CampaignName())->getColumnName()    => 'mtm_campaign,custom_name_parameter',
+            (new CampaignKeyword())->getColumnName() => 'mtm_keyword,custom_keyword_parameter',
+            (new CampaignSource())->getColumnName()  => 'mtm_source,custom_source_parameter',
+            (new CampaignMedium())->getColumnName()  => 'mtm_medium,custom_medium_parameter',
+            (new CampaignContent())->getColumnName() => 'mtm_content ,custom_content_parameter',
+            (new CampaignId())->getColumnName()      => 'mtm_id, custom_id_parameter'
         ];
         $testVars->configOverride                    = $configOverride;
         $testVars->save();

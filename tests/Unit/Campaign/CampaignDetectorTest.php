@@ -57,7 +57,7 @@ class CampaignDetectorTest extends \PHPUnit\Framework\TestCase
         return [
             'normal query string'                         => [
                 'request'        => $this->createRequestMock(
-                    'http://example.com/?pk_campaign=campName&pk_kwd=sdf1'
+                    'http://example.com/?mtm_campaign=campName&mtm_kwd=sdf1'
                 ),
                 'campaignParams' => $this->getCampaignParameters(),
                 'expectedOutput' => [
@@ -67,7 +67,7 @@ class CampaignDetectorTest extends \PHPUnit\Framework\TestCase
             ],
             'query string behind hash'                    => [
                 'request'        => $this->createRequestMock(
-                    'https://whatever.com/#/category/sub/1?pk_campaign=campName2&pk_kwd=sdf2'
+                    'https://whatever.com/#/category/sub/1?mtm_campaign=campName2&mtm_kwd=sdf2'
                 ),
                 'campaignParams' => $this->getCampaignParameters(),
                 'expectedOutput' => [
@@ -128,12 +128,12 @@ class CampaignDetectorTest extends \PHPUnit\Framework\TestCase
     public function getCampaignParameters()
     {
         return [
-            (new CampaignName())->getColumnName()    => ['pk_campaign', 'piwik_campaign', 'matomo_campaign', 'pk_cpn', 'utm_campaign'],
-            (new CampaignKeyword())->getColumnName() => ['pk_keyword', 'piwik_kwd', 'matomo_kwd', 'pk_kwd', 'utm_term'],
-            (new CampaignSource())->getColumnName()  => ['pk_source', 'utm_source'],
-            (new CampaignMedium())->getColumnName()  => ['pk_medium', 'utm_medium'],
-            (new CampaignContent())->getColumnName() => ['pk_content', 'utm_content'],
-            (new CampaignId())->getColumnName()      => ['pk_cid', 'utm_id'],
+            (new CampaignName())->getColumnName()    => ['mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'utm_campaign'],
+            (new CampaignKeyword())->getColumnName() => ['mtm_keyword', 'matomo_kwd', 'mtm_kwd', 'utm_term'],
+            (new CampaignSource())->getColumnName()  => ['mtm_source', 'utm_source'],
+            (new CampaignMedium())->getColumnName()  => ['mtm_medium', 'utm_medium'],
+            (new CampaignContent())->getColumnName() => ['mtm_content', 'utm_content'],
+            (new CampaignId())->getColumnName()      => ['mtm_cid', 'utm_id'],
         ];
     }
 
