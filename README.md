@@ -19,12 +19,12 @@ To track a campaign, you add special URL parameters to your URLs.
 
 The URL parameters are:
 
-* `pk_campaign` (campaign name such as mailing_2017_03 or Easter_Sale), 
-* `pk_source` (campaign source such as google or facebook), 
-* `pk_medium` (campaign medium such as email or cpc), 
-* `pk_keyword` (campaign keyword), 
-* `pk_content` (campaign content),
-* `pk_cid` (campaign ID code).
+* `mtm_campaign` (campaign name such as mailing_2017_03 or Easter_Sale), 
+* `mtm_source` (campaign source such as google or facebook), 
+* `mtm_medium` (campaign medium such as email or cpc), 
+* `mtm_keyword` (campaign keyword), 
+* `mtm_content` (campaign content),
+* `mtm_cid` (campaign ID code).
 
 If you already have URLs tagged with Google Analytics parameters these are also supported: 
 
@@ -38,7 +38,7 @@ If you already have URLs tagged with Google Analytics parameters these are also 
 For example if your Ad URL or landing page URL is `example.com/offer`, you would track all clicks on this URL by 
 adding one or more of the parameters above: 
 ```
-example.com/offer?pk_campaign=Best-Seller&pk_source=Newsletter_7&pk_medium=email
+example.com/offer?mtm_campaign=Best-Seller&mtm_source=Newsletter_7&mtm_medium=email
 ```
 
 ### Features
@@ -74,15 +74,15 @@ If you configure any campaign parameter this configuration will overwrite defaul
 
 ```
 [MarketingCampaignsReporting]
-campaign_name = "pk_campaign,piwik_campaign,pk_cpn,utm_campaign"
-campaign_keyword = "pk_keyword,piwik_kwd,pk_kwd,utm_term"
-campaign_source = "pk_source,utm_source"
-campaign_medium = "pk_medium,utm_medium"
-campaign_content = "pk_content,utm_content"
-campaign_id = "pk_cid,utm_id"
+campaign_name = "matomo_campaign,mtm_cpn,utm_campaign"
+campaign_keyword = "mtm_keyword,matomo_kwd,mtm_kwd,utm_term"
+campaign_source = "mtm_source,utm_source"
+campaign_medium = "mtm_medium,utm_medium"
+campaign_content = "mtm_content,utm_content"
+campaign_id = "mtm_cid,utm_id"
 ```
 
-For example, by default parameter `campaign_name` track following parameters if they are found in URL: `'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign'`. If you configure `campaign_name` like this `campaign_name="pk_campaign,custom_name_parameter"`, then parameter `campaign_name` will detect only presence of `pk_campaign` and `custom_name_parameter` in URL. `piwik_campaign`, `pk_cpn`, `utm_campaign` will be ignored until they are present in config.  
+For example, by default parameter `campaign_name` track following parameters if they are found in URL: `'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'utm_campaign'`. If you configure `campaign_name` like this `campaign_name="mtm_campaign,custom_name_parameter"`, then parameter `campaign_name` will detect only presence of `mtm_campaign` and `custom_name_parameter` in URL. `matomo_campaign`, `mtm_cpn`, `utm_campaign` will be ignored until they are present in config.
 
 
 ## Changelog
