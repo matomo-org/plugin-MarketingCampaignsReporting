@@ -144,7 +144,7 @@ class TrackAdvancedCampaigns extends Fixture
     protected function trackThirdVisit_withStandardCampaignOnly($t, $dateTime)
     {
         $this->moveTimeForward($t, 4, $dateTime);
-        $t->setUrl('http://example.com/?piwik_campaign=Default_Offer&piwik_kwd=Not_An_Advanced_Campaign_At_first');
+        $t->setUrl('http://example.com/?matomo_campaign=Default_Offer&matomo_kwd=Not_An_Advanced_Campaign_At_first');
         self::checkResponse($t->doTrackPageView('Coming back with a basic non advanced campaign which will be counted as advanced anyway. Kaboom.'));
     }
 
@@ -155,11 +155,11 @@ class TrackAdvancedCampaigns extends Fixture
      */
     protected function trackFourthVisit_withDimensionsInUrlHash($t, $dateTime)
     {
-        // using piwik_campaign and piwik_keyword will not be detected as advanced campaign
+        // using matomo_campaign and matomo_keyword will not be detected as advanced campaign
         // this will help us verify that when a "basic campaign" is detected, it is copied over the advanced campaign
         $this->moveTimeForward($t, 5, $dateTime);
         $baseUrl = 'http://example.com/homepage?utm_content=THIS_CAMPAIGN_CONTENT_SHOULD_NOT_BE_TRACKED';
-        $urlHash = '#pk_campaign=Campaign_Hashed&pk_keyword=' . urlencode('Keyword from #hash tag parameter');
+        $urlHash = '#mtm_campaign=Campaign_Hashed&mtm_keyword=' . urlencode('Keyword from #hash tag parameter');
         $t->setUrl($baseUrl .$urlHash);
         self::checkResponse($t->doTrackPageView('Campaign dimensions are found in the landing page #hash tag'));
     }
@@ -172,7 +172,7 @@ class TrackAdvancedCampaigns extends Fixture
     protected function trackFifthVisit_withCampaignNameOnly($t, $dateTime)
     {
         $this->moveTimeForward($t, 6, $dateTime);
-        $t->setUrl('http://example.com/homepage?pk_campaign=CampaignNameDimension - No Other Dimension for this visit' );
+        $t->setUrl('http://example.com/homepage?mtm_campaign=CampaignNameDimension - No Other Dimension for this visit' );
         self::checkResponse($t->doTrackPageView('Campaign dimensions are found in the landing page #hash tag'));
     }
 
@@ -206,7 +206,7 @@ class TrackAdvancedCampaigns extends Fixture
     protected function trackSeventhVisit_withGoalConversion($t, $dateTime)
     {
         $this->moveTimeForward($t, 8, $dateTime);
-        $t->setUrl('http://example.com/homepage?pk_campaign=Campaign_with_two_goals_conversions' );
+        $t->setUrl('http://example.com/homepage?mtm_campaign=Campaign_with_two_goals_conversions' );
         self::checkResponse($t->doTrackPageView(self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION . ' <-- goal conversion'));
 
         // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
