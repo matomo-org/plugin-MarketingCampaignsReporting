@@ -68,34 +68,20 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         $dateWithPluginEnabled = self::$fixture->dateTimeWithPluginEnabled;
         $dateTime              = self::$fixture->dateTime;
 
-        if (version_compare(Version::VERSION, '3.8.0-b4', '>')) {
-            $apiToTest[] = array(
-                'API.get',
-                array(
-                    'idSite'  => self::$fixture->idSite,
-                    'date'    => $dateWithPluginEnabled,
-                    'periods' => array('day'),
-                )
-            );
-        }
+        $apiToTest[] = array(
+            'API.get',
+            array(
+                'idSite'  => self::$fixture->idSite,
+                'date'    => $dateWithPluginEnabled,
+                'periods' => array('day'),
+            )
+        );
 
         $api         = array(
             'MarketingCampaignsReporting'
         );
 
         $columnsToHide = '';
-        if (version_compare(Version::VERSION, '3.8.0-b4', '<')) {
-            $columnsToHide = [
-                'MarketingCampaignsReporting_CampaignName',
-                'MarketingCampaignsReporting_CampaignContent',
-                'MarketingCampaignsReporting_CampaignMedium',
-                'MarketingCampaignsReporting_CampaignKeyword',
-                'MarketingCampaignsReporting_CombinedKeywordContent',
-                'MarketingCampaignsReporting_CampaignSource',
-                'MarketingCampaignsReporting_CampaignSourceMedium',
-                'segment'
-            ];
-        }
 
         $apiToTest[] = array(
             $api,
@@ -230,7 +216,6 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         return $apiToTest;
     }
-
 }
 
 TrackSeveralCampaignsTest::$fixture = new TrackAdvancedCampaigns();

@@ -8,7 +8,6 @@
  */
 namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
-
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dimension\VisitDimension;

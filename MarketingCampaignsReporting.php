@@ -108,4 +108,9 @@ class MarketingCampaignsReporting extends Plugin
 
         return $campaignFields;
     }
+
+    public function isTrackerPlugin()
+    {
+        return true;
+    }
 }
