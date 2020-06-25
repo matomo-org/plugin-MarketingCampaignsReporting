@@ -8,11 +8,11 @@
 			<row>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
+				<nb_actions>2</nb_actions>
 				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>0</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
+				<nb_actions_per_visit>2</nb_actions_per_visit>
+				<avg_time_on_site>721</avg_time_on_site>
+				<bounce_rate>0%</bounce_rate>
 			</row>
 		</result>
 		<result date="2013-01-23">
@@ -52,10 +52,12 @@
 			<nb_actions_per_visit>
 				<name>Actions per Visit</name>
 				<min>0</min>
-				<max>1</max>
+				<max>2</max>
 			</nb_actions_per_visit>
 			<avg_time_on_site>
 				<name>Avg. Time on Website</name>
+				<min>0</min>
+				<max>721</max>
 			</avg_time_on_site>
 			<bounce_rate>
 				<name>Bounce Rate</name>

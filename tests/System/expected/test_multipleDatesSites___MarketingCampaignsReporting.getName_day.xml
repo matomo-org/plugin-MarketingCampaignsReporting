@@ -184,11 +184,11 @@
 				<label>november_offer</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
+				<nb_actions>2</nb_actions>
 				<nb_users>0</nb_users>
-				<max_actions>1</max_actions>
-				<sum_visit_length>0</sum_visit_length>
-				<bounce_count>1</bounce_count>
+				<max_actions>2</max_actions>
+				<sum_visit_length>721</sum_visit_length>
+				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<segment>referrerType==campaign;referrerName==november_offer</segment>
 				<subtable>
@@ -196,11 +196,11 @@
 						<label>mot_clé_pépère</label>
 						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
+						<nb_actions>2</nb_actions>
 						<nb_users>0</nb_users>
-						<max_actions>1</max_actions>
-						<sum_visit_length>0</sum_visit_length>
-						<bounce_count>1</bounce_count>
+						<max_actions>2</max_actions>
+						<sum_visit_length>721</sum_visit_length>
+						<bounce_count>0</bounce_count>
 						<nb_visits_converted>0</nb_visits_converted>
 					</row>
 				</subtable>
@@ -229,18 +229,6 @@
 						<nb_visits_converted>0</nb_visits_converted>
 					</row>
 				</subtable>
-			</row>
-			<row>
-				<label>should_be_new_visit</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<max_actions>1</max_actions>
-				<sum_visit_length>0</sum_visit_length>
-				<bounce_count>1</bounce_count>
-				<nb_visits_converted>0</nb_visits_converted>
-				<segment>referrerType==campaign;referrerName==should_be_new_visit</segment>
 			</row>
 		</result>
 		<result date="2013-01-23">

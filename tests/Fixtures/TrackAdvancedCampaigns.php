@@ -108,12 +108,10 @@ class TrackAdvancedCampaigns extends Fixture
         $t->setUrl('http://example.com/?utm_campaign=November_Offer&utm_term=Mot_clé_PÉPÈRE&utm_source=newsletter_7&utm_content=contains personalized campaigns for client&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM');
         self::checkResponse($t->doTrackPageView('Viewing homepage, will be recorded as a visit from Campaign'));
 
-        // Same visit, check campaign is not overwritten and new visit created
+        // Same visit, check campaign is not overwritten and new visit created (only if plugin is activated, as param does not work with core)
         $this->moveTimeForward($t, 0.3, $dateTime);
-        $t->setUrl('http://example.com/sub/page?utm_campaign=SHOULD_BE_NEW_VISIT');
+        $t->setUrl('http://example.com/sub/page?my_campaign=SHOULD_BE_NEW_VISIT');
         self::checkResponse($t->doTrackPageView('Second page view, should not overwrite existing campaign'));
-
-
     }
 
     /**
@@ -308,6 +306,7 @@ class TrackAdvancedCampaigns extends Fixture
                 }),
             )),
 
+            'advanced_campaign_reporting.uri_parameters.campaign_name' => [(new Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName())->getColumnName() => ['mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', 'my_campaign']]
         );
     }
 }
