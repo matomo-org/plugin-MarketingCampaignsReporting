@@ -33,11 +33,11 @@ class RequestProcessor extends Tracker\RequestProcessor
         }
 
         if ($campaignName) {
-            $visitProperties->setProperty('referer_name', substr($campaignName, 0, 70));
+            $visitProperties->setProperty('referer_name', substr($campaignName, 0, 255));
         }
 
-        if ($visitProperties->getProperty($campaignKeyword)) {
-            $visitProperties->setProperty('referer_keyword', substr($campaignKeyword, 0, 70));
+        if ($campaignKeyword) {
+            $visitProperties->setProperty('referer_keyword', substr($campaignKeyword, 0, 255));
         }
     }
 }
