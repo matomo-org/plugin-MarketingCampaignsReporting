@@ -18,7 +18,7 @@ use Piwik\Tracker\Action;
 
 abstract class Base extends VisitDimension
 {
-    protected $category = 'MarketingCampaignsReporting_Title';
+    protected $category = 'Referrers_Referrers';
 
     public function getRequiredVisitFields()
     {

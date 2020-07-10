@@ -1,16 +1,13 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Campaigns",
-
-        "Name": "Name",
-        "Keyword": "Keyword",
-        "Source": "Source",
-        "Medium": "Medium",
-        "Content": "Content",
+        "Name": "Campaign Name",
+        "Keyword": "Campaign Keyword",
+        "Source": "Campaign Source",
+        "Medium": "Campaign Medium",
+        "Content": "Campaign Content",
         "CombinedSourceMedium": "Source - Medium",
         "CampaignId": "Campaign Id",
         "CombinedKeywordContent": "Keyword - Content",
-
         "Names": "Campaign Names",
         "Keywords": "Campaign Keywords",
         "Sources": "Campaign Sources",
@@ -18,6 +15,5 @@
         "Contents": "Campaign Contents",
         "CampaignIds": "Campaign Ids",
         "CombinedSourcesMediums": "Campaign Source - Medium"
-
     }
 }
