@@ -65,6 +65,6 @@
 				<max>100</max>
 			</bounce_rate>
 		</metrics>
-		<dimension>Keyword</dimension>
+		<dimension>Campaign Keyword</dimension>
 	</metadata>
 </result>
