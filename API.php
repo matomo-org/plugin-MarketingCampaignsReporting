@@ -50,8 +50,20 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 
         if ($this->isTableEmpty($dataTable)) {
-            $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
-            $dataTable = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
+            $campaignNames = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false);
+            $row = $campaignNames->getRowFromIdSubDataTable($idSubtable);
+
+            if ($row) {
+                $campaignName = $row->getColumn('label');
+
+                $campaignsDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, false);
+                $campaignRow        = $campaignsDataTable->getRowFromLabel($campaignName);
+
+                if ($campaignRow && $idSubtable = $campaignRow->getIdSubDataTable()) {
+                    $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
+                    $dataTable          = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
+                }
+            }
         }
 
         return $dataTable;
