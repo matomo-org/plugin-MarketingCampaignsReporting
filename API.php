@@ -49,21 +49,33 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 
-        if ($this->isTableEmpty($dataTable)) {
-            $campaignNames = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false);
-            $row = $campaignNames->getRowFromIdSubDataTable($idSubtable);
+        if (!$this->isTableEmpty($dataTable)) {
+            return $dataTable;
+        }
 
-            if ($row) {
-                $campaignName = $row->getColumn('label');
+        // try to load sub table from referrers api. That might work, if the report leading to this subtable was loaded using the referrers api fallback
+        $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
 
-                $campaignsDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, false);
-                $campaignRow        = $campaignsDataTable->getRowFromLabel($campaignName);
+        if (!$this->isTableEmpty($referrersDataTable)) {
+            return $this->mergeDataTableMaps($dataTable, $referrersDataTable);
+        }
 
-                if ($campaignRow && $idSubtable = $campaignRow->getIdSubDataTable()) {
-                    $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
-                    $dataTable          = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
-                }
-            }
+        // if we can't find a subtable report using the id, try fetching the label to search for a subtable
+        $campaignNames = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false);
+        $row = $campaignNames->getRowFromIdSubDataTable($idSubtable);
+
+        if (!$row) {
+            return $dataTable;
+        }
+
+        $campaignName = $row->getColumn('label');
+
+        $campaignsDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, false);
+        $campaignRow        = $campaignsDataTable->getRowFromLabel($campaignName);
+
+        if ($campaignRow && $idSubtable = $campaignRow->getIdSubDataTable()) {
+            $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
+            return $this->mergeDataTableMaps($dataTable, $referrersDataTable);
         }
 
         return $dataTable;
