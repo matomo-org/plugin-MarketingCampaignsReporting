@@ -90,7 +90,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'expanded',
-                'otherRequestParameters' => array('expanded' => 1)
+                'otherRequestParameters' => array('expanded' => 1),
+                'xmlFieldsToRemove'      => $columnsToHide
             )
         );
         $apiToTest[] = array(
@@ -137,6 +138,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'      => 'day',
                 'setDateLastN' => true,
                 'testSuffix'   => 'multipleDatesSites_',
+                'xmlFieldsToRemove' => $columnsToHide
             )
         );
 
@@ -189,7 +191,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         $columnsToHide = [];
         if (version_compare(Version::VERSION, '3.8.0-b4', '<')) {
-            $columnsToHide = ['Referrers_Campaign', 'Referrers_Keyword'];
+            $columnsToHide = ['Referrers_Campaign', 'Referrers_Keyword', 'nb_visits_converted'];
         }
 
         $apiToTest[] = array(
@@ -199,8 +201,9 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'expanded',
-                'otherRequestParameters' => array('expanded' => 1)
-            )
+                'otherRequestParameters' => array('expanded' => 1),
+                'xmlFieldsToRemove'      => $columnsToHide
+           )
         );
         $apiToTest[] = array(
             $api,
