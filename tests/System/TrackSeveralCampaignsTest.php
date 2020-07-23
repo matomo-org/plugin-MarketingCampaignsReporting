@@ -90,7 +90,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'expanded',
-                'otherRequestParameters' => array('expanded' => 1)
+                'otherRequestParameters' => array('expanded' => 1),
+                'xmlFieldsToRemove'      => $columnsToHide
             )
         );
         $apiToTest[] = array(
@@ -137,6 +138,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'      => 'day',
                 'setDateLastN' => true,
                 'testSuffix'   => 'multipleDatesSites_',
+                'xmlFieldsToRemove' => $columnsToHide
             )
         );
 
@@ -205,8 +207,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'                   => $dateWithPluginEnabled,
                 'periods'                => array('day'),
                 'testSuffix'             => 'expanded',
-                'otherRequestParameters' => array('expanded' => 1)
-            )
+                'otherRequestParameters' => array('expanded' => 1),
+           )
         );
         $apiToTest[] = array(
             $api,

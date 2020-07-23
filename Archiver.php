@@ -17,6 +17,7 @@ use Piwik\Metrics;
 
 class Archiver extends \Piwik\Plugin\Archiver
 {
+    const CAMPAIGN_ID_RECORD_NAME = 'MarketingCampaignsReporting_Id';
     const CAMPAIGN_NAME_RECORD_NAME = 'MarketingCampaignsReporting_Name';
     const CAMPAIGN_KEYWORD_RECORD_NAME = 'MarketingCampaignsReporting_Keyword';
     const CAMPAIGN_SOURCE_RECORD_NAME = 'MarketingCampaignsReporting_Source';
@@ -47,6 +48,9 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function getRecordToDimensions()
     {
         return array(
+            self::CAMPAIGN_ID_RECORD_NAME => array(
+                array("campaign_id")
+            ),
             self::CAMPAIGN_NAME_RECORD_NAME => array(
                 array("campaign_name"),
                 array("campaign_keyword", "campaign_content"),
@@ -89,6 +93,7 @@ class Archiver extends \Piwik\Plugin\Archiver
                             "campaign_keyword",
                             "campaign_content",
                             "campaign_source",
+                            "campaign_id",
                             "campaign_medium"
         );
         $this->aggregateFromLogs($dimensions, 'log_visit', 'queryVisitsByDimension', 'sumMetricsVisits', 'sumMetricsVisitsPivot');

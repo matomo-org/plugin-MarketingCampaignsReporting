@@ -16,6 +16,7 @@
         "Sources": "Campaign Sources",
         "Mediums": "Campaign Mediums",
         "Contents": "Campaign Contents",
+        "CampaignIds": "Campaign Ids",
         "CombinedSourcesMediums": "Campaign Source - Medium"
 
     }
