@@ -177,6 +177,17 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             )
         );
 
+        // check that API does not return an error if an subtable id is given that does not exist
+        $apiToTest[] = array(
+            'MarketingCampaignsReporting.getKeywordContentFromNameId',
+            array(
+                'idSite'     => self::$fixture->idSite,
+                'date'       => $dateTime,
+                'period'     => 'month',
+                'otherRequestParameters' => ['idSubtable' => 20],
+            )
+        );
+
         return $apiToTest;
     }
 
@@ -189,11 +200,6 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             'Referrers.getCampaigns',
         );
 
-        $columnsToHide = [];
-        if (version_compare(Version::VERSION, '3.8.0-b4', '<')) {
-            $columnsToHide = ['Referrers_Campaign', 'Referrers_Keyword', 'nb_visits_converted'];
-        }
-
         $apiToTest[] = array(
             $api,
             array(
@@ -202,7 +208,6 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'                => array('day'),
                 'testSuffix'             => 'expanded',
                 'otherRequestParameters' => array('expanded' => 1),
-                'xmlFieldsToRemove'      => $columnsToHide
            )
         );
         $apiToTest[] = array(
@@ -213,7 +218,6 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'periods'                => array('day'),
                 'testSuffix'             => 'flat',
                 'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
-                'xmlFieldsToRemove'      => $columnsToHide
             )
         );
 
