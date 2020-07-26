@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Кампанії",
-        "Name": "Ім'я",
-        "Keyword": "Ключове слово",
-        "Source": "Джерело",
-        "Medium": "Носій",
-        "Content": "Контент",
         "CombinedSourceMedium": "Джерело - Носій",
         "CampaignId": "ID кампанії",
         "CombinedKeywordContent": "Ключове слово - Контент",

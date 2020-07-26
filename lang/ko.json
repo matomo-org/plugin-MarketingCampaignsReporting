@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "캠페인",
-        "Name": "이름",
-        "Keyword": "검색어",
-        "Source": "소스",
-        "Medium": "매체",
-        "Content": "내용",
         "CombinedSourceMedium": "소스 - 매체",
         "CampaignId": "캠페인 아이디",
         "CombinedKeywordContent": "키워드 - 내용",

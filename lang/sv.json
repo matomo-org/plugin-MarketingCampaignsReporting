@@ -1,11 +1,6 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampanjer",
-        "Name": "Namn",
-        "Keyword": "Nyckelord",
-        "Source": "Källa",
-        "Medium": "Medie",
-        "Content": "Innehåll",
+        "Source": "Kampanjkälla",
         "CombinedSourceMedium": "Källa - Medie",
         "CampaignId": "Kampanj-ID",
         "CombinedKeywordContent": "Nyckelord - Innehåll",

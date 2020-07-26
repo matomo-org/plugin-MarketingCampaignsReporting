@@ -1,11 +1,10 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Fushata",
-        "Name": "Emër",
-        "Keyword": "Fjalëkyç",
-        "Source": "Burim",
-        "Medium": "Medium",
-        "Content": "Lëndë",
+        "Name": "Emër Fushate",
+        "Keyword": "Fjalëkyç Fushate",
+        "Source": "Burim Fushate",
+        "Medium": "Mjet Fushate",
+        "Content": "Lëndë Fushate",
         "CombinedSourceMedium": "Burim - Medium",
         "CampaignId": "ID Fushate",
         "CombinedKeywordContent": "Fjalëkyç - Lëndë",
@@ -14,6 +13,7 @@
         "Sources": "Burime Fushatash",
         "Mediums": "Mediume Fushatash",
         "Contents": "Lëndë Fushatash",
+        "CampaignIds": "ID-ra Fushatash",
         "CombinedSourcesMediums": "Burim Fushate - Medium"
     }
 }

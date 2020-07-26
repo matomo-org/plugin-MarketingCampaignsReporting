@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampanjer",
-        "Name": "Navn",
-        "Keyword": "Nøkkelord",
-        "Source": "Kilde",
-        "Medium": "Medium",
-        "Content": "Innhold",
         "CombinedSourceMedium": "Kilde – medium",
         "CampaignId": "Kampanje-ID",
         "CombinedKeywordContent": "Nøkkelord – innhold",

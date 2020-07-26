@@ -1,11 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Campagnes",
-        "Name": "Naam",
-        "Keyword": "Sleutelwoord",
-        "Source": "Bron",
-        "Medium": "Medium",
-        "Content": "Inhoud",
+        "Source": "Campagne Bron",
+        "Medium": "Campagne Medium",
         "CombinedSourceMedium": "Bron - Medium",
         "CampaignId": "Campagne Id",
         "CombinedKeywordContent": "Sleutelwoord - inhoud",

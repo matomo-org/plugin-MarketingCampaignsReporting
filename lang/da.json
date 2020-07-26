@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampagner",
-        "Name": "Navn",
-        "Keyword": "Søgeord",
-        "Source": "Kilde",
-        "Medium": "Medie",
-        "Content": "Indhold",
         "CombinedSourceMedium": "Kilde - medie",
         "CampaignId": "Kampagne Id",
         "CombinedKeywordContent": "Søgeord - Indhold",

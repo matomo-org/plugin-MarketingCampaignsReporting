@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Кампании",
-        "Name": "Име",
-        "Keyword": "Ключова дума",
-        "Source": "Източник",
-        "Medium": "Средно",
-        "Content": "Съдържание",
         "CampaignId": "Номер на кампания",
         "CombinedKeywordContent": "Ключови думи — Съдържание",
         "Names": "Имена на кампанията",

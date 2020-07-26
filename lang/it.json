@@ -1,11 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Campagne",
-        "Name": "Nome",
-        "Keyword": "Keyword",
-        "Source": "Origine",
-        "Medium": "Medium",
-        "Content": "Contenuto",
+        "Source": "Origine Campagna",
+        "Medium": "Mezzo Campagna",
         "CombinedSourceMedium": "Origine - Medium",
         "CampaignId": "Id Campagna",
         "CombinedKeywordContent": "Keyword - Contenuto",
