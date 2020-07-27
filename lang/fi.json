@@ -1,11 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampanjat",
-        "Name": "Nimi",
-        "Keyword": "Avainsana",
-        "Source": "Lähde",
-        "Medium": "Media",
-        "Content": "Sisältö",
+        "Source": "Kampanjan lähde",
+        "Medium": "Kampanjan media",
         "CombinedSourceMedium": "Lähde - media",
         "CampaignId": "Kampanjan ID",
         "CombinedKeywordContent": "Avainsana - sisältö",

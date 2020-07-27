@@ -1,11 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "キャンペーン",
-        "Name": "名前",
-        "Keyword": "キーワード",
-        "Source": "ソース",
-        "Medium": "メディア",
-        "Content": "コンテンツ",
+        "Source": "キャンペーンソース",
+        "Medium": "キャンペーン媒体",
         "CombinedSourceMedium": "ソース‐メディア",
         "CampaignId": "キャンペーン ID",
         "CombinedKeywordContent": "キーワード - コンテンツ",

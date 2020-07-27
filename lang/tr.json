@@ -1,11 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampanyalar",
-        "Name": "Ad",
-        "Keyword": "Anahtar Sözcük",
-        "Source": "Kaynak",
-        "Medium": "Ortam",
-        "Content": "İçerik",
+        "Source": "Kampanya Kaynağı",
+        "Medium": "Kampanya Ortamı",
         "CombinedSourceMedium": "Kaynak - Ortam",
         "CampaignId": "Kampanya Kodu",
         "CombinedKeywordContent": "Anahtar Sözcük - İçerik",

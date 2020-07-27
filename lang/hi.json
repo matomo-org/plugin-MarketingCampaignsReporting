@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "अभियान",
-        "Name": "नाम",
-        "Keyword": "कीवर्ड",
-        "Source": "स्रोत",
-        "Medium": "मध्यम",
-        "Content": "सामग्री",
         "CombinedSourceMedium": "स्रोत - मध्यम",
         "CampaignId": "अभियान आईडी",
         "CombinedKeywordContent": "कीवर्ड - सामग्री",

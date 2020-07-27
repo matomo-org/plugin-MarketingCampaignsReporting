@@ -1,11 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "广告活动",
-        "Name": "名称",
-        "Keyword": "关键词",
-        "Source": "来源",
-        "Medium": "中间",
-        "Content": "内容",
+        "Source": "广告活动源",
+        "Medium": "广告媒体",
         "CombinedSourceMedium": "来源 - 中",
         "CampaignId": "活动ID",
         "CombinedKeywordContent": "关键字 - 内容",

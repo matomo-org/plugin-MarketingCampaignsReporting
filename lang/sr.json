@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampanje",
-        "Name": "Ime",
-        "Keyword": "Ključna reč",
-        "Source": "Izvor",
-        "Medium": "Medium",
-        "Content": "Sadržaj",
         "CombinedSourceMedium": "Izvor - Medium",
         "CampaignId": "ID kampanje",
         "CombinedKeywordContent": "Ključna reč - sadržaj",

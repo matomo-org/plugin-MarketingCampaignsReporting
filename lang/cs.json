@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampaně",
-        "Name": "Jméno",
-        "Keyword": "Klíčové slovo",
-        "Source": "Zdroj",
-        "Medium": "Médium",
-        "Content": "Obsah",
         "CombinedSourceMedium": "Zdroj - médium",
         "CampaignId": "Id kampaně",
         "CombinedKeywordContent": "Klíčové slovo - obsah",

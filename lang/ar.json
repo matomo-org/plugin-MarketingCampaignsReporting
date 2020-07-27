@@ -1,11 +1,5 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "الحملات",
-        "Name": "الاسم",
-        "Keyword": "كلمة دلالية",
-        "Source": "المصدر",
-        "Medium": "الوسيلة",
-        "Content": "المحتوى",
         "CombinedSourceMedium": "المصدر - الوسيلة",
         "CampaignId": "معرّف الحملة",
         "CombinedKeywordContent": "الكلمة الأساسية - المحتوى",
