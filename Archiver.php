@@ -110,7 +110,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected function initDataArrays()
     {
         foreach ($this->getRecordNames() as $record) {
-            $this->arrays[$record] = new Data[];
+            $this->arrays[$record] = new DataArray();
         }
     }
 
