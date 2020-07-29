@@ -2,11 +2,13 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later: https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
+ * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later:
+ * https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting\Campaign;
 
 use Piwik\Common;
@@ -17,15 +19,14 @@ use Piwik\UrlHelper;
 
 class CampaignDetector implements CampaignDetectorInterface
 {
-
     /**
      * @param Request $request
      * @return boolean|array
      */
     public function detectCampaignFromRequest(Request $request, $campaignParameters)
     {
-        $landingUrl = $request->getParam('url');
-        $landingUrl = PageUrl::cleanupUrl($landingUrl);
+        $landingUrl       = $request->getParam('url');
+        $landingUrl       = PageUrl::cleanupUrl($landingUrl);
         $landingUrlParsed = parse_url($landingUrl);
 
         if (!isset($landingUrlParsed['query'])
@@ -34,11 +35,11 @@ class CampaignDetector implements CampaignDetectorInterface
             return false;
         }
 
-        $campaignDimensions = array();
+        $campaignDimensions = [];
 
         // 1) Detect from fragment #hash
         if (isset($landingUrlParsed['fragment'])) {
-            $queryString = $this->extractQueryString($landingUrlParsed['fragment']);
+            $queryString        = $this->extractQueryString($landingUrlParsed['fragment']);
             $campaignDimensions = $this->detectCampaignFromString(
                 $queryString,
                 $campaignParameters
@@ -61,11 +62,11 @@ class CampaignDetector implements CampaignDetectorInterface
      */
     public function detectCampaignFromString($queryString, $campaignParameters)
     {
-        $campaignDimensions = array();
-        foreach($campaignParameters as $sqlField => $requestParams) {
-            foreach($requestParams as $campaignDimensionParam) {
+        $campaignDimensions = [];
+        foreach ($campaignParameters as $sqlField => $requestParams) {
+            foreach ($requestParams as $campaignDimensionParam) {
                 $value = $this->getValueFromQueryString($campaignDimensionParam, $queryString);
-                if(!empty($value)) {
+                if (!empty($value)) {
                     $campaignDimensions[$sqlField] = $value;
                     break 1;
                 }
@@ -102,8 +103,8 @@ class CampaignDetector implements CampaignDetectorInterface
 
         $campaignDimensions = array_intersect_key($visitorInfo, array_flip($campaignFields));
 
-        foreach($campaignDimensions as $key => $value) {
-            if(is_null($value) || $value == '') {
+        foreach ($campaignDimensions as $key => $value) {
+            if (is_null($value) || $value == '') {
                 unset($campaignDimensions[$key]);
             }
         }

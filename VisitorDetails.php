@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting;
 
 use Piwik\Piwik;
@@ -32,7 +33,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderVisitorDetails($visitorDetails)
     {
-        $campaignData = array();
+        $campaignData = [];
         $fields       = array(
             'campaignId'      => Piwik::translate('MarketingCampaignsReporting_CampaignId'),
             'campaignName'    => Piwik::translate('MarketingCampaignsReporting_Name'),
@@ -48,9 +49,9 @@ class VisitorDetails extends VisitorDetailsAbstract
             }
         }
 
-        $view           = new View('@MarketingCampaignsReporting/visitorDetails');
+        $view                           = new View('@MarketingCampaignsReporting/visitorDetails');
         $view->sendHeadersWhenRendering = false;
-        $view->campaign = $campaignData;
-        return [[ 30, $view->render() ]];
+        $view->campaign                 = $campaignData;
+        return [[30, $view->render()]];
     }
 }

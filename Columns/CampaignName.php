@@ -2,10 +2,11 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 use Piwik\Common;
@@ -29,8 +30,8 @@ class CampaignName extends Base
      * If we should create a new visit when the campaign changes, check if the campaign info changed and if so
      * force the tracker to create a new visit.i
      *
-     * @param Request $request
-     * @param Visitor $visitor
+     * @param Request     $request
+     * @param Visitor     $visitor
      * @param Action|null $action
      * @return bool
      */
@@ -76,7 +77,7 @@ class CampaignName extends Base
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
         $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName));
-        $new = isset($information[$infoName]) ? Common::mb_strtolower($information[$infoName]) : false;
+        $new      = isset($information[$infoName]) ? Common::mb_strtolower($information[$infoName]) : false;
 
         $result = $existing != $new;
         if ($result) {

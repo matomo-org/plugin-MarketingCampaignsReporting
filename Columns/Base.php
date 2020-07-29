@@ -6,15 +6,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Tracker\Action;
 
 abstract class Base extends VisitDimension
 {

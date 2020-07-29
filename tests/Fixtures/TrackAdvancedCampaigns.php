@@ -2,16 +2,18 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later: https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
+ * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later:
+ * https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Fixtures;
 
-use Piwik\Tests\Framework\Fixture;
 use Piwik;
 use Piwik\Date;
+use Piwik\Tests\Framework\Fixture;
 
 class TrackAdvancedCampaigns extends Fixture
 {
@@ -99,7 +101,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackFirstVisit_withGoogleAnalyticsParameters($t, $dateTime)
@@ -116,7 +118,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackSecondVisit_withPiwikCampaignParameters($t, $dateTime)
@@ -136,7 +138,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackThirdVisit_withStandardCampaignOnly($t, $dateTime)
@@ -148,7 +150,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackFourthVisit_withDimensionsInUrlHash($t, $dateTime)
@@ -158,25 +160,25 @@ class TrackAdvancedCampaigns extends Fixture
         $this->moveTimeForward($t, 5, $dateTime);
         $baseUrl = 'http://example.com/homepage?utm_content=THIS_CAMPAIGN_CONTENT_SHOULD_NOT_BE_TRACKED';
         $urlHash = '#mtm_campaign=Campaign_Hashed&mtm_keyword=' . urlencode('Keyword from #hash tag parameter');
-        $t->setUrl($baseUrl .$urlHash);
+        $t->setUrl($baseUrl . $urlHash);
         self::checkResponse($t->doTrackPageView('Campaign dimensions are found in the landing page #hash tag'));
     }
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackFifthVisit_withCampaignNameOnly($t, $dateTime)
     {
         $this->moveTimeForward($t, 6, $dateTime);
-        $t->setUrl('http://example.com/homepage?mtm_campaign=CampaignNameDimension - No Other Dimension for this visit' );
+        $t->setUrl('http://example.com/homepage?mtm_campaign=CampaignNameDimension - No Other Dimension for this visit');
         self::checkResponse($t->doTrackPageView('Campaign dimensions are found in the landing page #hash tag'));
     }
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackSixthVisit_withSuperLongLabels($t, $dateTime)
@@ -184,13 +186,13 @@ class TrackAdvancedCampaigns extends Fixture
         $this->moveTimeForward($t, 7, $dateTime);
 
         $multiplier = 20;
-        $name = urlencode(str_repeat('Lenghty "NAME"...', $multiplier));
-        $keyword = urlencode(str_repeat('Lenghty "KEYWORD"...', $multiplier));
-        $source = urlencode(str_repeat('Lenghty "SOURCE"...', $multiplier));
-        $medium = urlencode(str_repeat('Lenghty "MEDIUM"...', $multiplier));
-        $content = urlencode(str_repeat('Lenghty "CONTENT"...', $multiplier));
+        $name       = urlencode(str_repeat('Lenghty "NAME"...', $multiplier));
+        $keyword    = urlencode(str_repeat('Lenghty "KEYWORD"...', $multiplier));
+        $source     = urlencode(str_repeat('Lenghty "SOURCE"...', $multiplier));
+        $medium     = urlencode(str_repeat('Lenghty "MEDIUM"...', $multiplier));
+        $content    = urlencode(str_repeat('Lenghty "CONTENT"...', $multiplier));
         $campaignId = urlencode(str_repeat('Lenghty "CAMPAIGN_ID"...', $multiplier));
-        $url = $this->getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId);
+        $url        = $this->getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId);
         $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Verrrrry long Campaign Dimensions, check they are truncated'));
     }
@@ -198,29 +200,29 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackSeventhVisit_withGoalConversion($t, $dateTime)
     {
         $this->moveTimeForward($t, 8, $dateTime);
-        $t->setUrl('http://example.com/homepage?mtm_campaign=Campaign_with_two_goals_conversions' );
+        $t->setUrl('http://example.com/homepage?mtm_campaign=Campaign_with_two_goals_conversions');
         self::checkResponse($t->doTrackPageView(self::THIS_PAGE_VIEW_IS_GOAL_CONVERSION . ' <-- goal conversion'));
 
         // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
         $this->moveTimeForward($t, 8.1, $dateTime);
-        $t->setUrl('http://example.com/anotherpage' );
+        $t->setUrl('http://example.com/anotherpage');
         self::checkResponse($t->doTrackGoal($this->idGoal1, 1101));
 
         // This should be attributed to the same campaign  Campaign_with_two_goals_conversions
         $this->moveTimeForward($t, 8.2, $dateTime);
-        $t->setUrl('http://example.com/anotherpage' );
+        $t->setUrl('http://example.com/anotherpage');
         self::checkResponse($t->doTrackGoal($this->idGoal2, 3333));
     }
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackEigthVisit_withEcommerceAbandonedCart($t, $dateTime)
@@ -231,7 +233,7 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $dateTime
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function trackNinthVisit_withEcommerceOrder($t, $dateTime)
@@ -247,8 +249,8 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $hourOffset
-     * @param $dateTime
+     * @param                $hourOffset
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function track_ecommerceCartUpdate($t, $hourOffset, $dateTime)
@@ -273,8 +275,8 @@ class TrackAdvancedCampaigns extends Fixture
 
     /**
      * @param \MatomoTracker $t
-     * @param $hourForward
-     * @param $dateTime
+     * @param                $hourForward
+     * @param                $dateTime
      * @throws \Exception
      */
     protected function moveTimeForward($t, $hourForward, $dateTime)
@@ -288,9 +290,10 @@ class TrackAdvancedCampaigns extends Fixture
         return array(
 
             'observers.global' => \DI\add(array(
-                array('Environment.bootstrapped', function () use ($testVars) {
+                array(
+                    'Environment.bootstrapped', function () use ($testVars) {
                     $plugins = Piwik\Config::getInstance()->Plugins['Plugins'];
-                    $index = array_search('MarketingCampaignsReporting', $plugins);
+                    $index   = array_search('MarketingCampaignsReporting', $plugins);
 
                     if ($testVars->_disableMarketingCampaignsReporting) {
                         if ($index !== false) {
@@ -303,7 +306,8 @@ class TrackAdvancedCampaigns extends Fixture
                     }
 
                     Piwik\Config::getInstance()->Plugins['Plugins'] = $plugins;
-                }),
+                }
+                ),
             )),
 
             'advanced_campaign_reporting.uri_parameters.campaign_name' => [(new Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName())->getColumnName() => ['mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', 'my_campaign']]

@@ -16,7 +16,7 @@ describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
         goalsUrl = urlPrefix + withVisitsParams + "#?category=Goals_Goals&subcategory=General_Overview" + withVisitsParams,
         ecommerceUrl = urlPrefix + withVisitsParams + "#?category=Goals_Ecommerce&subcategory=Ecommerce_Sales" + withVisitsParams;
 
-    before(async function() {
+    before(async function () {
         await page.webpage.setViewport({
             width: 1500,
             height: 768

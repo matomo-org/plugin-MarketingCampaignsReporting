@@ -2,11 +2,13 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later: https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
+ * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later:
+ * https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting;
 
 use Piwik\Container\StaticContainer;
@@ -21,12 +23,12 @@ use Piwik\Plugins\Referrers\Reports\GetCampaigns;
  */
 class MarketingCampaignsReporting extends Plugin
 {
-    public static $CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS    = array('mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
+    public static $CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS = array('mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
     public static $CAMPAIGN_KEYWORD_FIELD_DEFAULT_URL_PARAMS = array('mtm_keyword', 'matomo_kwd', 'mtm_kwd', 'pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term');
-    public static $CAMPAIGN_SOURCE_FIELD_DEFAULT_URL_PARAMS  = array('mtm_source', 'pk_source', 'utm_source');
-    public static $CAMPAIGN_MEDIUM_FIELD_DEFAULT_URL_PARAMS  = array('mtm_medium', 'pk_medium', 'utm_medium');
+    public static $CAMPAIGN_SOURCE_FIELD_DEFAULT_URL_PARAMS = array('mtm_source', 'pk_source', 'utm_source');
+    public static $CAMPAIGN_MEDIUM_FIELD_DEFAULT_URL_PARAMS = array('mtm_medium', 'pk_medium', 'utm_medium');
     public static $CAMPAIGN_CONTENT_FIELD_DEFAULT_URL_PARAMS = array('mtm_content', 'pk_content', 'utm_content');
-    public static $CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS      = array('mtm_cid', 'pk_cid', 'utm_id');
+    public static $CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS = array('mtm_cid', 'pk_cid', 'utm_id');
 
     public function registerEvents()
     {
@@ -67,7 +69,7 @@ class MarketingCampaignsReporting extends Plugin
     public function addReportToInsightsOverview(&$reports)
     {
         unset($reports['Referrers_getCampaigns']);
-        $reports['MarketingCampaignsReporting_getName'] = array();
+        $reports['MarketingCampaignsReporting_getName'] = [];
     }
 
     /**
@@ -100,7 +102,7 @@ class MarketingCampaignsReporting extends Plugin
     public static function getAdvancedCampaignFields()
     {
         $dimensions     = Base::getDimensions(new self());
-        $campaignFields = array();
+        $campaignFields = [];
 
         foreach ($dimensions as $dimension) {
             $campaignFields[] = $dimension->getColumnName();

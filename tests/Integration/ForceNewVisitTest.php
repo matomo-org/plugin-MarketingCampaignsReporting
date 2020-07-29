@@ -5,16 +5,17 @@
  * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
 use Piwik\Date;
+use Piwik\Plugins\Live\API as LiveAPI;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignContent;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignId;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignKeyword;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
-use Piwik\Plugins\Live\API as LiveAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 

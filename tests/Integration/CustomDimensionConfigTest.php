@@ -2,13 +2,16 @@
 /**
  * Matomo - free/libre analytics platform
  *
- * @link https://matomo.org
+ * @link    https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
- * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later: https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
+ * Based on code from AdvancedCampaignReporting plugin by Piwik PRO released under GPL v3 or later:
+ * https://github.com/PiwikPRO/plugin-AdvancedCampaignReporting
  */
+
 namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
+use Piwik\Plugins\MarketingCampaignsReporting\API as MarketingCampaignsReportingAPI;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignContent;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignId;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignKeyword;
@@ -16,7 +19,6 @@ use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
 use Piwik\Plugins\SitesManager\API as SitesManager;
-use Piwik\Plugins\MarketingCampaignsReporting\API as MarketingCampaignsReportingAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -41,8 +43,8 @@ class CustomDimensionConfigTest extends IntegrationTestCase
 
     public function setUp(): void
     {
-        $testVars                                    = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
-        $configOverride                              = $testVars->configOverride;
+        $testVars                                      = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
+        $configOverride                                = $testVars->configOverride;
         $configOverride['MarketingCampaignsReporting'] = [
             (new CampaignName())->getColumnName()    => 'mtm_campaign,custom_name_parameter',
             (new CampaignKeyword())->getColumnName() => 'mtm_keyword,custom_keyword_parameter',
@@ -51,7 +53,7 @@ class CustomDimensionConfigTest extends IntegrationTestCase
             (new CampaignContent())->getColumnName() => 'mtm_content ,custom_content_parameter',
             (new CampaignId())->getColumnName()      => 'mtm_id, custom_id_parameter'
         ];
-        $testVars->configOverride                    = $configOverride;
+        $testVars->configOverride                      = $configOverride;
         $testVars->save();
 
         parent::setUp();

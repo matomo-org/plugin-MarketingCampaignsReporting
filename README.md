@@ -1,6 +1,6 @@
 # Marketing Campaigns Reporting
 
-[![Build Status](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting.svg?branch=master)](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting)
+[![Build Status](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting.svg?branch=4.x-dev)](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting)
 
 ## Description
 
@@ -87,6 +87,7 @@ For example, by default parameter `campaign_name` track following parameters if 
 
 ## Changelog
 
+ * 4.0.0 (July 29th 2020) Compatibility with Matomo 4 and translation updates
  * 3.1.1 (June 18th 2018) Rebrand and translation updates
  * 3.1.0 (Sept 5th 2017) Show campaign information in visitor log and profile
  * 3.0.1 (Mar 16th 2017) Enables segmented visitorlog for campaign reports
