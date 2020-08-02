@@ -1,7 +1,10 @@
 {
     "MarketingCampaignsReporting": {
+        "Name": "Kampanya Adı",
+        "Keyword": "Kampanya Anahtar Sözcüğü",
         "Source": "Kampanya Kaynağı",
         "Medium": "Kampanya Ortamı",
+        "Content": "Kampanya İçeriği",
         "CombinedSourceMedium": "Kaynak - Ortam",
         "CampaignId": "Kampanya Kodu",
         "CombinedKeywordContent": "Anahtar Sözcük - İçerik",
@@ -10,6 +13,7 @@
         "Sources": "Kampanya Kaynakları",
         "Mediums": "Kampanya Ortamları",
         "Contents": "Kampanya İçerikleri",
+        "CampaignIds": "Kampanya Kodları",
         "CombinedSourcesMediums": "Kampanya Kaynağı - Ortam"
     }
 }
