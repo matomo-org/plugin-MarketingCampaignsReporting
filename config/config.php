@@ -1,11 +1,11 @@
 <?php
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 
 return [
-    'advanced_campaign_reporting.campaign_detector'               => DI\object(
+    'advanced_campaign_reporting.campaign_detector'               => DI\autowire(
         '\Piwik\Plugins\MarketingCampaignsReporting\Campaign\CampaignDetector'
     ),
     'advanced_campaign_reporting.uri_parameters.campaign_name'    => DI\factory(function (ContainerInterface $c) {
