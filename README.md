@@ -1,6 +1,6 @@
 # Marketing Campaigns Reporting
 
-[![Build Status](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting.svg?branch=4.x-dev)](https://travis-ci.org/matomo-org/plugin-MarketingCampaignsReporting)
+[![Build Status](https://travis-ci.com/matomo-org/plugin-MarketingCampaignsReporting.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/plugin-MarketingCampaignsReporting)
 
 ## Description
 
