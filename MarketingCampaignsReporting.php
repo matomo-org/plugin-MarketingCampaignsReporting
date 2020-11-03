@@ -49,7 +49,7 @@ class MarketingCampaignsReporting extends Plugin
     {
         $tables = \Piwik\DbHelper::getTablesInstalled();
         foreach ($tables as $tableName) {
-            if (strpos($tableName, 'archive_') !== false) {
+            if (strpos($tableName, 'archive_blob_') !== false || strpos($tableName, 'archive_numeric_') !== false) {
                 Db::exec('UPDATE `' . $tableName . '` SET `name`=REPLACE(`name`, \'AdvancedCampaignReporting_\', \'MarketingCampaignsReporting_\') WHERE `name` LIKE \'AdvancedCampaignReporting_%\'');
             }
         }
