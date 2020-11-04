@@ -5,6 +5,8 @@
         "Source": "Campaign Source",
         "Medium": "Campaign Medium",
         "Content": "Campaign Content",
+        "Group": "Campaign Group",
+        "Placement": "Campaign Placement",
         "CombinedSourceMedium": "Source - Medium",
         "CampaignId": "Campaign Id",
         "CombinedKeywordContent": "Keyword - Content",
@@ -13,6 +15,8 @@
         "Sources": "Campaign Sources",
         "Mediums": "Campaign Mediums",
         "Contents": "Campaign Contents",
+        "Groups": "Campaign Groups",
+        "Placements": "Campaign Placements",
         "CampaignIds": "Campaign Ids",
         "CombinedSourcesMediums": "Campaign Source - Medium"
     }

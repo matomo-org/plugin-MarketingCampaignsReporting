@@ -24,6 +24,8 @@ class Archiver extends \Piwik\Plugin\Archiver
     const CAMPAIGN_SOURCE_RECORD_NAME = 'MarketingCampaignsReporting_Source';
     const CAMPAIGN_MEDIUM_RECORD_NAME = 'MarketingCampaignsReporting_Medium';
     const CAMPAIGN_CONTENT_RECORD_NAME = 'MarketingCampaignsReporting_Content';
+    const CAMPAIGN_GROUP_RECORD_NAME = 'MarketingCampaignsReporting_Group';
+    const CAMPAIGN_PLACEMENT_RECORD_NAME = 'MarketingCampaignsReporting_Placement';
 
     const HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME = 'MarketingCampaignsReporting_SourceMedium_Name';
 
@@ -72,6 +74,12 @@ class Archiver extends \Piwik\Plugin\Archiver
                 array("campaign_source", "campaign_medium"),
                 array("campaign_name")
             ),
+            self::CAMPAIGN_GROUP_RECORD_NAME             => array(
+                array("campaign_group"),
+            ),
+            self::CAMPAIGN_PLACEMENT_RECORD_NAME         => array(
+                array("campaign_placement"),
+            ),
         );
     }
 
@@ -96,7 +104,9 @@ class Archiver extends \Piwik\Plugin\Archiver
             "campaign_content",
             "campaign_source",
             "campaign_id",
-            "campaign_medium"
+            "campaign_medium",
+            "campaign_group",
+            "campaign_placement",
         );
         $this->aggregateFromLogs($dimensions, 'log_visit', 'queryVisitsByDimension', 'sumMetricsVisits', 'sumMetricsVisitsPivot');
         $this->aggregateFromLogs($dimensions, 'log_conversion', 'queryConversionsByDimension', 'sumMetricsGoals', 'sumMetricsGoalsPivot');

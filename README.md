@@ -25,6 +25,8 @@ The URL parameters are:
 * `mtm_keyword` (campaign keyword), 
 * `mtm_content` (campaign content),
 * `mtm_cid` (campaign ID code).
+* `mtm_group` (campaign group).
+* `mtm_placement` (campaign placement).
 
 If you already have URLs tagged with Google Analytics parameters these are also supported: 
 
@@ -80,6 +82,8 @@ campaign_source = "mtm_source,utm_source"
 campaign_medium = "mtm_medium,utm_medium"
 campaign_content = "mtm_content,utm_content"
 campaign_id = "mtm_cid,utm_id"
+campaign_group = "mtm_group"
+campaign_placement = "mtm_placement"
 ```
 
 For example, by default parameter `campaign_name` track following parameters if they are found in URL: `'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'utm_campaign'`. If you configure `campaign_name` like this `campaign_name="mtm_campaign,custom_name_parameter"`, then parameter `campaign_name` will detect only presence of `mtm_campaign` and `custom_name_parameter` in URL. `matomo_campaign`, `mtm_cpn`, `utm_campaign` will be ignored until they are present in config.
@@ -87,6 +91,7 @@ For example, by default parameter `campaign_name` track following parameters if 
 
 ## Changelog
 
+ * 4.1.0 (Nov 10th 2020) Additional dimensions for campaign group and placement
  * 4.0.0 (July 29th 2020) Compatibility with Matomo 4 and translation updates
  * 3.1.1 (June 18th 2018) Rebrand and translation updates
  * 3.1.0 (Sept 5th 2017) Show campaign information in visitor log and profile

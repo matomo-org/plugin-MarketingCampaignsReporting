@@ -50,4 +50,18 @@ return [
                 MarketingCampaignsReporting::$CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS
         ];
     }),
+    'advanced_campaign_reporting.uri_parameters.campaign_group'      => DI\factory(function (ContainerInterface $c) {
+        return [
+            (new Columns\CampaignGroup())->getColumnName() => $c->has('ini.MarketingCampaignsReporting.campaign_group') ?
+                array_map('trim', explode(',', $c->get('ini.MarketingCampaignsReporting.campaign_group'))) :
+                MarketingCampaignsReporting::$CAMPAIGN_GROUP_FIELD_DEFAULT_URL_PARAMS
+        ];
+    }),
+    'advanced_campaign_reporting.uri_parameters.campaign_placement'      => DI\factory(function (ContainerInterface $c) {
+        return [
+            (new Columns\CampaignPlacement())->getColumnName() => $c->has('ini.MarketingCampaignsReporting.campaign_placement') ?
+                array_map('trim', explode(',', $c->get('ini.MarketingCampaignsReporting.campaign_placement'))) :
+                MarketingCampaignsReporting::$CAMPAIGN_PLACEMENT_FIELD_DEFAULT_URL_PARAMS
+        ];
+    }),
 ];
