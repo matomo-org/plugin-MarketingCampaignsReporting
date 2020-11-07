@@ -126,6 +126,20 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    public function getGroup($idSite, $period, $date, $segment = false)
+    {
+        $dataTable = $this->getDataTable(Archiver::CAMPAIGN_GROUP_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
+        return $dataTable;
+    }
+
+    public function getPlacement($idSite, $period, $date, $segment = false)
+    {
+        $dataTable = $this->getDataTable(Archiver::CAMPAIGN_PLACEMENT_RECORD_NAME, $idSite, $period, $date, $segment);
+        $dataTable->filter('AddSegmentValue');
+        return $dataTable;
+    }
+
     public function getSourceMedium($idSite, $period, $date, $segment = false, $expanded = false)
     {
         $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);

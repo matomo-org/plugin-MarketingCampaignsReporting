@@ -78,6 +78,15 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             )
         );
 
+        $apiToTest[] = array(
+            'Live.getLastVisitsDetails',
+            array(
+                'idSite'  => self::$fixture->idSite,
+                'date'    => $dateWithPluginEnabled,
+                'periods' => array('day'),
+            )
+        );
+
         $api = array(
             'MarketingCampaignsReporting'
         );

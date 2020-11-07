@@ -24,6 +24,8 @@ class VisitorDetails extends VisitorDetailsAbstract
             'campaignMedium'  => 'campaign_medium',
             'campaignName'    => 'campaign_name',
             'campaignSource'  => 'campaign_source',
+            'campaignGroup'   => 'campaign_group',
+            'campaignPlacement'  => 'campaign_placement',
         );
 
         foreach ($fields as $name => $field) {
@@ -41,6 +43,8 @@ class VisitorDetails extends VisitorDetailsAbstract
             'campaignContent' => Piwik::translate('MarketingCampaignsReporting_Content'),
             'campaignKeyword' => Piwik::translate('MarketingCampaignsReporting_Keyword'),
             'campaignSource'  => Piwik::translate('MarketingCampaignsReporting_Source'),
+            'campaignGroup'  => Piwik::translate('MarketingCampaignsReporting_Group'),
+            'campaignPlacement'  => Piwik::translate('MarketingCampaignsReporting_Placement'),
         );
 
         foreach ($fields as $field => $name) {

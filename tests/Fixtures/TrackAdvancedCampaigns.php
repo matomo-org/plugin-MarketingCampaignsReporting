@@ -76,12 +76,14 @@ class TrackAdvancedCampaigns extends Fixture
      * @param $medium
      * @param $content
      * @param $campaignId
+     * @param $campaignGroup
+     * @param $campaignPlacement
      * @return string
      */
-    protected function getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId)
+    protected function getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId, $campaignGroup, $campaignPlacement)
     {
-        return sprintf('http://example.com/?utm_campaign=%s&utm_term=%s&utm_source=%s&utm_medium=%s&utm_content=%s&utm_id=%s',
-            $name, $keyword, $source, $medium, $content, $campaignId);
+        return sprintf('http://example.com/?utm_campaign=%s&utm_term=%s&utm_source=%s&utm_medium=%s&utm_content=%s&utm_id=%s&mtm_group=%s&mtm_placement=%s',
+            $name, $keyword, $source, $medium, $content, $campaignId, $campaignGroup, $campaignPlacement);
     }
 
     private function setUpWebsite()
@@ -107,7 +109,7 @@ class TrackAdvancedCampaigns extends Fixture
     protected function trackFirstVisit_withGoogleAnalyticsParameters($t, $dateTime)
     {
         $this->moveTimeForward($t, 0.1, $dateTime);
-        $t->setUrl('http://example.com/?utm_campaign=November_Offer&utm_term=Mot_clé_PÉPÈRE&utm_source=newsletter_7&utm_content=contains personalized campaigns for client&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM');
+        $t->setUrl('http://example.com/?utm_campaign=November_Offer&utm_term=Mot_clé_PÉPÈRE&utm_source=newsletter_7&utm_content=contains personalized campaigns for client&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM&mtm_group=Audience%20Group%201&mtm_placement=Google%20Search');
         self::checkResponse($t->doTrackPageView('Viewing homepage, will be recorded as a visit from Campaign'));
 
         // Same visit, check campaign is not overwritten and new visit created (only if plugin is activated, as param does not work with core)
@@ -130,7 +132,9 @@ class TrackAdvancedCampaigns extends Fixture
             $source = 'newsletter_6',
             $medium = 'email',
             $content = 'none',
-            $campaignId = 'CAMPAIGN_ID_KABOOM'
+            $campaignId = 'CAMPAIGN_ID_KABOOM',
+            $campaignGroup = 'Group 1',
+            $campaignPlacement = 'Google Ads'
         );
         $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Coming back with another campaign'));
@@ -192,7 +196,9 @@ class TrackAdvancedCampaigns extends Fixture
         $medium     = urlencode(str_repeat('Lenghty "MEDIUM"...', $multiplier));
         $content    = urlencode(str_repeat('Lenghty "CONTENT"...', $multiplier));
         $campaignId = urlencode(str_repeat('Lenghty "CAMPAIGN_ID"...', $multiplier));
-        $url        = $this->getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId);
+        $campaignGroup = urlencode(str_repeat('Lenghty "CAMPAIGN_GROUP"...', $multiplier));
+        $campaignPlacement = urlencode(str_repeat('Lenghty "CAMPAIGN_TARGET"...', $multiplier));
+        $url        = $this->getLandingUrlWithCampaignParams($name, $keyword, $source, $medium, $content, $campaignId, $campaignGroup, $campaignPlacement);
         $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Verrrrry long Campaign Dimensions, check they are truncated'));
     }
@@ -262,7 +268,9 @@ class TrackAdvancedCampaigns extends Fixture
             $source = 'Ecommerce_source',
             $medium = 'Ecommerce_medium',
             $content = 'Ecommerce_content',
-            $campaignId = 'Ecommmerce_CampaignId'
+            $campaignId = 'Ecommmerce_CampaignId',
+            $campaignGroup = 'Ecommmerce_CampaignGroup',
+            $campaignPlacement = 'Ecommmerce_CampaignPlacement'
         );
         $t->setUrl($url);
         self::checkResponse($t->doTrackPageView('Homepage'));

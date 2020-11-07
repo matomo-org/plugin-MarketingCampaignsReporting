@@ -11,10 +11,12 @@ namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 use Piwik\Date;
 use Piwik\Plugins\Live\API as LiveAPI;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignContent;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignGroup;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignId;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignKeyword;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignPlacement;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -42,12 +44,14 @@ class ForceNewVisitTest extends IntegrationTestCase
         $testVars                                      = new \Piwik\Tests\Framework\TestingEnvironmentVariables();
         $configOverride                                = $testVars->configOverride;
         $configOverride['MarketingCampaignsReporting'] = [
-            (new CampaignName())->getColumnName()    => 'pk_campaign,custom_name_parameter',
-            (new CampaignKeyword())->getColumnName() => 'pk_keyword,custom_keyword_parameter',
-            (new CampaignSource())->getColumnName()  => 'pk_source,custom_source_parameter',
-            (new CampaignMedium())->getColumnName()  => 'pk_medium,custom_medium_parameter',
-            (new CampaignContent())->getColumnName() => 'pk_content,custom_content_parameter',
-            (new CampaignId())->getColumnName()      => 'pk_id,custom_id_parameter'
+            (new CampaignName())->getColumnName()      => 'pk_campaign,custom_name_parameter',
+            (new CampaignKeyword())->getColumnName()   => 'pk_keyword,custom_keyword_parameter',
+            (new CampaignSource())->getColumnName()    => 'pk_source,custom_source_parameter',
+            (new CampaignMedium())->getColumnName()    => 'pk_medium,custom_medium_parameter',
+            (new CampaignContent())->getColumnName()   => 'pk_content,custom_content_parameter',
+            (new CampaignId())->getColumnName()        => 'pk_id,custom_id_parameter',
+            (new CampaignGroup())->getColumnName()     => 'pk_group,custom_group_parameter',
+            (new CampaignPlacement())->getColumnName() => 'pk_placement,custom_placement_parameter',
         ];
         $testVars->configOverride                      = $configOverride;
         $testVars->save();
@@ -96,12 +100,14 @@ class ForceNewVisitTest extends IntegrationTestCase
     public function testTrackingWithSameParameters()
     {
         $url = $this->getUrlForTracking([
-            'pk_campaign' => 'custom name',
-            'pk_keyword'  => 'custom keyword',
-            'pk_source'   => 'custom source',
-            'pk_medium'   => 'custom medium',
-            'pk_content'  => 'custom content',
-            'pk_id'       => 'custom id',
+            'pk_campaign'  => 'custom name',
+            'pk_keyword'   => 'custom keyword',
+            'pk_source'    => 'custom source',
+            'pk_medium'    => 'custom medium',
+            'pk_content'   => 'custom content',
+            'pk_id'        => 'custom id',
+            'pk_group'     => 'custom group',
+            'pk_placement' => 'custom placement',
         ]);
 
         $this->tracker->setUrl($url);
@@ -113,12 +119,14 @@ class ForceNewVisitTest extends IntegrationTestCase
         $this->moveTimeForward(0.05);
 
         $url = $this->getUrlForTracking([
-            'pk_campaign' => 'custom name',
-            'pk_keyword'  => 'custom keyword',
-            'pk_source'   => 'custom source',
-            'pk_medium'   => 'custom medium',
-            'pk_content'  => 'custom content',
-            'pk_id'       => 'custom id',
+            'pk_campaign'  => 'custom name',
+            'pk_keyword'   => 'custom keyword',
+            'pk_source'    => 'custom source',
+            'pk_medium'    => 'custom medium',
+            'pk_content'   => 'custom content',
+            'pk_id'        => 'custom id',
+            'pk_group'     => 'custom group',
+            'pk_placement' => 'custom placement',
         ], 'anotherpage');
 
         $this->tracker->setUrl($url);
@@ -135,12 +143,14 @@ class ForceNewVisitTest extends IntegrationTestCase
     public function testTrackingWithCoreParameters()
     {
         $url = $this->getUrlForTracking([
-            'pk_campaign' => 'custom name',
-            'pk_keyword'  => 'custom keyword',
-            'pk_source'   => 'custom source',
-            'pk_medium'   => 'custom medium',
-            'pk_content'  => 'custom content',
-            'pk_id'       => 'custom id',
+            'pk_campaign'  => 'custom name',
+            'pk_keyword'   => 'custom keyword',
+            'pk_source'    => 'custom source',
+            'pk_medium'    => 'custom medium',
+            'pk_content'   => 'custom content',
+            'pk_id'        => 'custom id',
+            'pk_group'     => 'custom group',
+            'pk_placement' => 'custom placement',
         ]);
 
         $this->tracker->setUrl($url);
@@ -170,12 +180,14 @@ class ForceNewVisitTest extends IntegrationTestCase
     public function testTrackingWithPluginParameters()
     {
         $url = $this->getUrlForTracking([
-            'pk_campaign' => 'custom name',
-            'pk_keyword'  => 'custom keyword',
-            'pk_source'   => 'custom source',
-            'pk_medium'   => 'custom medium',
-            'pk_content'  => 'custom content',
-            'pk_id'       => 'custom id',
+            'pk_campaign'  => 'custom name',
+            'pk_keyword'   => 'custom keyword',
+            'pk_source'    => 'custom source',
+            'pk_medium'    => 'custom medium',
+            'pk_content'   => 'custom content',
+            'pk_id'        => 'custom id',
+            'pk_group'     => 'custom group',
+            'pk_placement' => 'custom placement',
         ]);
 
         $this->tracker->setUrl($url);

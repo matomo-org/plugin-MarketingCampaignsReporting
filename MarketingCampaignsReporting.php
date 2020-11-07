@@ -29,6 +29,8 @@ class MarketingCampaignsReporting extends Plugin
     public static $CAMPAIGN_MEDIUM_FIELD_DEFAULT_URL_PARAMS = array('mtm_medium', 'pk_medium', 'utm_medium');
     public static $CAMPAIGN_CONTENT_FIELD_DEFAULT_URL_PARAMS = array('mtm_content', 'pk_content', 'utm_content');
     public static $CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS = array('mtm_cid', 'pk_cid', 'utm_id');
+    public static $CAMPAIGN_GROUP_FIELD_DEFAULT_URL_PARAMS = array('mtm_group', 'pk_group');
+    public static $CAMPAIGN_PLACEMENT_FIELD_DEFAULT_URL_PARAMS = array('mtm_placement', 'pk_placement');
 
     public function registerEvents()
     {
@@ -83,7 +85,9 @@ class MarketingCampaignsReporting extends Plugin
             StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_source'),
             StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_medium'),
             StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_content'),
-            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_id')
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_id'),
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_group'),
+            StaticContainer::get('advanced_campaign_reporting.uri_parameters.campaign_placement')
         );
     }
 
