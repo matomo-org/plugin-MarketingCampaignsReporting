@@ -5,6 +5,8 @@
         "Source": "Kampanya Kaynağı",
         "Medium": "Kampanya Ortamı",
         "Content": "Kampanya İçeriği",
+        "Group": "Kampanya Grubu",
+        "Placement": "Kampanya Konumlandırması",
         "CombinedSourceMedium": "Kaynak - Ortam",
         "CampaignId": "Kampanya Kodu",
         "CombinedKeywordContent": "Anahtar Sözcük - İçerik",
@@ -13,6 +15,8 @@
         "Sources": "Kampanya Kaynakları",
         "Mediums": "Kampanya Ortamları",
         "Contents": "Kampanya İçerikleri",
+        "Groups": "Kampanya Grubu",
+        "Placements": "Kampanya Konumlandırması",
         "CampaignIds": "Kampanya Kodları",
         "CombinedSourcesMediums": "Kampanya Kaynağı - Ortam"
     }
