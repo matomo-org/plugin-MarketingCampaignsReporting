@@ -1,7 +1,12 @@
 {
     "MarketingCampaignsReporting": {
+        "Name": "Nome Campagna",
+        "Keyword": "Keyword Campagna",
         "Source": "Origine Campagna",
         "Medium": "Mezzo Campagna",
+        "Content": "Contenuto Campagna",
+        "Group": "Gruppo Campagna",
+        "Placement": "Piazzamento Campagna",
         "CombinedSourceMedium": "Origine - Medium",
         "CampaignId": "Id Campagna",
         "CombinedKeywordContent": "Keyword - Contenuto",
@@ -10,6 +15,9 @@
         "Sources": "Origini della Campagna",
         "Mediums": "Media della Campagna",
         "Contents": "Contenuti Campagna",
+        "Groups": "Gruppi Campagna",
+        "Placements": "Piazzamenti Campagna",
+        "CampaignIds": "Id Campagna",
         "CombinedSourcesMediums": "Origine della Campagna - Medium"
     }
 }

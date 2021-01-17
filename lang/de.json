@@ -5,6 +5,8 @@
         "Source": "Kampagnen Herkunftsseite",
         "Medium": "Kampagnen Medium",
         "Content": "Kampagneninhalt",
+        "Group": "Kampagnengruppe",
+        "Placement": "Kampagnenplatzierung",
         "CombinedSourceMedium": "Herkunftsseite - Medium",
         "CampaignId": "Kampagnen-Id",
         "CombinedKeywordContent": "Suchbegriff - Inhalt",
@@ -13,6 +15,8 @@
         "Sources": "Kampagnen Herkunftsseiten",
         "Mediums": "Kampagne Medien",
         "Contents": "Kampagneninhalte",
+        "Groups": "Kampagnengruppen",
+        "Placements": "Kampagnenplatzierungen",
         "CampaignIds": "Kampagnen-IDs",
         "CombinedSourcesMediums": "Kampagne Herkunftsseite - Medium"
     }
