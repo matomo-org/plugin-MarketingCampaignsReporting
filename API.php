@@ -79,7 +79,17 @@ class API extends \Piwik\Plugin\API
         $campaignName = $row->getColumn('label');
 
         $campaignsDataTable = ReferrersAPI::getInstance()->getCampaigns($idSite, $period, $date, $segment, false);
-        $campaignRow        = $campaignsDataTable->getRowFromLabel($campaignName);
+
+        if ($campaignsDataTable instanceof DataTable\Map) {
+            foreach ($campaignsDataTable->getDataTables() as $table) {
+                $campaignRow = $table->getRowFromLabel($campaignName);
+                if ($campaignRow) {
+                    break;
+                }
+            }
+        } else {
+            $campaignRow = $campaignsDataTable->getRowFromLabel($campaignName);
+        }
 
         if ($campaignRow && $idSubtable = $campaignRow->getIdSubDataTable()) {
             $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
