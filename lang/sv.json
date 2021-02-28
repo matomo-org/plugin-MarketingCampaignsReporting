@@ -6,6 +6,7 @@
         "Medium": "Kampanjkälla - Medium",
         "Content": "Kampanjinnehåll",
         "Group": "Kampanjgrupp",
+        "Placement": "Kampanjplacering",
         "CombinedSourceMedium": "Källa - Medie",
         "CampaignId": "Kampanj-ID",
         "CombinedKeywordContent": "Nyckelord - Innehåll",
@@ -15,6 +16,7 @@
         "Mediums": "Kampanjmedie",
         "Contents": "Kampanjinnehåll",
         "Groups": "Kampanjgrupp",
+        "Placements": "Kampanjplaceringar",
         "CampaignIds": "Kampanj-ID",
         "CombinedSourcesMediums": "Kampanjkälla - Medium"
     }
