@@ -84,9 +84,7 @@ class CampaignDetector implements CampaignDetectorInterface
     {
         $valueFromRequest = UrlHelper::getParameterFromQueryString($queryString, $param);
         $valueFromRequest = trim(urldecode($valueFromRequest));
-        if ($param == "mtm_cid") {
-	        $valueFromRequest = $valueFromRequest;
-        } else {
+        if ($param != "mtm_gclid") {
 	        $valueFromRequest = Common::mb_strtolower($valueFromRequest);
         }
         $valueFromRequest = substr($valueFromRequest, 0, 250);
