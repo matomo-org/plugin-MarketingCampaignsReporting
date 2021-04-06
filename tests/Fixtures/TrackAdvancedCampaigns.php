@@ -62,6 +62,7 @@ class TrackAdvancedCampaigns extends Fixture
         $this->trackSeventhVisit_withGoalConversion($t, $dateTime);
         $this->trackEigthVisit_withEcommerceAbandonedCart($t, $dateTime);
         $this->trackNinthVisit_withEcommerceOrder($t, $dateTime);
+        $this->trackTenthVisit_withCampaignInformationInSecondAction($t, $dateTime);
     }
 
     public function tearDown(): void
@@ -251,6 +252,23 @@ class TrackAdvancedCampaigns extends Fixture
         $t->setUrl('http://example.com/cart');
         $t->addEcommerceItem('item SKU', 'item name', 'item category', $price = 111, $qty = 5);
         self::checkResponse($t->doTrackEcommerceOrder('Ecommerce_ORDER_ID_' . $this->orderIndex++, '555'));
+    }
+
+    private function trackTenthVisit_withCampaignInformationInSecondAction(\MatomoTracker $t, $dateTime)
+    {
+        $this->getTestEnvironment()->overrideConfig('Tracker', 'create_new_visit_when_campaign_changes', '0');
+        $this->getTestEnvironment()->save();
+
+        $this->moveTimeForward($t, 12.0, $dateTime);
+        $t->setUrl('http://example.com/');
+        self::checkResponse($t->doTrackPageView('Viewing homepage without campaign, recorded as a visit from Campaign, but...'));
+
+        $this->moveTimeForward($t, 12.1, $dateTime);
+        $t->setUrl('http://example.com/sub/page?mtm_campaign=SHOULD_BE_NEW_VISIT2');
+        $t->setCustomTrackingParameter('abc', '1');
+        self::checkResponse($t->doTrackPageView('Second page view, with campaign, should overwrite referrer information from previous visit'));
+
+        $this->getTestEnvironment()->overrideConfig('Tracker', 'create_new_visit_when_campaign_changes', '1');
     }
 
     /**

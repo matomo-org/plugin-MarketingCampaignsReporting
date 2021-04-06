@@ -69,6 +69,32 @@ abstract class Base extends VisitDimension
         return null;
     }
 
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
+        $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
+
+        $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
+            $request,
+            $campaignParameters
+        );
+
+        if ($this->isCurrentReferrerDirectEntry($visitor)
+            && !empty($campaignDimensions)
+            && array_key_exists($this->getColumnName(), $campaignDimensions)
+        ) {
+            return substr($campaignDimensions[$this->getColumnName()], 0, $this->getColumnName() == 'campaign_id' ? 100 : 255);
+        }
+
+        return false;
+    }
+
+    protected function isCurrentReferrerDirectEntry(Visitor $visitor)
+    {
+        $referrerType = $visitor->getVisitorColumn('referer_type');
+        return $referrerType == Common::REFERRER_TYPE_DIRECT_ENTRY;
+    }
+
     /**
      * @param Request     $request
      * @param Visitor     $visitor
