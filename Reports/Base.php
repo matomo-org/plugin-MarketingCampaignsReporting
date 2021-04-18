@@ -16,6 +16,7 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function init()
     {
         $this->categoryId = 'Referrers_Referrers';
+        $this->onlineGuideUrl = 'https://matomo.org/docs/tracking-campaigns/';
     }
 
     public function configureView(ViewDataTable $view)
