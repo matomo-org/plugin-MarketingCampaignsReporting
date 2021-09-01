@@ -22,7 +22,7 @@ describe("MarketingCampaignsReporting_Reports", function () {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=month&date=2013-01-23#?idSite=1&period=month&date=2013-01-23&category=General_Visitors&subcategory=Live_VisitorLog");
 
         await page.waitForNetworkIdle();
-        await page.waitFor('.dataTableVizVisitorLog');
+        await page.waitForSelector('.dataTableVizVisitorLog');
 
         var report = await page.$('.reporting-page');
         expect(await report.screenshot()).to.matchImage('visitor_log');
