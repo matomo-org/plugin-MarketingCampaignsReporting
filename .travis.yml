@@ -56,7 +56,6 @@ matrix:
         - cd tests/PHPUnit
         - $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
-
 dist: bionic
 
 sudo: false
