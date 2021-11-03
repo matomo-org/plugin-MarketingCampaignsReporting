@@ -30,6 +30,7 @@ class GetSourceMedium extends Base
     public function configureView(ViewDataTable $view)
     {
         parent::configureView($view);
+        $view->config->show_pivot_by_subtable = false;
         $view->config->subtable_controller_action = 'getNameFromSourceMediumId';
     }
 }
