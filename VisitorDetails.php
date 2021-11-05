@@ -49,7 +49,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         foreach ($fields as $field => $name) {
             if (!empty($visitorDetails[$field])) {
-                $campaignData[$name] = $visitorDetails[$field];
+                $campaignData[$name] = html_entity_decode($visitorDetails[$field], ENT_QUOTES, 'UTF-8');
             }
         }
 
