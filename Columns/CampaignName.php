@@ -76,7 +76,7 @@ class CampaignName extends Base
 
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
-        $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName));
+        $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
         $new      = isset($information[$infoName]) ? Common::mb_strtolower($information[$infoName]) : false;
 
         $result = $existing != $new;
