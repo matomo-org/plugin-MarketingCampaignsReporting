@@ -91,21 +91,22 @@ For example, by default parameter `campaign_name` track following parameters if 
 
 ## Changelog
 
- * 4.1.0 (Nov 10th 2020) Additional dimensions for campaign group and placement
- * 4.0.0 (July 29th 2020) Compatibility with Matomo 4 and translation updates
- * 3.1.1 (June 18th 2018) Rebrand and translation updates
- * 3.1.0 (Sept 5th 2017) Show campaign information in visitor log and profile
- * 3.0.1 (Mar 16th 2017) Enables segmented visitorlog for campaign reports
- * 3.0.0 (March 2017) Plugin forked by Piwik team + Renamed + Compatibility with Piwik 3
- * 1.4.0 Added possibility to configure custom campaign parameters names
- * 1.3.1 Better support for campaign parameters behind hash tag (#)
- * 1.3.0 Compatibility with Piwik 2.16.0
- * 1.2.0 (Nov 10th 2015) - Plugin comaptibility with Piwik 2.15.0
- * 1.1.1 (Sept 3rd 2015) - Campaign reports now display your campaign report data even for campaign data before you activated AdvancedCampaignReporting
- * 1.1.0 (July 28th 2015)
- * 1.0.8 (Apr 1st 2015) - Exclude Google Analytics campaign parameters from the Page URLs
- * 1.0.6 (Nov 17th 2014) - Documentation
- * 1.0.5 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
- * 1.0.4 (Nov 4th 2014) - View Goals by Campaign Dimension in the Goals & Ecommerce reports
- * 1.0.3 (Oct 1st 2014) - Released for free on the [Piwik Marketplace](http://plugins.piwik.org/)
+* 4.1.1 (Nov 15th 2021) Fixed deprecation warnings for PHP 8.1
+* 4.1.0 (Nov 10th 2020) Additional dimensions for campaign group and placement
+* 4.0.0 (July 29th 2020) Compatibility with Matomo 4 and translation updates
+* 3.1.1 (June 18th 2018) Rebrand and translation updates
+* 3.1.0 (Sept 5th 2017) Show campaign information in visitor log and profile
+* 3.0.1 (Mar 16th 2017) Enables segmented visitorlog for campaign reports
+* 3.0.0 (March 2017) Plugin forked by Piwik team + Renamed + Compatibility with Piwik 3
+* 1.4.0 Added possibility to configure custom campaign parameters names
+* 1.3.1 Better support for campaign parameters behind hash tag (#)
+* 1.3.0 Compatibility with Piwik 2.16.0
+* 1.2.0 (Nov 10th 2015) - Plugin comaptibility with Piwik 2.15.0
+* 1.1.1 (Sept 3rd 2015) - Campaign reports now display your campaign report data even for campaign data before you activated AdvancedCampaignReporting
+* 1.1.0 (July 28th 2015)
+* 1.0.8 (Apr 1st 2015) - Exclude Google Analytics campaign parameters from the Page URLs
+* 1.0.6 (Nov 17th 2014) - Documentation
+* 1.0.5 (Nov 14th 2014) - Detect new URL parameters: piwik_campaign, pk_cpn and for Keywords: pk_kwd, piwik_keyword
+* 1.0.4 (Nov 4th 2014) - View Goals by Campaign Dimension in the Goals & Ecommerce reports
+* 1.0.3 (Oct 1st 2014) - Released for free on the [Piwik Marketplace](http://plugins.piwik.org/)
 
