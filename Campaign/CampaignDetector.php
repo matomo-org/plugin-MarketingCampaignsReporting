@@ -82,7 +82,7 @@ class CampaignDetector implements CampaignDetectorInterface
      */
     protected function getValueFromQueryString($param, $queryString)
     {
-        $valueFromRequest = UrlHelper::getParameterFromQueryString($queryString, $param);
+        $valueFromRequest = UrlHelper::getParameterFromQueryString($queryString, $param) ?? '';
         $valueFromRequest = trim(urldecode($valueFromRequest));
         $valueFromRequest = Common::mb_strtolower($valueFromRequest);
         $valueFromRequest = substr($valueFromRequest, 0, 250);
