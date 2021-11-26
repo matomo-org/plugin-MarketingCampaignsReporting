@@ -519,6 +519,8 @@
 				
 				<pageId>17</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Verrrrry long Campaign Dimensions, check they are truncated</title>
 				<subtitle>http://example.com/</subtitle>
@@ -652,6 +654,8 @@
 				
 				<pageId>16</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Campaign dimensions are found in the landing page #hash tag</title>
 				<subtitle>http://example.com/homepage</subtitle>
@@ -785,6 +789,8 @@
 				
 				<pageId>15</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Campaign dimensions are found in the landing page #hash tag</title>
 				<subtitle>http://example.com/homepage</subtitle>
@@ -918,6 +924,8 @@
 				
 				<pageId>14</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Coming back with a basic non advanced campaign which will be counted as advanced anyway. Kaboom.</title>
 				<subtitle>http://example.com/</subtitle>
@@ -1051,6 +1059,8 @@
 				
 				<pageId>13</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Coming back with another campaign</title>
 				<subtitle>http://example.com/</subtitle>
@@ -1184,6 +1194,8 @@
 				
 				<pageId>12</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Second page view, should not overwrite existing campaign</title>
 				<subtitle>http://example.com/sub/page</subtitle>
@@ -1317,6 +1329,8 @@
 				
 				<pageId>11</pageId>
 				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Viewing homepage, will be recorded as a visit from Campaign</title>
 				<subtitle>http://example.com/</subtitle>
