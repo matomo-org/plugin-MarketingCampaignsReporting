@@ -1,13 +1,14 @@
 {
     "MarketingCampaignsReporting": {
-        "CombinedSourceMedium": "Kilde – medium",
         "CampaignId": "Kampanje-ID",
         "CombinedKeywordContent": "Nøkkelord – innhold",
-        "Names": "Kampanjenavn",
-        "Keywords": "Kampanjenøkkelord",
-        "Sources": "Kampanjekilder",
-        "Mediums": "Kampanjemedium",
+        "CombinedSourceMedium": "Kilde – medium",
+        "CombinedSourcesMediums": "Kampanjekilde – medium",
         "Contents": "Kampanjeinnhold",
-        "CombinedSourcesMediums": "Kampanjekilde – medium"
+        "Keyword": "Kampanje-nøkkelord",
+        "Keywords": "Kampanjenøkkelord",
+        "Mediums": "Kampanjemedium",
+        "Names": "Kampanjenavn",
+        "Sources": "Kampanjekilder"
     }
 }
