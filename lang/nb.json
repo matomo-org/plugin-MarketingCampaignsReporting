@@ -1,14 +1,23 @@
 {
     "MarketingCampaignsReporting": {
         "CampaignId": "Kampanje-ID",
+        "CampaignIds": "Kampanje-ID-er",
         "CombinedKeywordContent": "Nøkkelord – innhold",
         "CombinedSourceMedium": "Kilde – medium",
         "CombinedSourcesMediums": "Kampanjekilde – medium",
+        "Content": "Kampanjeinnhold",
         "Contents": "Kampanjeinnhold",
+        "Group": "Kampanjegruppe",
+        "Groups": "Kampanjegrupper",
         "Keyword": "Kampanje-nøkkelord",
         "Keywords": "Kampanjenøkkelord",
+        "Medium": "Kampanjemedium",
         "Mediums": "Kampanjemedium",
+        "Name": "Kampanjenavn",
         "Names": "Kampanjenavn",
+        "Placement": "Kampanjeplassering",
+        "Placements": "Kampanjeplasseringer",
+        "Source": "Kampanjekilde",
         "Sources": "Kampanjekilder"
     }
 }
