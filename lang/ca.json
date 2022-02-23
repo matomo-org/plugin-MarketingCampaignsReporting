@@ -1,10 +1,23 @@
 {
     "MarketingCampaignsReporting": {
-        "CombinedSourceMedium": "Font - Mig",
         "CampaignId": "Id de Campanya",
+        "CampaignIds": "Identificadors de campanya",
         "CombinedKeywordContent": "Paraula clau - Contingut",
-        "Keywords": "Paraules clau de campanya",
+        "CombinedSourceMedium": "Font - Mig",
+        "CombinedSourcesMediums": "Font de campanya - Mig",
+        "Content": "Contingut de la campanya",
         "Contents": "Continguts de campanya",
-        "CombinedSourcesMediums": "Font de campanya - Mig"
+        "Group": "Grup de la campanya",
+        "Groups": "Grups de campanya",
+        "Keyword": "Paraula clau de la campanya",
+        "Keywords": "Paraules clau de campanya",
+        "Medium": "Mitjà de la campanya",
+        "Mediums": "Mitjans de campanya",
+        "Name": "Nom de la campanya",
+        "Names": "Noms de campanya",
+        "Placement": "Col·locació de la campanya",
+        "Placements": "Col·locacions de campanya",
+        "Source": "Orígen de la campanya",
+        "Sources": "Orígens de campanya"
     }
 }
