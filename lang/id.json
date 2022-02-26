@@ -1,9 +1,9 @@
 {
     "MarketingCampaignsReporting": {
-        "CombinedKeywordContent": "Katakunci - Konten",
-        "Names": "Nama Kampanye",
+        "CombinedKeywordContent": "Kata Kunci - Konten",
+        "Contents": "Konten Kampanye",
         "Keywords": "Katakunci Kampanye",
-        "Sources": "Sumber Kampanye",
-        "Contents": "Konten Kampanye"
+        "Names": "Nama Kampanye",
+        "Sources": "Sumber Kampanye"
     }
 }
