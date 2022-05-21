@@ -1,9 +1,23 @@
 {
     "MarketingCampaignsReporting": {
+        "CampaignId": "ID Kampanye",
+        "CampaignIds": "ID Kampanye",
         "CombinedKeywordContent": "Kata Kunci - Konten",
+        "CombinedSourceMedium": "Sumber - Media",
+        "CombinedSourcesMediums": "Sumber Kampanye - Media",
+        "Content": "Konten Kampanye",
         "Contents": "Konten Kampanye",
-        "Keywords": "Katakunci Kampanye",
+        "Group": "Grup Kampanye",
+        "Groups": "Grup Kampanye",
+        "Keyword": "Kata Kunci Kampanye",
+        "Keywords": "Kata Kunci Kampanye",
+        "Medium": "Media Kampanye",
+        "Mediums": "Media Kampanye",
+        "Name": "Nama Kampanye",
         "Names": "Nama Kampanye",
+        "Placement": "Penempatan Kampanye",
+        "Placements": "Penempatan Kampanye",
+        "Source": "Sumber Kampanye",
         "Sources": "Sumber Kampanye"
     }
 }
