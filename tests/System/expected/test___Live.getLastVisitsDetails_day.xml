@@ -358,6 +358,9 @@
 				<goalPageId>18</goalPageId>
 				
 				<url>http://example.com/homepage</url>
+				<referrerType>campaign</referrerType>
+				<referrerName>campaign_with_two_goals_conversions</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -373,6 +376,9 @@
 				<goalPageId />
 				
 				<url>http://example.com/anotherpage</url>
+				<referrerType>campaign</referrerType>
+				<referrerName>campaign_with_two_goals_conversions</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
@@ -388,6 +394,9 @@
 				<goalPageId />
 				
 				<url>http://example.com/anotherpage</url>
+				<referrerType>campaign</referrerType>
+				<referrerName>campaign_with_two_goals_conversions</referrerName>
+				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
 				<title>Goal conversion</title>
