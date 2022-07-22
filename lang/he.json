@@ -2,8 +2,9 @@
     "MarketingCampaignsReporting": {
         "CampaignId": "מזהה קמפיין",
         "CombinedKeywordContent": "חיפוש שאילתא - תוכן",
-        "Names": "שמות קמפיין",
+        "Contents": "תוכן קמפיין",
         "Keywords": "חיפוש קמפיין",
-        "Contents": "תוכן קמפיין"
+        "Name": "שם קמפיין",
+        "Names": "שמות קמפיין"
     }
 }
