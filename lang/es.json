@@ -1,15 +1,16 @@
 {
     "MarketingCampaignsReporting": {
-        "Source": "Fuente de la campaña",
-        "Medium": "Medio de la campaña",
-        "CombinedSourceMedium": "Fuente - Medio",
         "CampaignId": "Id de Campaña",
         "CombinedKeywordContent": "Palabra clave - Contenido",
-        "Names": "Nombres de campaña",
-        "Keywords": "Palabras clave de campaña",
-        "Sources": "Fuentes de la campaña",
-        "Mediums": "Medios de la campaña",
+        "CombinedSourceMedium": "Fuente - Medio",
+        "CombinedSourcesMediums": "Fuente de la campaña - Medio",
         "Contents": "Contenidos de la campaña",
-        "CombinedSourcesMediums": "Fuente de la campaña - Medio"
+        "Keywords": "Palabras clave de campaña",
+        "Medium": "Medio de la campaña",
+        "Mediums": "Medios de la campaña",
+        "Name": "Nombre de la campaña",
+        "Names": "Nombres de campaña",
+        "Source": "Fuente de la campaña",
+        "Sources": "Fuentes de la campaña"
     }
 }
