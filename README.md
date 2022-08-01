@@ -91,6 +91,7 @@ For example, by default parameter `campaign_name` track following parameters if 
 
 ## Changelog
 
+* 4.1.3 (Aug 01st 2022) Translation changes
 * 4.1.2 (Dec 20th 2021) Allowed creating new visit when campaign changes to be different per site if necessary
 * 4.1.1 (Nov 15th 2021) Fixed deprecation warnings for PHP 8.1
 * 4.1.0 (Nov 10th 2020) Additional dimensions for campaign group and placement
