@@ -1,1 +1,10 @@
-{}
+{
+    "MarketingCampaignsReporting": {
+        "Content": "Kandungan Kempen",
+        "Group": "Kumpulan Kempen",
+        "Keyword": "Kata Kunci Kempen",
+        "Medium": "Medium Kempen",
+        "Name": "Nama Kempen",
+        "Source": "Sumber Kempen"
+    }
+}
