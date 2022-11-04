@@ -28,7 +28,7 @@ class MarketingCampaignsReporting extends Plugin
     public static $CAMPAIGN_SOURCE_FIELD_DEFAULT_URL_PARAMS = array('mtm_source', 'pk_source', 'utm_source');
     public static $CAMPAIGN_MEDIUM_FIELD_DEFAULT_URL_PARAMS = array('mtm_medium', 'pk_medium', 'utm_medium');
     public static $CAMPAIGN_CONTENT_FIELD_DEFAULT_URL_PARAMS = array('mtm_content', 'pk_content', 'utm_content');
-    public static $CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS = array('mtm_cid', 'pk_cid', 'utm_id');
+    public static $CAMPAIGN_ID_FIELD_DEFAULT_URL_PARAMS = array('mtm_cid', 'pk_cid', 'utm_id', 'mtm_clid');
     public static $CAMPAIGN_GROUP_FIELD_DEFAULT_URL_PARAMS = array('mtm_group', 'pk_group');
     public static $CAMPAIGN_PLACEMENT_FIELD_DEFAULT_URL_PARAMS = array('mtm_placement', 'pk_placement');
 

@@ -135,7 +135,7 @@ class CampaignDetectorTest extends \PHPUnit\Framework\TestCase
             (new CampaignSource())->getColumnName()  => ['mtm_source', 'utm_source'],
             (new CampaignMedium())->getColumnName()  => ['mtm_medium', 'utm_medium'],
             (new CampaignContent())->getColumnName() => ['mtm_content', 'utm_content'],
-            (new CampaignId())->getColumnName()      => ['mtm_cid', 'utm_id'],
+            (new CampaignId())->getColumnName()      => ['mtm_cid', 'utm_id', 'mtm_clid'],
         ];
     }
 

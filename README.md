@@ -81,13 +81,13 @@ campaign_keyword = "mtm_keyword,matomo_kwd,mtm_kwd,utm_term"
 campaign_source = "mtm_source,utm_source"
 campaign_medium = "mtm_medium,utm_medium"
 campaign_content = "mtm_content,utm_content"
-campaign_id = "mtm_cid,utm_id"
+campaign_id = "mtm_cid,utm_id,mtm_clid"
 campaign_group = "mtm_group"
 campaign_placement = "mtm_placement"
 ```
 
 For example, by default parameter `campaign_name` track following parameters if they are found in URL: `'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'utm_campaign'`. If you configure `campaign_name` like this `campaign_name="mtm_campaign,custom_name_parameter"`, then parameter `campaign_name` will detect only presence of `mtm_campaign` and `custom_name_parameter` in URL. `matomo_campaign`, `mtm_cpn`, `utm_campaign` will be ignored until they are present in config.
-
+All parameter are case-insensitiv except optional mtm_clid.
 
 ## Changelog
 
