@@ -15,6 +15,7 @@ use Piwik\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\MarketingCampaignsReporting\tests\Fixtures\TrackAdvancedCampaigns;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
+use Piwik\Version;
 
 /**
  * @group MarketingCampaignsReporting
@@ -69,134 +70,141 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         $dateWithPluginEnabled = self::$fixture->dateTimeWithPluginEnabled;
         $dateTime              = self::$fixture->dateTime;
 
-        $apiToTest[] = array(
+        $apiToTest[] = [
             'API.get',
-            array(
+            [
                 'idSite'  => self::$fixture->idSite,
                 'date'    => $dateWithPluginEnabled,
-                'periods' => array('day'),
-            )
-        );
+                'periods' => ['day'],
+            ]
+        ];
 
-        $apiToTest[] = array(
+        $columnsToHide = [];
+
+        if (version_compare(Version::VERSION, '4.12.0', '<')) {
+            // In Matomo 4.12 referrer columns had been added to goal actions. For tests with older Matomo releases we therefor ignore those columns
+            $columnsToHide = ['referrerType', 'referrerName', 'referrerKeyword'];
+        }
+
+        if (version_compare(Version::VERSION, '4.8.0', '<')) {
+            // In Matomo 4.12 referrer columns had been added to goal actions. For tests with older Matomo releases we therefor ignore those columns
+            $columnsToHide[] = 'timeSpent';
+            $columnsToHide[] = 'timeSpentPretty';
+        }
+
+        $apiToTest[] = [
             'Live.getLastVisitsDetails',
-            array(
-                'idSite'  => self::$fixture->idSite,
-                'date'    => $dateWithPluginEnabled,
-                'periods' => array('day'),
-            )
-        );
+            [
+                'idSite'            => self::$fixture->idSite,
+                'date'              => $dateWithPluginEnabled,
+                'periods'           => ['day'],
+                'xmlFieldsToRemove' => $columnsToHide,
+            ]
+        ];
 
-        $api = array(
+        $api = [
             'MarketingCampaignsReporting'
-        );
+        ];
 
-        $columnsToHide = '';
-
-        $apiToTest[] = array(
+        $apiToTest[] = [
             $api,
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateWithPluginEnabled,
-                'periods'                => array('day'),
+                'periods'                => ['day'],
                 'testSuffix'             => 'expanded',
-                'otherRequestParameters' => array('expanded' => 1),
-                'xmlFieldsToRemove'      => $columnsToHide
-            )
-        );
-        $apiToTest[] = array(
+                'otherRequestParameters' => ['expanded' => 1],
+            ]
+        ];
+        $apiToTest[] = [
             $api,
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateWithPluginEnabled,
-                'periods'                => array('day'),
+                'periods'                => ['day'],
                 'testSuffix'             => 'flat',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
-                'xmlFieldsToRemove'      => $columnsToHide
-            )
-        );
-        $apiToTest[] = array(
+                'otherRequestParameters' => ['flat' => 1, 'expanded' => 0],
+            ]
+        ];
+        $apiToTest[] = [
             $api,
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateWithPluginEnabled,
-                'periods'                => array('day'),
+                'periods'                => ['day'],
                 'testSuffix'             => 'segmentedMatchAll',
                 'segment'                => 'campaignName!=test;campaignKeyword!=test;campaignSource!=test;campaignMedium!=test;campaignContent!=test;campaignId!=test',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
-                'xmlFieldsToRemove'      => $columnsToHide
-            )
-        );
-        $apiToTest[] = array(
+                'otherRequestParameters' => ['flat' => 1, 'expanded' => 0],
+            ]
+        ];
+        $apiToTest[] = [
             $api,
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateWithPluginEnabled,
-                'periods'                => array('day'),
+                'periods'                => ['day'],
                 'testSuffix'             => 'segmentedMatchNone',
                 'segment'                => 'campaignName==test,campaignKeyword==test,campaignSource==test,campaignMedium==test,campaignContent==test,campaignId==test',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
-                'xmlFieldsToRemove'      => $columnsToHide
-            )
-        );
+                'otherRequestParameters' => ['flat' => 1, 'expanded' => 0],
+            ]
+        ];
 
-        $apiToTest[] = array(
+        $apiToTest[] = [
             'MarketingCampaignsReporting',
-            array(
+            [
                 'idSite'            => 'all',
                 'date'              => $dateTime,
                 'periods'           => 'day',
                 'setDateLastN'      => true,
                 'testSuffix'        => 'multipleDatesSites_',
-                'xmlFieldsToRemove' => $columnsToHide
-            )
-        );
+            ]
+        ];
 
         // row evolution tests for methods that also use Referrers plugin data
-        $apiToTest[] = array(
+        $apiToTest[] = [
             'API.getRowEvolution',
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateTime,
                 'testSuffix'             => 'getName',
-                'otherRequestParameters' => array(
+                'otherRequestParameters' => [
                     'date'      => '2013-01-20,2013-01-25',
                     'period'    => 'day',
                     'apiModule' => 'MarketingCampaignsReporting',
                     'apiAction' => 'getName',
                     'label'     => 'campaign_hashed',
                     'expanded'  => 0
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
-        $apiToTest[] = array(
+        $apiToTest[] = [
             'API.getRowEvolution',
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateTime,
                 'testSuffix'             => 'getKeyword',
-                'otherRequestParameters' => array(
+                'otherRequestParameters' => [
                     'date'      => '2013-01-20,2013-01-25',
                     'period'    => 'day',
                     'apiModule' => 'MarketingCampaignsReporting',
                     'apiAction' => 'getKeyword',
                     'label'     => 'mot_clé_pépère',
                     'expanded'  => 0
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         // check that API does not return an error if an subtable id is given that does not exist
-        $apiToTest[] = array(
+        $apiToTest[] = [
             'MarketingCampaignsReporting.getKeywordContentFromNameId',
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateTime,
                 'period'                 => 'month',
                 'otherRequestParameters' => ['idSubtable' => 20],
-            )
-        );
+            ]
+        ];
 
         return $apiToTest;
     }
@@ -206,30 +214,30 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         $dateWithPluginEnabled = self::$fixture->dateTimeWithPluginEnabled;
         $apiToTest             = [];
 
-        $api = array(
+        $api = [
             'Referrers.getCampaigns',
-        );
+        ];
 
-        $apiToTest[] = array(
+        $apiToTest[] = [
             $api,
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateWithPluginEnabled,
-                'periods'                => array('day'),
+                'periods'                => ['day'],
                 'testSuffix'             => 'expanded',
-                'otherRequestParameters' => array('expanded' => 1),
-            )
-        );
-        $apiToTest[] = array(
+                'otherRequestParameters' => ['expanded' => 1],
+            ]
+        ];
+        $apiToTest[] = [
             $api,
-            array(
+            [
                 'idSite'                 => self::$fixture->idSite,
                 'date'                   => $dateWithPluginEnabled,
-                'periods'                => array('day'),
+                'periods'                => ['day'],
                 'testSuffix'             => 'flat',
-                'otherRequestParameters' => array('flat' => 1, 'expanded' => 0),
-            )
-        );
+                'otherRequestParameters' => ['flat' => 1, 'expanded' => 0],
+            ]
+        ];
 
         return $apiToTest;
     }
