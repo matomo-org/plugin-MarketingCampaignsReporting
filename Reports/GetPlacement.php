@@ -19,6 +19,7 @@ class GetPlacement extends Base
         parent::init();
         $this->dimension      = new CampaignPlacement();
         $this->name           = Piwik::translate('MarketingCampaignsReporting_Placements');
+        $this->documentation  = '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
         $this->hasGoalMetrics = true;
         $this->order          = 9;
 

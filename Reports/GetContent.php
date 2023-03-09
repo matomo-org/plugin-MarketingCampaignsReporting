@@ -19,6 +19,7 @@ class GetContent extends Base
         parent::init();
         $this->dimension      = new CampaignContent();
         $this->name           = Piwik::translate('MarketingCampaignsReporting_Contents');
+        $this->documentation  = '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
         $this->hasGoalMetrics = true;
         $this->order          = 5;
 

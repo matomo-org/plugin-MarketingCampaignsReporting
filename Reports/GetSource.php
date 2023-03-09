@@ -19,6 +19,7 @@ class GetSource extends Base
         parent::init();
         $this->dimension      = new CampaignSource();
         $this->name           = Piwik::translate('MarketingCampaignsReporting_Sources');
+        $this->documentation  = '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
         $this->hasGoalMetrics = true;
         $this->order          = 3;
 

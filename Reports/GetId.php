@@ -19,6 +19,7 @@ class GetId extends Base
         parent::init();
         $this->dimension      = new CampaignId();
         $this->name           = Piwik::translate('MarketingCampaignsReporting_CampaignIds');
+        $this->documentation  = '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
         $this->hasGoalMetrics = true;
         $this->order          = 7;
 
