@@ -22,6 +22,7 @@ describe("MarketingCampaignsReporting_Reports", function () {
         await page.evaluate(function() {
             $('.card-title .iconsBar').show();
             $('.card-title .iconsBar .helpIcon').click();
+            $('.card-title .helpDate').html('');
         });
         expect(await page.screenshot()).to.matchImage('icon_with_info');
     });
