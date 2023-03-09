@@ -19,7 +19,7 @@ class GetGroup extends Base
         parent::init();
         $this->dimension      = new CampaignGroup();
         $this->name           = Piwik::translate('MarketingCampaignsReporting_Groups');
-        $this->documentation  = '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
+        $this->documentation  = '<b>' . Piwik::translate('MarketingCampaignsReporting_AttributionTitle') . ':</b> ' . Piwik::translate('MarketingCampaignsReporting_AttributionDocumentation');
         $this->hasGoalMetrics = true;
         $this->order          = 8;
 

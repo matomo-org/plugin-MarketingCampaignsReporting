@@ -20,7 +20,7 @@ class GetSourceMedium extends Base
         parent::init();
         $this->dimension             = new CampaignSourceMedium();
         $this->name                  = Piwik::translate('MarketingCampaignsReporting_CombinedSourcesMediums');
-        $this->documentation         = '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
+        $this->documentation         = '<b>' . Piwik::translate('MarketingCampaignsReporting_AttributionTitle') . ':</b> ' . Piwik::translate('MarketingCampaignsReporting_AttributionDocumentation');
         $this->actionToLoadSubTables = 'getNameFromSourceMediumId';
         $this->hasGoalMetrics        = true;
         $this->order                 = 6;

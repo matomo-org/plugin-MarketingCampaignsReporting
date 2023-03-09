@@ -20,7 +20,7 @@ class GetName extends Base
     {
         parent::init();
         $this->dimension             = new CampaignName();
-        $this->documentation         = '<b>' . Piwik::translate('Referrers_AttributionTitle') . ':</b> ' . Piwik::translate('Referrers_AttributionDocumentation');
+        $this->documentation         = '<b>' . Piwik::translate('MarketingCampaignsReporting_AttributionTitle') . ':</b> ' . Piwik::translate('MarketingCampaignsReporting_AttributionDocumentation');
         $this->name                  = Piwik::translate('MarketingCampaignsReporting_Names');
         $this->actionToLoadSubTables = 'getKeywordContentFromNameId';
         $this->hasGoalMetrics        = true;
