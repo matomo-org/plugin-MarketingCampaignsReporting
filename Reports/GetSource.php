@@ -19,7 +19,7 @@ class GetSource extends Base
         parent::init();
         $this->dimension      = new CampaignSource();
         $this->name           = Piwik::translate('MarketingCampaignsReporting_Sources');
-        $this->documentation  = '<b>' . Piwik::translate('MarketingCampaignsReporting_AttributionTitle') . ':</b> ' . Piwik::translate('MarketingCampaignsReporting_AttributionDocumentation');
+        $this->documentation  = '<b>' . Piwik::translate('MarketingCampaignsReporting_AttributionTitle') . ':</b> ' . Piwik::translate('MarketingCampaignsReporting_AttributionDocumentation', ['<a href="https://matomo.org/faq/general/faq_106/" rel="noreferrer noopener" target="_blank">', '</a>']);
         $this->hasGoalMetrics = true;
         $this->order          = 3;
 

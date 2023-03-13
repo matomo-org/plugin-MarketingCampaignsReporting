@@ -19,7 +19,7 @@ class GetMedium extends Base
         parent::init();
         $this->dimension      = new CampaignMedium();
         $this->name           = Piwik::translate('MarketingCampaignsReporting_Mediums');
-        $this->documentation  = '<b>' . Piwik::translate('MarketingCampaignsReporting_AttributionTitle') . ':</b> ' . Piwik::translate('MarketingCampaignsReporting_AttributionDocumentation');
+        $this->documentation  = '<b>' . Piwik::translate('MarketingCampaignsReporting_AttributionTitle') . ':</b> ' . Piwik::translate('MarketingCampaignsReporting_AttributionDocumentation', ['<a href="https://matomo.org/faq/general/faq_106/" rel="noreferrer noopener" target="_blank">', '</a>']);
         $this->hasGoalMetrics = true;
         $this->order          = 4;
 
