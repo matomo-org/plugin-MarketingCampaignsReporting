@@ -24,6 +24,15 @@ class TrackAdvancedCampaigns extends Fixture
     private $orderIndex;
 
     const THIS_PAGE_VIEW_IS_GOAL_CONVERSION = 'this is a goal conversion';
+    
+    /**
+     * @var int
+     */
+    private $idGoal1;
+    /**
+     * @var int
+     */
+    private $idGoal2;
 
     public function setUp(): void
     {
