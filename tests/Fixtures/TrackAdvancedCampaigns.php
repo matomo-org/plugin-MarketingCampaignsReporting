@@ -306,9 +306,9 @@ class TrackAdvancedCampaigns extends Fixture
         $testVars = new Piwik\Tests\Framework\TestingEnvironmentVariables();
         return array(
 
-            'observers.global' => \DI\add(array(
+            'observers.global' => \Piwik\DI::add(array(
                 array(
-                    'Environment.bootstrapped', \DI\value(function () use ($testVars) {
+                    'Environment.bootstrapped', \Piwik\DI::value(function () use ($testVars) {
                     $plugins = Piwik\Config::getInstance()->Plugins['Plugins'];
                     $index   = array_search('MarketingCampaignsReporting', $plugins);
 
@@ -327,7 +327,7 @@ class TrackAdvancedCampaigns extends Fixture
                 )),
             )),
 
-            'advanced_campaign_reporting.uri_parameters.campaign_name' => \DI\value([(new Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName())->getColumnName() => ['mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', 'my_campaign']])
+            'advanced_campaign_reporting.uri_parameters.campaign_name' => \Piwik\DI::value([(new Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName())->getColumnName() => ['mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign', 'my_campaign']])
         );
     }
 }
