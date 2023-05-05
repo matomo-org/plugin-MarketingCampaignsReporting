@@ -1,15 +1,23 @@
 {
     "MarketingCampaignsReporting": {
-        "Source": "廣告活動來源",
-        "Medium": "廣告活動媒介",
-        "CombinedSourceMedium": "來源 - 媒介",
-        "CampaignId": "廣告活動 ID",
+        "CampaignId": "活動 ID",
+        "CampaignIds": "活動 ID",
         "CombinedKeywordContent": "關鍵字 - 內容",
-        "Names": "廣告活動名稱",
-        "Keywords": "廣告活動關鍵字",
-        "Sources": "廣告活動來源",
-        "Mediums": "廣告活動媒介",
-        "Contents": "廣告活動內容",
-        "CombinedSourcesMediums": "廣告活動來源 - 媒介"
+        "CombinedSourceMedium": "來源 - 媒介",
+        "CombinedSourcesMediums": "活動來源 - 媒介",
+        "Content": "活動內容",
+        "Contents": "活動內容",
+        "Group": "活動群組",
+        "Groups": "活動群組",
+        "Keyword": "活動關鍵字",
+        "Keywords": "活動關鍵字",
+        "Medium": "活動媒介",
+        "Mediums": "活動媒介",
+        "Name": "活動名稱",
+        "Names": "活動名稱",
+        "Placement": "活動投放",
+        "Placements": "活動投放",
+        "Source": "活動來源",
+        "Sources": "活動來源"
     }
 }
