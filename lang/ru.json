@@ -1,15 +1,16 @@
 {
     "MarketingCampaignsReporting": {
-        "Source": "Источник кампании",
-        "Medium": "Среднее по кампании",
-        "CombinedSourceMedium": "Источник - Носитель",
         "CampaignId": "Id кампании",
         "CombinedKeywordContent": "Ключевое слово - Контент",
-        "Names": "Имена кампаний",
-        "Keywords": "Ключевые слова кампании",
-        "Sources": "Источники кампании",
-        "Mediums": "Носители кампании",
+        "CombinedSourceMedium": "Источник - Носитель",
+        "CombinedSourcesMediums": "Источник кампании - Носитель",
         "Contents": "Контенты кампании",
-        "CombinedSourcesMediums": "Источник кампании - Носитель"
+        "Keywords": "Ключевые слова кампании",
+        "Medium": "Среднее по кампании",
+        "Mediums": "Носители кампании",
+        "Name": "Имя компании",
+        "Names": "Имена кампаний",
+        "Source": "Источник кампании",
+        "Sources": "Источники кампании"
     }
 }
