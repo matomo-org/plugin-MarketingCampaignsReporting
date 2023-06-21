@@ -212,7 +212,7 @@ class ForceNewVisitTest extends IntegrationTestCase
 
     private function assertVisits($visitsExpected, $uniqueVisitsExpected, $actionsExpected)
     {
-        $counters = LiveAPI::getInstance()->getCounters($this->idSite, 3600, false,
+        $counters = LiveAPI::getInstance()->getCounters($this->idSite, 2880, false,
             ['visits', 'visitors', 'actions']);
 
         $this->assertEquals($visitsExpected, $counters[0]['visits']);
