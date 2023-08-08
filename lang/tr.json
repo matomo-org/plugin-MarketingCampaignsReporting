@@ -1,7 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "CampaignId": "Kampanya kodu",
-        "CampaignIds": "Kampanya kodları",
+        "CampaignId": "Kampanya kimliği",
+        "CampaignIds": "Kampanya kimlikleri",
         "CombinedKeywordContent": "Anahtar sözcük - içerik",
         "CombinedSourceMedium": "Kaynak - ortam",
         "CombinedSourcesMediums": "Kampanya kaynağı - ortam",
