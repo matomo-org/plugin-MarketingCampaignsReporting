@@ -6,7 +6,7 @@
     "license": "GPL v3+",
     "homepage": "https://matomo.org",
     "require": {
-        "matomo": ">=5.0.0-b1,<6.0.0-b1"
+        "matomo": ">=5.0.0-b4,<6.0.0-b1"
     },
     "support": {
         "email": "hello@matomo.org",
