@@ -102,7 +102,7 @@ class CampaignReporting extends RecordBuilder
                         Metrics::INDEX_NB_VISITS_CONVERTED => $row[Metrics::INDEX_NB_VISITS_CONVERTED],
                     ];
                 } else if ($aggregatorMethod == 'queryConversionsByDimension') {
-                    $idGoal = $row['idgoal'];
+                    $idGoal = (int) $row['idgoal'];
                     $columns = [
                         Metrics::INDEX_GOALS => [
                             $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),
