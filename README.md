@@ -90,7 +90,9 @@ For example, by default parameter `campaign_name` track following parameters if 
 All parameter are case-insensitiv except optional mtm_clid.
 
 ## Changelog
-
+* 5.0.2 (Oct 09th 2023) Archiving: Ensure parameter is provided in correct type
+* 5.0.1 (Aug 09th 2023) Compatability with Matomo 5
+* 5.0.0-b1 (May 05th 2023) Compatability with Matomo 5
 * 4.1.3 (Aug 01st 2022) Translation changes
 * 4.1.2 (Dec 20th 2021) Allowed creating new visit when campaign changes to be different per site if necessary
 * 4.1.1 (Nov 15th 2021) Fixed deprecation warnings for PHP 8.1
