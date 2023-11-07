@@ -1,13 +1,23 @@
 {
     "MarketingCampaignsReporting": {
-        "CombinedSourceMedium": "स्रोत - मध्यम",
         "CampaignId": "अभियान आईडी",
+        "CampaignIds": "अभियान आईडीस",
         "CombinedKeywordContent": "कीवर्ड - सामग्री",
-        "Names": "अभियान के नाम",
-        "Keywords": "अभियान कीवर्ड",
-        "Sources": "अभियान सूत्रों का कहना है",
+        "CombinedSourceMedium": "स्रोत - मध्यम",
+        "CombinedSourcesMediums": "अभियान का स्रोत - मध्यम",
+        "Content": "अभियान सामग्री",
+        "Contents": "अभियान सामग्रीया",
+        "Group": "अभियान समूह",
+        "Groups": "अभियान समूहों",
+        "Keyword": "अभियान कीवर्ड",
+        "Keywords": "अभियान कीवर्डस",
+        "Medium": "अभियान माध्यम",
         "Mediums": "अभियान माध्यमों",
-        "Contents": "अभियान सामग्री",
-        "CombinedSourcesMediums": "अभियान का स्रोत - मध्यम"
+        "Name": "अभियान का नाम",
+        "Names": "अभियान के नाम",
+        "Placement": "अभियान प्लेसमेंट",
+        "Placements": "अभियान प्लेसमेंटस",
+        "Source": "अभियान स्रोत",
+        "Sources": "अभियान सूत्रों का कहना है"
     }
 }
