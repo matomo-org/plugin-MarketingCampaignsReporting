@@ -10,13 +10,14 @@
 namespace Piwik\Plugins\MarketingCampaignsReporting\Reports;
 
 use Piwik\Plugin\ViewDataTable;
+use Piwik\Url;
 
 abstract class Base extends \Piwik\Plugin\Report
 {
     protected function init()
     {
         $this->categoryId = 'Referrers_Referrers';
-        $this->onlineGuideUrl = 'https://matomo.org/docs/tracking-campaigns/';
+        $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/guide/reports/acquisition-and-marketing-channels/');
     }
 
     public function configureView(ViewDataTable $view)
