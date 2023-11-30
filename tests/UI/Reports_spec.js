@@ -18,6 +18,15 @@ describe("MarketingCampaignsReporting_Reports", function () {
         expect(await page.screenshotSelector('.pageWrap,.expandDataTableFooterDrawer')).to.matchImage('loaded');
     });
 
+    it('should show iconBar with info', async function () {
+        await page.evaluate(function() {
+            $('.card-title .iconsBar').show();
+            $('.card-title .iconsBar .helpIcon').click();
+            $('.card-title .helpDate').html('');
+        });
+        expect(await page.screenshot()).to.matchImage('icon_with_info');
+    });
+
     it('should show visits log with campaign details', async function() {
         await page.goto("?module=CoreHome&action=index&idSite=1&period=month&date=2013-01-23#?idSite=1&period=month&date=2013-01-23&category=General_Visitors&subcategory=Live_VisitorLog");
 
