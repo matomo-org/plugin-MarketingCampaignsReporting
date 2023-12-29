@@ -1,7 +1,24 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kanpainak",
-        "Name": "Izena",
-        "Keyword": "Gako-hitza"
+        "CampaignId": "Kanpainaren id-a",
+        "CampaignIds": "Kanpainen id-ak",
+        "CombinedKeywordContent": "Gako-hitza - Edukia",
+        "CombinedSourceMedium": "Iturburua - Euskarria",
+        "CombinedSourcesMediums": "Kanpainaren iturburua - Euskarria",
+        "Content": "Kanpainaren edukia",
+        "Contents": "Kanpainen edukiak",
+        "Group": "Kanpainaren taldea",
+        "Groups": "Kanpainen taldeak",
+        "Keyword": "Kanpainaren gako-hitza",
+        "Keywords": "Kanpainen gako-hitzak",
+        "Medium": "Kanpainaren euskarria",
+        "Mediums": "Kanpainen euskarriak",
+        "Name": "Kanpainaren izena",
+        "Names": "Kanpainen izenak",
+        "Placement": "Kanpainaren kokapena",
+        "Placements": "Kanpainen kokapenak",
+        "Source": "Kanpainaren iturburua",
+        "Sources": "Kanpainen iturburuak",
+        "Title": "Kanpainak"
     }
 }
