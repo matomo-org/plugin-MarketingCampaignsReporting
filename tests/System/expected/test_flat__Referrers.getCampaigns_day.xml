@@ -35,6 +35,118 @@
 		<Referrers_Keyword>ecommerce_keyword</Referrers_Keyword>
 	</row>
 	<row>
+		<label>10th - keyword a</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==10th;referrerType==campaign;referrerKeyword==keyword+a</segment>
+		<Referrers_Campaign>10th</Referrers_Campaign>
+		<Referrers_Keyword>keyword a</Referrers_Keyword>
+	</row>
+	<row>
+		<label>11th - keyword b</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==11th;referrerType==campaign;referrerKeyword==keyword+b</segment>
+		<Referrers_Campaign>11th</Referrers_Campaign>
+		<Referrers_Keyword>keyword b</Referrers_Keyword>
+	</row>
+	<row>
+		<label>12th - keyword c</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==12th;referrerType==campaign;referrerKeyword==keyword+c</segment>
+		<Referrers_Campaign>12th</Referrers_Campaign>
+		<Referrers_Keyword>keyword c</Referrers_Keyword>
+	</row>
+	<row>
+		<label>13th - keyword d</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==13th;referrerType==campaign;referrerKeyword==keyword+d</segment>
+		<Referrers_Campaign>13th</Referrers_Campaign>
+		<Referrers_Keyword>keyword d</Referrers_Keyword>
+	</row>
+	<row>
+		<label>14th - keyword e</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==14th;referrerType==campaign;referrerKeyword==keyword+e</segment>
+		<Referrers_Campaign>14th</Referrers_Campaign>
+		<Referrers_Keyword>keyword e</Referrers_Keyword>
+	</row>
+	<row>
+		<label>15th - keyword f</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==15th;referrerType==campaign;referrerKeyword==keyword+f</segment>
+		<Referrers_Campaign>15th</Referrers_Campaign>
+		<Referrers_Keyword>keyword f</Referrers_Keyword>
+	</row>
+	<row>
+		<label>16th - keyword g</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==16th;referrerType==campaign;referrerKeyword==keyword+g</segment>
+		<Referrers_Campaign>16th</Referrers_Campaign>
+		<Referrers_Keyword>keyword g</Referrers_Keyword>
+	</row>
+	<row>
+		<label>17th - keyword h</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<segment>referrerType==campaign;referrerName==17th;referrerType==campaign;referrerKeyword==keyword+h</segment>
+		<Referrers_Campaign>17th</Referrers_Campaign>
+		<Referrers_Keyword>keyword h</Referrers_Keyword>
+	</row>
+	<row>
 		<label>campaignnamedimension - no other dimension for this visit</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>

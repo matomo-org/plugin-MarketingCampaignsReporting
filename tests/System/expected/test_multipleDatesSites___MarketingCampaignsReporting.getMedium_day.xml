@@ -4,6 +4,18 @@
 		<result date="2013-01-22" />
 		<result date="2013-01-23">
 			<row>
+				<label>email</label>
+				<nb_uniq_visitors>10</nb_uniq_visitors>
+				<nb_visits>10</nb_visits>
+				<nb_actions>10</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>10</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignMedium==email</segment>
+			</row>
+			<row>
 				<label>ecommerce_medium</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>2</nb_visits>
@@ -34,18 +46,6 @@
 				<nb_conversions>1</nb_conversions>
 				<revenue>555</revenue>
 				<segment>campaignMedium==ecommerce_medium</segment>
-			</row>
-			<row>
-				<label>email</label>
-				<nb_uniq_visitors>2</nb_uniq_visitors>
-				<nb_visits>2</nb_visits>
-				<nb_actions>2</nb_actions>
-				<nb_users>0</nb_users>
-				<max_actions>1</max_actions>
-				<sum_visit_length>0</sum_visit_length>
-				<bounce_count>2</bounce_count>
-				<nb_visits_converted>0</nb_visits_converted>
-				<segment>campaignMedium==email</segment>
 			</row>
 		</result>
 		<result date="2013-01-24" />
