@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>none</label>
+		<nb_uniq_visitors>9</nb_uniq_visitors>
+		<nb_visits>9</nb_visits>
+		<nb_actions>9</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>9</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignContent>none</MarketingCampaignsReporting_CampaignContent>
+		<segment>campaignContent==none</segment>
+	</row>
+	<row>
 		<label>ecommerce_content</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
@@ -45,18 +58,5 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<MarketingCampaignsReporting_CampaignContent>contains personalized campaigns for client</MarketingCampaignsReporting_CampaignContent>
 		<segment>campaignContent==contains+personalized+campaigns+for+client</segment>
-	</row>
-	<row>
-		<label>none</label>
-		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>1</nb_visits>
-		<nb_actions>1</nb_actions>
-		<nb_users>0</nb_users>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>1</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
-		<MarketingCampaignsReporting_CampaignContent>none</MarketingCampaignsReporting_CampaignContent>
-		<segment>campaignContent==none</segment>
 	</row>
 </result>

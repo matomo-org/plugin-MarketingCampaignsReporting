@@ -72,4 +72,108 @@
 		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_7 - email</MarketingCampaignsReporting_CampaignSourceMedium>
 		<MarketingCampaignsReporting_CampaignName>november_offer</MarketingCampaignsReporting_CampaignName>
 	</row>
+	<row>
+		<label>newsletter_10 - email - 10th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_10 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>10th</MarketingCampaignsReporting_CampaignName>
+	</row>
+	<row>
+		<label>newsletter_11 - email - 11th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_11 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>11th</MarketingCampaignsReporting_CampaignName>
+	</row>
+	<row>
+		<label>newsletter_12 - email - 12th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_12 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>12th</MarketingCampaignsReporting_CampaignName>
+	</row>
+	<row>
+		<label>newsletter_13 - email - 13th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_13 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>13th</MarketingCampaignsReporting_CampaignName>
+	</row>
+	<row>
+		<label>newsletter_14 - email - 14th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_14 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>14th</MarketingCampaignsReporting_CampaignName>
+	</row>
+	<row>
+		<label>newsletter_15 - email - 15th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_15 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>15th</MarketingCampaignsReporting_CampaignName>
+	</row>
+	<row>
+		<label>newsletter_16 - email - 16th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_16 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>16th</MarketingCampaignsReporting_CampaignName>
+	</row>
+	<row>
+		<label>newsletter_17 - email - 17th</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignSourceMedium>newsletter_17 - email</MarketingCampaignsReporting_CampaignSourceMedium>
+		<MarketingCampaignsReporting_CampaignName>17th</MarketingCampaignsReporting_CampaignName>
+	</row>
 </result>

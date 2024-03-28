@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>19</idVisit>
+		<idVisit>27</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -14,7 +14,7 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<pageId>20</pageId>
+				<pageId>28</pageId>
 				<bandwidth />
 				<timeSpent>1083</timeSpent>
 				<timeSpentPretty>18 min 3s</timeSpentPretty>
@@ -166,7 +166,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>18</idVisit>
+		<idVisit>26</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -178,7 +178,7 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<pageId>19</pageId>
+				<pageId>27</pageId>
 				<bandwidth />
 				<timeSpent>361</timeSpent>
 				<timeSpentPretty>6 min 1s</timeSpentPretty>
@@ -325,7 +325,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>17</idVisit>
+		<idVisit>25</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -337,7 +337,7 @@
 				<pageIdAction>11</pageIdAction>
 				
 				
-				<pageId>18</pageId>
+				<pageId>26</pageId>
 				<bandwidth />
 				<timeSpent>725</timeSpent>
 				<timeSpentPretty>12 min 5s</timeSpentPretty>
@@ -355,7 +355,7 @@
 				<goalId>1</goalId>
 				
 				<revenue>10</revenue>
-				<goalPageId>18</goalPageId>
+				<goalPageId>26</goalPageId>
 				
 				<url>http://example.com/homepage</url>
 				<referrerType>campaign</referrerType>
@@ -514,7 +514,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>16</idVisit>
+		<idVisit>24</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -526,7 +526,7 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<pageId>17</pageId>
+				<pageId>25</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -649,7 +649,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>15</idVisit>
+		<idVisit>23</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -661,7 +661,7 @@
 				<pageIdAction>11</pageIdAction>
 				
 				
-				<pageId>16</pageId>
+				<pageId>24</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -784,7 +784,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>14</idVisit>
+		<idVisit>22</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -796,7 +796,7 @@
 				<pageIdAction>11</pageIdAction>
 				
 				
-				<pageId>15</pageId>
+				<pageId>23</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -919,7 +919,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>13</idVisit>
+		<idVisit>21</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -931,7 +931,7 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<pageId>14</pageId>
+				<pageId>22</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -1054,7 +1054,7 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>12</idVisit>
+		<idVisit>20</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
@@ -1066,7 +1066,7 @@
 				<pageIdAction>8</pageIdAction>
 				
 				
-				<pageId>13</pageId>
+				<pageId>21</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
@@ -1189,25 +1189,25 @@
 	</row>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>11</idVisit>
+		<idVisit>28</idVisit>
 		<visitIp>156.5.3.2</visitIp>
 		
 		<fingerprint>e16cf2bbaeea2c88</fingerprint>
 		<actionDetails>
 			<row>
 				<type>action</type>
-				<url>http://example.com/sub/page</url>
-				<pageTitle>Second page view, should not overwrite existing campaign</pageTitle>
-				<pageIdAction>19</pageIdAction>
+				<url>http://example.com/</url>
+				<pageTitle>Coming back with another campaign 10th</pageTitle>
+				<pageIdAction>8</pageIdAction>
 				
 				
-				<pageId>12</pageId>
+				<pageId>29</pageId>
 				<bandwidth />
 				<timeSpent>0</timeSpent>
 				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
-				<title>Second page view, should not overwrite existing campaign</title>
-				<subtitle>http://example.com/sub/page</subtitle>
+				<title>Coming back with another campaign 10th</title>
+				<subtitle>http://example.com/</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
@@ -1233,11 +1233,11 @@
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
-		<visitCount>2</visitCount>
+		<visitCount>4</visitCount>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<secondsSinceFirstVisit>720</secondsSinceFirstVisit>
+		<secondsSinceFirstVisit>6840</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<secondsSinceLastEcommerceOrder />
 		<visitDuration>0</visitDuration>
@@ -1247,143 +1247,8 @@
 		<interactions>1</interactions>
 		<referrerType>campaign</referrerType>
 		<referrerTypeName>Campaigns</referrerTypeName>
-		<referrerName>should_be_new_visit</referrerName>
-		<referrerKeyword />
-		<referrerKeywordPosition />
-		<referrerUrl />
-		<referrerSearchEngineUrl />
-		<referrerSearchEngineIcon />
-		<referrerSocialNetworkUrl />
-		<referrerSocialNetworkIcon />
-		<languageCode>fr</languageCode>
-		<language>French</language>
-		<deviceType>Desktop</deviceType>
-		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
-		<deviceBrand>Unknown</deviceBrand>
-		<deviceModel>Generic Desktop</deviceModel>
-		<operatingSystem>Windows XP</operatingSystem>
-		<operatingSystemName>Windows</operatingSystemName>
-		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
-		<operatingSystemCode>WIN</operatingSystemCode>
-		<operatingSystemVersion>XP</operatingSystemVersion>
-		<browserFamily>Gecko</browserFamily>
-		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
-		<browser>Firefox 3.6</browser>
-		<browserName>Firefox</browserName>
-		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
-		<browserCode>FF</browserCode>
-		<browserVersion>3.6</browserVersion>
-		<totalEcommerceRevenue>555</totalEcommerceRevenue>
-		<totalEcommerceConversions>1</totalEcommerceConversions>
-		<totalEcommerceItems>5</totalEcommerceItems>
-		<totalAbandonedCartsRevenue>555</totalAbandonedCartsRevenue>
-		<totalAbandonedCarts>1</totalAbandonedCarts>
-		<totalAbandonedCartsItems>5</totalAbandonedCartsItems>
-		<events>0</events>
-		<continent>Europe</continent>
-		<continentCode>eur</continentCode>
-		<country>France</country>
-		<countryCode>fr</countryCode>
-		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
-		<region />
-		<regionCode />
-		<city />
-		<location>France</location>
-		<latitude />
-		<longitude />
-		<visitLocalTime>12:34:06</visitLocalTime>
-		<visitLocalHour>12</visitLocalHour>
-		<daysSinceLastVisit>0</daysSinceLastVisit>
-		<secondsSinceLastVisit>720</secondsSinceLastVisit>
-		<resolution>1024x768</resolution>
-		<plugins>cookie, flash, java</plugins>
-		<pluginsIcons>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
-				<pluginName>cookie</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
-				<pluginName>flash</pluginName>
-			</row>
-			<row>
-				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
-				<pluginName>java</pluginName>
-			</row>
-		</pluginsIcons>
-		<customVariables>
-		</customVariables>
-		<campaignId />
-		<campaignContent />
-		<campaignKeyword />
-		<campaignMedium />
-		<campaignName>should_be_new_visit</campaignName>
-		<campaignSource />
-		<campaignGroup />
-		<campaignPlacement />
-	</row>
-	<row>
-		<idSite>1</idSite>
-		<idVisit>10</idVisit>
-		<visitIp>156.5.3.2</visitIp>
-		
-		<fingerprint>e16cf2bbaeea2c88</fingerprint>
-		<actionDetails>
-			<row>
-				<type>action</type>
-				<url>http://example.com/</url>
-				<pageTitle>Viewing homepage, will be recorded as a visit from Campaign</pageTitle>
-				<pageIdAction>8</pageIdAction>
-				
-				
-				<pageId>11</pageId>
-				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
-				<pageviewPosition>1</pageviewPosition>
-				<title>Viewing homepage, will be recorded as a visit from Campaign</title>
-				<subtitle>http://example.com/</subtitle>
-				<icon />
-				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
-				
-				<bandwidth_pretty>0 M</bandwidth_pretty>
-			</row>
-		</actionDetails>
-		<goalConversions>0</goalConversions>
-		<siteCurrency>USD</siteCurrency>
-		<siteCurrencySymbol>$</siteCurrencySymbol>
-		
-		
-		
-		
-		<siteName>Piwik test</siteName>
-		
-		
-		
-		
-		
-		
-		<userId />
-		<visitorType>new</visitorType>
-		<visitorTypeIcon />
-		<visitConverted>0</visitConverted>
-		<visitConvertedIcon />
-		<visitCount>1</visitCount>
-		<visitEcommerceStatus>none</visitEcommerceStatus>
-		<visitEcommerceStatusIcon />
-		<daysSinceFirstVisit>0</daysSinceFirstVisit>
-		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
-		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
-		<secondsSinceLastEcommerceOrder />
-		<visitDuration>0</visitDuration>
-		<visitDurationPretty>0s</visitDurationPretty>
-		<searches>0</searches>
-		<actions>1</actions>
-		<interactions>1</interactions>
-		<referrerType>campaign</referrerType>
-		<referrerTypeName>Campaigns</referrerTypeName>
-		<referrerName>november_offer</referrerName>
-		<referrerKeyword>mot_clé_pépère</referrerKeyword>
+		<referrerName>10th</referrerName>
+		<referrerKeyword>keyword a</referrerKeyword>
 		<referrerKeywordPosition />
 		<referrerUrl />
 		<referrerSearchEngineUrl />
@@ -1448,13 +1313,148 @@
 		</pluginsIcons>
 		<customVariables>
 		</customVariables>
-		<campaignId>campaign_id_kaboom</campaignId>
-		<campaignContent>contains personalized campaigns for client</campaignContent>
-		<campaignKeyword>mot_clé_pépère</campaignKeyword>
+		<campaignId>cid1</campaignId>
+		<campaignContent>none</campaignContent>
+		<campaignKeyword>keyword a</campaignKeyword>
 		<campaignMedium>email</campaignMedium>
-		<campaignName>november_offer</campaignName>
-		<campaignSource>newsletter_7</campaignSource>
-		<campaignGroup>audience group 1</campaignGroup>
-		<campaignPlacement>google search</campaignPlacement>
+		<campaignName>10th</campaignName>
+		<campaignSource>newsletter_10</campaignSource>
+		<campaignGroup>cg1</campaignGroup>
+		<campaignPlacement>bottom</campaignPlacement>
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>29</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<fingerprint>e16cf2bbaeea2c88</fingerprint>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.com/</url>
+				<pageTitle>Coming back with another campaign 11th</pageTitle>
+				<pageIdAction>8</pageIdAction>
+				
+				
+				<pageId>30</pageId>
+				<bandwidth />
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<pageviewPosition>1</pageviewPosition>
+				<title>Coming back with another campaign 11th</title>
+				<subtitle>http://example.com/</subtitle>
+				<icon />
+				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
+				
+				<bandwidth_pretty>0 M</bandwidth_pretty>
+			</row>
+		</actionDetails>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		
+		
+		
+		<siteName>Piwik test</siteName>
+		
+		
+		
+		
+		
+		
+		<userId />
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.png</visitorTypeIcon>
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitCount>5</visitCount>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<secondsSinceFirstVisit>6840</secondsSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<secondsSinceLastEcommerceOrder />
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<searches>0</searches>
+		<actions>1</actions>
+		<interactions>1</interactions>
+		<referrerType>campaign</referrerType>
+		<referrerTypeName>Campaigns</referrerTypeName>
+		<referrerName>11th</referrerName>
+		<referrerKeyword>keyword b</referrerKeyword>
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<referrerSocialNetworkUrl />
+		<referrerSocialNetworkIcon />
+		<languageCode>fr</languageCode>
+		<language>French</language>
+		<deviceType>Desktop</deviceType>
+		<deviceTypeIcon>plugins/Morpheus/icons/dist/devices/desktop.png</deviceTypeIcon>
+		<deviceBrand>Unknown</deviceBrand>
+		<deviceModel>Generic Desktop</deviceModel>
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemName>Windows</operatingSystemName>
+		<operatingSystemIcon>plugins/Morpheus/icons/dist/os/WIN.png</operatingSystemIcon>
+		<operatingSystemCode>WIN</operatingSystemCode>
+		<operatingSystemVersion>XP</operatingSystemVersion>
+		<browserFamily>Gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browser>Firefox 3.6</browser>
+		<browserName>Firefox</browserName>
+		<browserIcon>plugins/Morpheus/icons/dist/browsers/FF.png</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
+		<totalEcommerceRevenue>555</totalEcommerceRevenue>
+		<totalEcommerceConversions>1</totalEcommerceConversions>
+		<totalEcommerceItems>5</totalEcommerceItems>
+		<totalAbandonedCartsRevenue>555</totalAbandonedCartsRevenue>
+		<totalAbandonedCarts>1</totalAbandonedCarts>
+		<totalAbandonedCartsItems>5</totalAbandonedCartsItems>
+		<events>0</events>
+		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
+		<country>France</country>
+		<countryCode>fr</countryCode>
+		<countryFlag>plugins/Morpheus/icons/dist/flags/fr.png</countryFlag>
+		<region />
+		<regionCode />
+		<city />
+		<location>France</location>
+		<latitude />
+		<longitude />
+		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<secondsSinceLastVisit>0</secondsSinceLastVisit>
+		<resolution>1024x768</resolution>
+		<plugins>cookie, flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/cookie.png</pluginIcon>
+				<pluginName>cookie</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/flash.png</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/Morpheus/icons/dist/plugins/java.png</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		<customVariables>
+		</customVariables>
+		<campaignId>cid2</campaignId>
+		<campaignContent>none</campaignContent>
+		<campaignKeyword>keyword b</campaignKeyword>
+		<campaignMedium>email</campaignMedium>
+		<campaignName>11th</campaignName>
+		<campaignSource>newsletter_11</campaignSource>
+		<campaignGroup>cg2</campaignGroup>
+		<campaignPlacement>top</campaignPlacement>
 	</row>
 </result>

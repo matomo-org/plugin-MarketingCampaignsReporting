@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<nb_uniq_visitors>1</nb_uniq_visitors>
-	<nb_visits>10</nb_visits>
+	<nb_visits>18</nb_visits>
 	<nb_users>0</nb_users>
-	<nb_actions>10</nb_actions>
+	<nb_actions>18</nb_actions>
 	<max_actions>1</max_actions>
-	<bounce_count>10</bounce_count>
+	<bounce_count>18</bounce_count>
 	<sum_visit_length>2169</sum_visit_length>
 	<nb_visits_new>1</nb_visits_new>
 	<nb_actions_new>1</nb_actions_new>
@@ -15,25 +15,25 @@
 	<bounce_rate_new>100%</bounce_rate_new>
 	<nb_actions_per_visit_new>1</nb_actions_per_visit_new>
 	<avg_time_on_site_new>0</avg_time_on_site_new>
-	<nb_visits_returning>9</nb_visits_returning>
-	<nb_actions_returning>9</nb_actions_returning>
+	<nb_visits_returning>17</nb_visits_returning>
+	<nb_actions_returning>17</nb_actions_returning>
 	<nb_uniq_visitors_returning>1</nb_uniq_visitors_returning>
 	<nb_users_returning>0</nb_users_returning>
 	<max_actions_returning>1</max_actions_returning>
 	<bounce_rate_returning>100%</bounce_rate_returning>
 	<nb_actions_per_visit_returning>1</nb_actions_per_visit_returning>
-	<avg_time_on_site_returning>241</avg_time_on_site_returning>
+	<avg_time_on_site_returning>128</avg_time_on_site_returning>
 	<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
 	<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
 	<Referrers_visitorsFromDirectEntry>0</Referrers_visitorsFromDirectEntry>
 	<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
-	<Referrers_visitorsFromCampaigns>10</Referrers_visitorsFromCampaigns>
+	<Referrers_visitorsFromCampaigns>18</Referrers_visitorsFromCampaigns>
 	<Referrers_distinctSearchEngines>0</Referrers_distinctSearchEngines>
 	<Referrers_distinctSocialNetworks>0</Referrers_distinctSocialNetworks>
 	<Referrers_distinctKeywords>0</Referrers_distinctKeywords>
 	<Referrers_distinctWebsites>0</Referrers_distinctWebsites>
 	<Referrers_distinctWebsitesUrls>0</Referrers_distinctWebsitesUrls>
-	<Referrers_distinctCampaigns>9</Referrers_distinctCampaigns>
+	<Referrers_distinctCampaigns>17</Referrers_distinctCampaigns>
 	<PagePerformance_network_time>0</PagePerformance_network_time>
 	<PagePerformance_network_hits>0</PagePerformance_network_hits>
 	<PagePerformance_servery_time>0</PagePerformance_servery_time>
@@ -58,7 +58,7 @@
 	<nb_conversions>4</nb_conversions>
 	<nb_visits_converted>2</nb_visits_converted>
 	<revenue>4999</revenue>
-	<conversion_rate>20%</conversion_rate>
+	<conversion_rate>11.11%</conversion_rate>
 	<nb_conversions_new_visit>0</nb_conversions_new_visit>
 	<nb_visits_converted_new_visit>0</nb_visits_converted_new_visit>
 	<revenue_new_visit>0</revenue_new_visit>
@@ -66,12 +66,12 @@
 	<nb_conversions_returning_visit>4</nb_conversions_returning_visit>
 	<nb_visits_converted_returning_visit>2</nb_visits_converted_returning_visit>
 	<revenue_returning_visit>4999</revenue_returning_visit>
-	<conversion_rate_returning_visit>22.22%</conversion_rate_returning_visit>
+	<conversion_rate_returning_visit>11.76%</conversion_rate_returning_visit>
 	<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 	<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
 	<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
-	<nb_pageviews>10</nb_pageviews>
-	<nb_uniq_pageviews>10</nb_uniq_pageviews>
+	<nb_pageviews>18</nb_pageviews>
+	<nb_uniq_pageviews>18</nb_uniq_pageviews>
 	<nb_downloads>0</nb_downloads>
 	<nb_uniq_downloads>0</nb_uniq_downloads>
 	<nb_outlinks>0</nb_outlinks>
@@ -85,5 +85,5 @@
 	<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
 	<bounce_rate>100%</bounce_rate>
 	<nb_actions_per_visit>1</nb_actions_per_visit>
-	<avg_time_on_site>217</avg_time_on_site>
+	<avg_time_on_site>121</avg_time_on_site>
 </result>

@@ -35,6 +35,118 @@
 		<segment>campaignName==ecommerce_campaign</segment>
 	</row>
 	<row>
+		<label>10th - keyword a - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>10th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword a - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==10th</segment>
+	</row>
+	<row>
+		<label>11th - keyword b - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>11th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword b - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==11th</segment>
+	</row>
+	<row>
+		<label>12th - keyword c - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>12th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword c - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==12th</segment>
+	</row>
+	<row>
+		<label>13th - keyword d - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>13th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword d - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==13th</segment>
+	</row>
+	<row>
+		<label>14th - keyword e - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>14th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword e - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==14th</segment>
+	</row>
+	<row>
+		<label>15th - keyword f - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>15th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword f - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==15th</segment>
+	</row>
+	<row>
+		<label>16th - keyword g - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>16th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword g - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==16th</segment>
+	</row>
+	<row>
+		<label>17th - keyword h - none</label>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<MarketingCampaignsReporting_CampaignName>17th</MarketingCampaignsReporting_CampaignName>
+		<MarketingCampaignsReporting_CombinedKeywordContent>keyword h - none</MarketingCampaignsReporting_CombinedKeywordContent>
+		<segment>campaignName==17th</segment>
+	</row>
+	<row>
 		<label>campaignnamedimension - no other dimension for this visit</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>1</nb_visits>

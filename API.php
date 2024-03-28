@@ -25,10 +25,10 @@ use Piwik\Plugins\Referrers\API as ReferrersAPI;
  */
 class API extends \Piwik\Plugin\API
 {
-    protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
+    protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $dataTable = Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, false, $idSubtable);
+        $dataTable = Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable);
         $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
         return $dataTable;
     }
@@ -40,9 +40,9 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getName($idSite, $period, $date, $segment = false, $expanded = false)
+    public function getName($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
-        $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
         $dataTable->filter('AddSegmentValue');
 
         if ($this->isTableEmpty($dataTable)) {
@@ -55,7 +55,7 @@ class API extends \Piwik\Plugin\API
 
     public function getKeywordContentFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
 
         if (!$this->isTableEmpty($dataTable)) {
             return $dataTable;
@@ -140,15 +140,15 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getSourceMedium($idSite, $period, $date, $segment = false, $expanded = false)
+    public function getSourceMedium($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
-        $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
         return $dataTable;
     }
 
     public function getNameFromSourceMediumId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
         return $dataTable;
     }
 

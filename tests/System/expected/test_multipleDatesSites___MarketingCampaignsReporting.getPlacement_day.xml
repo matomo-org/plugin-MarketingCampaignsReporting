@@ -36,6 +36,42 @@
 				<segment>campaignPlacement==ecommmerce_campaignplacement</segment>
 			</row>
 			<row>
+				<label>bottom</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==bottom</segment>
+			</row>
+			<row>
+				<label>bottom-left</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==bottom-left</segment>
+			</row>
+			<row>
+				<label>center</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==center</segment>
+			</row>
+			<row>
 				<label>google ads</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -58,6 +94,66 @@
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 				<segment>campaignPlacement==google+search</segment>
+			</row>
+			<row>
+				<label>left</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==left</segment>
+			</row>
+			<row>
+				<label>middle</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==middle</segment>
+			</row>
+			<row>
+				<label>right</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==right</segment>
+			</row>
+			<row>
+				<label>top</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==top</segment>
+			</row>
+			<row>
+				<label>top-right</label>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_visits>1</nb_visits>
+				<nb_actions>1</nb_actions>
+				<nb_users>0</nb_users>
+				<max_actions>1</max_actions>
+				<sum_visit_length>0</sum_visit_length>
+				<bounce_count>1</bounce_count>
+				<nb_visits_converted>0</nb_visits_converted>
+				<segment>campaignPlacement==top-right</segment>
 			</row>
 		</result>
 		<result date="2013-01-24" />
