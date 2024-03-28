@@ -1,1 +1,23 @@
-{}
+{
+    "MarketingCampaignsReporting": {
+        "CampaignId": "ઝુંબેશ આઈડી",
+        "CampaignIds": "ઝુંબેશ આઈડી",
+        "CombinedKeywordContent": "કીવર્ડ - સામગ્રી",
+        "CombinedSourceMedium": "સ્ત્રોત - માધ્યમ",
+        "CombinedSourcesMediums": "ઝુંબેશ સ્ત્રોત - માધ્યમ",
+        "Content": "ઝુંબેશ સામગ્રી",
+        "Contents": "ઝુંબેશની સામગ્રી",
+        "Group": "ઝુંબેશ જૂથ",
+        "Groups": "ઝુંબેશ જૂથો",
+        "Keyword": "ઝુંબેશ કીવર્ડ",
+        "Keywords": "ઝુંબેશ કીવર્ડ્સ",
+        "Medium": "ઝુંબેશ માધ્યમ",
+        "Mediums": "ઝુંબેશ માધ્યમો",
+        "Name": "ઝુંબેશનું નામ",
+        "Names": "ઝુંબેશના નામ",
+        "Placement": "ઝુંબેશ પ્લેસમેન્ટ",
+        "Placements": "ઝુંબેશ પ્લેસમેન્ટ્સ",
+        "Source": "ઝુંબેશ સ્ત્રોત",
+        "Sources": "ઝુંબેશ સ્ત્રોતો"
+    }
+}
