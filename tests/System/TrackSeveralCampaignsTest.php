@@ -82,15 +82,9 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         $columnsToHide = [];
 
-        if (version_compare(Version::VERSION, '4.12.0', '<')) {
-            // In Matomo 4.12 referrer columns had been added to goal actions. For tests with older Matomo releases we therefor ignore those columns
+        if (version_compare(Version::VERSION, '5.2.0-alpha', '<')) {
+            // In Matomo 5.2 referrer columns had been added to ecommerce actions. For tests with older Matomo releases we therefor ignore those columns
             $columnsToHide = ['referrerType', 'referrerName', 'referrerKeyword'];
-        }
-
-        if (version_compare(Version::VERSION, '4.8.0', '<')) {
-            // In Matomo 4.12 referrer columns had been added to goal actions. For tests with older Matomo releases we therefor ignore those columns
-            $columnsToHide[] = 'timeSpent';
-            $columnsToHide[] = 'timeSpentPretty';
         }
 
         $apiToTest[] = [

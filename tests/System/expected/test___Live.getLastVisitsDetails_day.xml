@@ -37,6 +37,9 @@
 				<items>5</items>
 				
 				
+				<referrerType>campaign</referrerType>
+				<referrerName>ecommerce_campaign</referrerName>
+				<referrerKeyword>ecommerce_keyword</referrerKeyword>
 				<itemDetails>
 					<row>
 						<itemSKU>item SKU</itemSKU>
@@ -196,6 +199,9 @@
 				<items>5</items>
 				
 				
+				<referrerType>campaign</referrerType>
+				<referrerName>ecommerce_campaign</referrerName>
+				<referrerKeyword>ecommerce_keyword</referrerKeyword>
 				<itemDetails>
 					<row>
 						<itemSKU>item SKU</itemSKU>
