@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.1.1 - 2025-01-15
+- Changed to logic to lower the campaign values in database query instead of serverside 
+
 #### 5.1.0
 - Added an option to retain the case of campaign parameter values via SystemSetting
 

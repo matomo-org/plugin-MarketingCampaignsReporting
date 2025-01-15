@@ -40,6 +40,7 @@ class MarketingCampaignsReporting extends Plugin
             'Report.filterReports'                        => 'removeOriginalCampaignReport',
             'Insights.addReportToOverview'                => 'addReportToInsightsOverview',
             'AssetManager.getStylesheetFiles'             => 'getStylesheetFiles',
+            'Plugin.shouldLowerCampaignCase'              => 'shouldLowerCampaignCase',
         );
     }
 
@@ -119,5 +120,11 @@ class MarketingCampaignsReporting extends Plugin
     public function isTrackerPlugin()
     {
         return true;
+    }
+
+    public function shouldLowerCampaignCase($pluginName, &$shouldLowerCampaignCase)
+    {
+        $systemSettings = StaticContainer::get(SystemSettings::class);
+        $shouldLowerCampaignCase = !$systemSettings->doNotChangeCaseOfUtmParameters->getValue();
     }
 }

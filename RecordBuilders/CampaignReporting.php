@@ -79,6 +79,16 @@ class CampaignReporting extends RecordBuilder
      */
     protected function aggregateFromLogs(LogAggregator $logAggregator, array $records, $dimensions, $table, $aggregatorMethod): void
     {
+        $systemSettings = StaticContainer::get(SystemSettings::class);
+        if (!$systemSettings->doNotChangeCaseOfUtmParameters->getValue()) {
+            $newDimensions = [];
+            foreach ($dimensions as $dimension) {
+                $lowerDimensionColumn = $table . '.' . $dimension;
+                $newDimensions[$dimension] = "LOWER($lowerDimensionColumn)";
+            }
+            $dimensions = $newDimensions;
+        }
+
         $whereClause = $table . ".referer_type = " . Common::REFERRER_TYPE_CAMPAIGN;
         $query = $aggregatorMethod === 'queryConversionsByDimension' && version_compare(Version::VERSION, '5.2.0-b6', '>=')
             ? $logAggregator->$aggregatorMethod($dimensions, $whereClause, [], [], false, false, true)
@@ -134,7 +144,6 @@ class CampaignReporting extends RecordBuilder
 
     protected function getLabelFromRowDimensions(array $dimensionsAsLabel, array $row): string
     {
-        $systemSettings = StaticContainer::get(SystemSettings::class);
         $labels = [];
         foreach ($dimensionsAsLabel as $dimensionLabelPart) {
             if (
@@ -144,12 +153,8 @@ class CampaignReporting extends RecordBuilder
                 $labels[] = $row[$dimensionLabelPart];
             }
         }
-        $label = implode(Archiver::SEPARATOR_COMBINED_DIMENSIONS, $labels);
-        if ($label && !$systemSettings->doNotChangeCaseOfUtmParameters->getValue()) {
-            $label = Common::mb_strtolower($label);
-        }
 
-        return $label;
+        return implode(Archiver::SEPARATOR_COMBINED_DIMENSIONS, $labels);
     }
 
     protected function getRecordToDimensions(): array
