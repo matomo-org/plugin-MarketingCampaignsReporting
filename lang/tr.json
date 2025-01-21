@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Kampanya kaynağı - ortam",
         "Content": "Kampanya içeriği",
         "Contents": "Kampanya içerikleri",
+        "DoNotChangeCaseOfUtmParametersDescription": "Bu seçenek açıldığında, Matomo, Google gibi üçüncü taraf hizmetlerle uyumluluğu sağlamak için kampanya parametrelerinin özgün küçük/büyük harf kullanımı korunur. Kapalı olduğunda, tüm kampanya parametreleri küçük harfe dönüştürülür.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Kampanya parametresiniin küçük/büyük harfleri korunsun",
         "Group": "Kampanya grubu",
         "Groups": "Kampanya grubu",
         "Keyword": "Kampanya anahtar sözcüğü",

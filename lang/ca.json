@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Font de campanya - Mig",
         "Content": "Contingut de la campanya",
         "Contents": "Continguts de campanya",
+        "DoNotChangeCaseOfUtmParametersDescription": "Quan estigui activat, Matomo mantindrà la majúscula original dels paràmetres de la campanya per garantir la compatibilitat amb serveis de tercers com Google. Si està desactivat, tots els paràmetres de la campanya es convertiran a minúscules.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Manteniu les majúscules dels paràmetres de la campanya",
         "Group": "Grup de la campanya",
         "Groups": "Grups de campanya",
         "Keyword": "Paraula clau de la campanya",
