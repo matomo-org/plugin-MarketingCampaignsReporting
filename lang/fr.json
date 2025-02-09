@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Source de la campagne - Media",
         "Content": "Contenu de la campagne",
         "Contents": "Contenus de la campagne",
+        "DoNotChangeCaseOfUtmParametersDescription": "Lorsque cette option est activée, Matomo conservera la casse d'origine des paramètres de campagne pour assurer la compatibilité avec les services tiers comme Google. Si elle est désactivée, tous les paramètres de campagne seront convertis en minuscules.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Conserver la casse des paramètres de campagne",
         "Group": "Groupe de campagne",
         "Groups": "Groupes de campagne",
         "Keyword": "Mot clé de la campagne",
