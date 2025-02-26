@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Campagne Bron - Medium",
         "Content": "Campagne inhoud",
         "Contents": "Campagne Inhoud",
+        "DoNotChangeCaseOfUtmParametersDescription": "Indien ingeschakeld, behoudt Matomo de oorspronkelijke hoofdletters in campagneparameters om compatibiliteit met services van derden, zoals Google, te garanderen. Indien uitgeschakeld, worden alle campagneparameters omgezet naar kleine letters.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Behoud hoofdletters in campagneparameters",
         "Group": "Campagne groep",
         "Groups": "Campagne groepen",
         "Keyword": "Campagne trefwoord",
