@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.1.2 - 2025-07-21
+- README.md updated
+
 #### 5.1.1 - 2025-01-15
 - Changed to logic to lower the campaign values in database query instead of serverside 
 
