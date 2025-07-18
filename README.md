@@ -87,6 +87,8 @@ campaign_placement = "mtm_placement"
 ```
 
 For example, by default parameter `campaign_name` track following parameters if they are found in URL: `'mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'utm_campaign'`. If you configure `campaign_name` like this `campaign_name="mtm_campaign,custom_name_parameter"`, then parameter `campaign_name` will detect only presence of `mtm_campaign` and `custom_name_parameter` in URL. `matomo_campaign`, `mtm_cpn`, `utm_campaign` will be ignored until they are present in config.
+
 All parameter keys are case‑sensitive. For example, if you set `campaign_group = "mtm_group"`, it will match only `mtm_group`, not `MTM_GROUP`.
-Parameter values are case‑insensitive unless the `Keep campaign parameter capitalisation` setting is enabled.
+
+All Parameter values are case‑insensitive unless the `Keep campaign parameter capitalisation` setting is enabled. For example, when the setting is disabled, values like `SummerSale` and `summersale` are treated as identical.
 
