@@ -99,6 +99,11 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             $columnsToHide = ['referrerType', 'referrerName', 'referrerKeyword'];
         }
 
+        if (version_compare(Version::VERSION, '5.4.0-b5', '<')) {
+            // In Matomo 5.4 ai referrer had been added
+            $columnsToHide = ['referrerAIAssistantUrl', 'referrerAIAssistantIcon'];
+        }
+
         $apiToTest[] = [
             'Live.getLastVisitsDetails',
             [
