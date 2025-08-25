@@ -84,7 +84,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         $xmlFieldsToRemove = [];
 
-        if (version_compare(Version::VERSION, '5.4.0-b5', '<')) {
+        if (version_compare(Version::VERSION, '5.5.0-b1', '<')) {
             $xmlFieldsToRemove = ['Referrers_visitorsFromAIAssistants', 'Referrers_distinctAIAssistants', 'Referrers_visitorsFromAIAssistants_percent'];
         }
 
@@ -106,8 +106,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             $columnsToHide = array_merge($columnsToHide, ['referrerType', 'referrerName', 'referrerKeyword']);
         }
 
-        if (version_compare(Version::VERSION, '5.4.0-b5', '<')) {
-            // In Matomo 5.4 ai referrer had been added
+        if (version_compare(Version::VERSION, '5.5.0-b1', '<')) {
+            // In Matomo 5.5 ai referrer had been added
             $columnsToHide = array_merge($columnsToHide, ['referrerAIAssistantUrl', 'referrerAIAssistantIcon']);
         }
 
