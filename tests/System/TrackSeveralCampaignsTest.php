@@ -82,6 +82,12 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         $dateTime              = self::$fixture->dateTime;
         $phpVersionPrefix = version_compare(PHP_VERSION, 8.2, '<') && !self::$isMariaDB ? 'min_php_' : '';
 
+        $xmlFieldsToRemove = [];
+
+        if (version_compare(Version::VERSION, '5.5.0-b1', '<')) {
+            $xmlFieldsToRemove = ['Referrers_visitorsFromAIAssistants', 'Referrers_distinctAIAssistants', 'Referrers_visitorsFromAIAssistants_percent'];
+        }
+
         $apiToTest[] = [
             'API.get',
             [
@@ -89,6 +95,7 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'    => $dateWithPluginEnabled,
                 'periods' => ['day'],
                 'testSuffix' => (!empty($phpVersionPrefix) ? $phpVersionPrefix : 'max_php_') . (version_compare(Version::VERSION, '5.2.0-b6', '<') ? 'old' : ''),
+                'xmlFieldsToRemove' => $xmlFieldsToRemove,
             ]
         ];
 
@@ -96,7 +103,12 @@ class TrackSeveralCampaignsTest extends SystemTestCase
 
         if (version_compare(Version::VERSION, '5.2.0-alpha', '<')) {
             // In Matomo 5.2 referrer columns had been added to ecommerce actions. For tests with older Matomo releases we therefor ignore those columns
-            $columnsToHide = ['referrerType', 'referrerName', 'referrerKeyword'];
+            $columnsToHide = array_merge($columnsToHide, ['referrerType', 'referrerName', 'referrerKeyword']);
+        }
+
+        if (version_compare(Version::VERSION, '5.5.0-b1', '<')) {
+            // In Matomo 5.5 ai referrer had been added
+            $columnsToHide = array_merge($columnsToHide, ['referrerAIAssistantUrl', 'referrerAIAssistantIcon']);
         }
 
         $apiToTest[] = [
