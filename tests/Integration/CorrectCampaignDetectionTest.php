@@ -106,6 +106,25 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
                 ],
             ];
 
+            yield 'campaign parameters are ignored for AI referrers' => [
+                'https://www.example.com/?utm_source=random&utm_campaign=random',
+                'https://chatgpt.com/',
+                [
+                    'referer_type'       => Common::REFERRER_TYPE_AI_ASSISTANT,
+                    'referer_name'       => 'ChatGPT',
+                    'referer_url'        => 'https://chatgpt.com/',
+                    'referer_keyword'    => '',
+                    'campaign_content'   => '',
+                    'campaign_group'     => '',
+                    'campaign_id'        => '',
+                    'campaign_keyword'   => '',
+                    'campaign_medium'    => '',
+                    'campaign_name'      => '',
+                    'campaign_placement' => '',
+                    'campaign_source'    => '',
+                ],
+            ];
+
             yield 'ChatGPT referrer with utm_source param is detected as AI assistant' => [
                 'https://www.example.com/?utm_source=chatgpt.com',
                 'https://chatgpt.com/',
