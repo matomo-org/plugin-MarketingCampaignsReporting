@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.1.3 - 2025-10-13
+- Fix for handling AI referrers correctly, providing utm_source parameter
+
 #### 5.1.2 - 2025-07-21
 - README.md updated
 

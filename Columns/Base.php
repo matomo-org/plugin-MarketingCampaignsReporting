@@ -44,6 +44,11 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
+        // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
+        if ($visitProperties['referer_type'] === 8) {
+            return null; // skip campaign detection when a AI assistant was detected as referrer by core
+        }
+
         $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
             $request,
             $campaignParameters
@@ -81,6 +86,11 @@ abstract class Base extends VisitDimension
         $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
 
         $visitProperties = $visitor->visitProperties->getProperties();
+
+        // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
+        if ($visitProperties['referer_type'] === 8) {
+            return null; // skip campaign detection when a AI assistant was detected as referrer by core
+        }
 
         $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
             $visitProperties,

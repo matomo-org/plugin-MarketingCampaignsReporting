@@ -24,6 +24,11 @@ class RequestProcessor extends Tracker\RequestProcessor
 {
     public function onNewVisit(Tracker\Visit\VisitProperties $visitProperties, Tracker\Request $request)
     {
+        // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
+        if ($visitProperties->getProperty('referer_type') === 8) {
+            return; // skip campaign detection when a AI assistant was detected as referrer by core
+        }
+
         $campaignName      = $visitProperties->getProperty((new CampaignName())->getColumnName());
         $campaignKeyword   = $visitProperties->getProperty((new CampaignKeyword())->getColumnName());
         $campaignMedium    = $visitProperties->getProperty((new CampaignMedium())->getColumnName());
