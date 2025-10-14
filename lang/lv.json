@@ -1,7 +1,6 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampaņas",
-        "Name": "Vārds",
-        "Keyword": "Atslēgvārds"
+        "Keyword": "Atslēgvārds",
+        "Name": "Vārds"
     }
 }
