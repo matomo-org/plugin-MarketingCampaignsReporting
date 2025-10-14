@@ -1,9 +1,8 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampanijos",
-        "Name": "Pavadinimas",
+        "Content": "Turinys",
         "Keyword": "Raktinis žodis",
-        "Source": "Šaltinis",
-        "Content": "Turinys"
+        "Name": "Pavadinimas",
+        "Source": "Šaltinis"
     }
 }
