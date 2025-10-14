@@ -1,8 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Campanii",
-        "Name": "Nume",
         "Keyword": "Cuvânt-cheie",
+        "Name": "Nume",
         "Source": "Sursa"
     }
 }
