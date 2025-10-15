@@ -1,7 +1,6 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Кампаніі",
-        "Name": "Імя",
-        "Keyword": "Ключавое слова"
+        "Keyword": "Ключавое слова",
+        "Name": "Імя"
     }
 }

@@ -1,7 +1,6 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "კამპანიები",
-        "Name": "სახელი",
-        "Keyword": "საკვანძო სიტყვა"
+        "Keyword": "საკვანძო სიტყვა",
+        "Name": "სახელი"
     }
 }

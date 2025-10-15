@@ -1,7 +1,6 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Herferðir",
-        "Name": "Nafn",
-        "Keyword": "Leitarorð"
+        "Keyword": "Leitarorð",
+        "Name": "Nafn"
     }
 }

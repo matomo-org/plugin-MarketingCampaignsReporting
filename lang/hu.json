@@ -1,8 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Kampányok",
-        "Name": "Név",
         "Keyword": "Kulcsszó",
+        "Name": "Név",
         "Source": "Forrás"
     }
 }

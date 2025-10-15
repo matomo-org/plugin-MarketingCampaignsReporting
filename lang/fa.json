@@ -1,8 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "کمپین",
-        "Name": "نام",
         "Keyword": "کلمه کلیدی",
+        "Name": "نام",
         "Source": "منبع"
     }
 }

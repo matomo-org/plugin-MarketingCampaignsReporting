@@ -1,8 +1,7 @@
 {
     "MarketingCampaignsReporting": {
-        "Title": "Các chiến dịch",
-        "Name": "Tên",
         "Keyword": "Từ khóa",
+        "Name": "Tên",
         "Source": "Mã nguồn"
     }
 }
