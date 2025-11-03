@@ -88,6 +88,28 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             $xmlFieldsToRemove = ['Referrers_visitorsFromAIAssistants', 'Referrers_distinctAIAssistants', 'Referrers_visitorsFromAIAssistants_percent'];
         }
 
+        if (version_compare(Version::VERSION, '5.6.0-alpha', '<')) {
+            // In Matomo 5.6 AI agent information had been added
+            $xmlFieldsToRemove = array_merge($xmlFieldsToRemove, [
+                'nb_visits_ai_agent',
+                'nb_actions_ai_agent',
+                'nb_uniq_visitors_ai_agent',
+                'nb_users_ai_agent',
+                'max_actions_ai_agent',
+                'bounce_rate_ai_agent',
+                'nb_actions_per_visit_ai_agent',
+                'avg_time_on_site_ai_agent',
+                'nb_visits_human',
+                'nb_actions_human',
+                'nb_uniq_visitors_human',
+                'nb_users_human',
+                'max_actions_human',
+                'bounce_rate_human',
+                'nb_actions_per_visit_human',
+                'avg_time_on_site_human',
+            ]);
+        }
+
         $apiToTest[] = [
             'API.get',
             [
@@ -109,6 +131,28 @@ class TrackSeveralCampaignsTest extends SystemTestCase
         if (version_compare(Version::VERSION, '5.5.0-b1', '<')) {
             // In Matomo 5.5 ai referrer had been added
             $columnsToHide = array_merge($columnsToHide, ['referrerAIAssistantUrl', 'referrerAIAssistantIcon']);
+        }
+
+        if (version_compare(Version::VERSION, '5.6.0-alpha', '<')) {
+            // In Matomo 5.6 AI agent information had been added
+            $columnsToHide = array_merge($columnsToHide, [
+                'nb_visits_ai_agent',
+                'nb_actions_ai_agent',
+                'nb_uniq_visitors_ai_agent',
+                'nb_users_ai_agent',
+                'max_actions_ai_agent',
+                'bounce_rate_ai_agent',
+                'nb_actions_per_visit_ai_agent',
+                'avg_time_on_site_ai_agent',
+                'nb_visits_human',
+                'nb_actions_human',
+                'nb_uniq_visitors_human',
+                'nb_users_human',
+                'max_actions_human',
+                'bounce_rate_human',
+                'nb_actions_per_visit_human',
+                'avg_time_on_site_human',
+            ]);
         }
 
         $apiToTest[] = [
