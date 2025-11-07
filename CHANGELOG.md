@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.1.4 - 2025-11-10
+- Fixed incorrectly forcing a new visit for visits referred by AI referrers
+
 #### 5.1.3 - 2025-10-13
 - Fix for handling AI referrers correctly, providing utm_source parameter
 
