@@ -51,6 +51,20 @@ class CampaignName extends Base
             $campaignParameters
         );
 
+        // Never start a new visit, if the visit was detected as AI Assistant by core, unless
+        // there are campaign parameters detected, that do not resolve to an AI Assistant.
+        // This is a hacky workaround to solves issues where randomly new visits are started when
+        // e.g. someone comes from ChatGPT having the `utm_source=chatgpt.com` url parameter.
+        // That one will be detected as AI Assistant by core. But if someone reloads that page
+        // and the utm source is still present, the check here might otherwise force a new visit,
+        // if the `utm_source` parameter is configured.
+        if ((int)$visitor->getVisitorColumn('referer_type') === 8 && count($campaignDimensions) === 1) {
+            $paramValue = reset($campaignDimensions);
+            if (class_exists('Piwik\Plugins\Referrers\AIAssistant') && \Piwik\Plugins\Referrers\AIAssistant::getInstance()->getAIAssistantFromDomain($paramValue)) {
+                return false;
+            }
+        }
+
         // we force a new visit if the referrer is a campaign and it's different than the currently recorded referrer.
         // if the current referrer is 'direct entry', however, we assume the referrer information was sent in a later request, and
         // we just update the existing referrer information instead of creating a visit.

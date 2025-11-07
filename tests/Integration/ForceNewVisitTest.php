@@ -47,7 +47,7 @@ class ForceNewVisitTest extends IntegrationTestCase
         $configOverride['MarketingCampaignsReporting'] = [
             (new CampaignName())->getColumnName()      => 'pk_campaign,custom_name_parameter',
             (new CampaignKeyword())->getColumnName()   => 'pk_keyword,custom_keyword_parameter',
-            (new CampaignSource())->getColumnName()    => 'pk_source,custom_source_parameter',
+            (new CampaignSource())->getColumnName()    => 'utm_source,pk_source,custom_source_parameter',
             (new CampaignMedium())->getColumnName()    => 'pk_medium,custom_medium_parameter',
             (new CampaignContent())->getColumnName()   => 'pk_content,custom_content_parameter',
             (new CampaignId())->getColumnName()        => 'pk_id,custom_id_parameter',
@@ -207,6 +207,46 @@ class ForceNewVisitTest extends IntegrationTestCase
         $this->tracker->setUrl($url);
 
         Fixture::checkResponse($this->tracker->doTrackPageView('Track another visit with different campaign parameters'));
+
+        $this->assertVisits(2, 1, 2);
+    }
+
+    public function testTrackingAIAssistantDoesNotForceNewVisit(): void
+    {
+        $url = $this->getUrlForTracking(['utm_source' => 'chatgpt.com']);
+
+        $this->tracker->setUrl($url);
+        $this->tracker->setUrlReferrer('https://chatgpt.com');
+
+        Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
+
+        $this->assertVisits(1, 1, 1);
+
+        // simulating a page reload
+        $this->moveTimeForward(0.05);
+        $this->tracker->setUrlReferrer('');
+        Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
+
+        $this->assertVisits(1, 1, 2);
+    }
+
+    public function testCampaignAfterAIAssistantForcesNewVisit(): void
+    {
+        $url = $this->getUrlForTracking(['utm_source' => 'chatgpt.com']);
+
+        $this->tracker->setUrl($url);
+        $this->tracker->setUrlReferrer('https://chatgpt.com');
+
+        Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
+
+        $this->assertVisits(1, 1, 1);
+
+        $this->moveTimeForward(0.05);
+        $this->tracker->setUrlReferrer('');
+        $url = $this->getUrlForTracking(['pk_campaign' => 'custom name']);
+
+        $this->tracker->setUrl($url);
+        Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
 
         $this->assertVisits(2, 1, 2);
     }
