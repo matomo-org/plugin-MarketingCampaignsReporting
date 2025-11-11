@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.1.4 - 2025-11-12
+- Fixed fatal error due to new code to track AI referrer visit
+
 #### 5.1.4 - 2025-11-10
 - Fixed incorrectly forcing a new visit for visits referred by AI referrers
 
