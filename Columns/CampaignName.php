@@ -58,7 +58,7 @@ class CampaignName extends Base
         // That one will be detected as AI Assistant by core. But if someone reloads that page
         // and the utm source is still present, the check here might otherwise force a new visit,
         // if the `utm_source` parameter is configured.
-        if ((int)$visitor->getVisitorColumn('referer_type') === 8 && count($campaignDimensions) === 1) {
+        if ((int)$visitor->getVisitorColumn('referer_type') === 8 && !empty($campaignDimensions) && count($campaignDimensions) === 1) {
             $paramValue = reset($campaignDimensions);
             if (class_exists('Piwik\Plugins\Referrers\AIAssistant') && \Piwik\Plugins\Referrers\AIAssistant::getInstance()->getAIAssistantFromDomain($paramValue)) {
                 return false;
