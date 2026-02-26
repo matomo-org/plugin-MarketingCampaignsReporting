@@ -19,7 +19,8 @@ use Piwik\Piwik;
 use Piwik\Plugins\Referrers\API as ReferrersAPI;
 
 /**
- * API for plugin MarketingCampaignsReporting
+ * The MarketingCampaignsReporting API provides campaign reports grouped by campaign dimensions
+ * such as name, keyword, source, medium, content, group, placement, and source/medium hierarchy.
  *
  * @package MarketingCampaignsReporting
  * @method static \Piwik\Plugins\MarketingCampaignsReporting\API getInstance()
@@ -34,6 +35,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign IDs with standard campaign metrics.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign IDs report.
+     */
     public function getId($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_ID_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -41,6 +59,27 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign names with standard campaign metrics.
+     *
+     * Falls back to the Referrers campaigns report when no archived data is available.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @param bool $expanded Whether to return subtables as nested data.
+     * @param bool $flat Whether to flatten subtables into a single table.
+     * @return DataTable|DataTable\Map Campaign names report.
+     */
     public function getName($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
@@ -54,6 +93,26 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign keyword/content rows for a campaign name subtable ID.
+     *
+     * Falls back to Referrers campaign subtables and then campaign label lookup when needed.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param int $idSubtable Subtable ID to load.
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign keyword/content rows for the selected campaign name.
+     */
     public function getKeywordContentFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
@@ -90,6 +149,25 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign keywords with standard campaign metrics.
+     *
+     * Falls back to merged Referrers campaign subtables when no archived keyword data is available.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign keywords report.
+     */
     public function getKeyword($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_KEYWORD_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -106,6 +184,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign sources with standard campaign metrics.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign sources report.
+     */
     public function getSource($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_SOURCE_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -113,6 +208,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign media with standard campaign metrics.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign media report.
+     */
     public function getMedium($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -120,6 +232,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign contents with standard campaign metrics.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign contents report.
+     */
     public function getContent($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_CONTENT_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -127,6 +256,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign groups with standard campaign metrics.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign groups report.
+     */
     public function getGroup($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_GROUP_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -134,6 +280,23 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns campaign placements with standard campaign metrics.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign placements report.
+     */
     public function getPlacement($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_PLACEMENT_RECORD_NAME, $idSite, $period, $date, $segment);
@@ -141,12 +304,49 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns hierarchical source/medium report rows.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @param bool $expanded Whether to return subtables as nested data.
+     * @param bool $flat Whether to flatten subtables into a single table.
+     * @return DataTable|DataTable\Map Hierarchical source/medium report.
+     */
     public function getSourceMedium($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
         $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
         return $dataTable;
     }
 
+    /**
+     * Returns campaign names for a hierarchical source/medium subtable ID.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string $period The period to process, processes data for the period containing the
+     *                       specified date. Allowed values: "day", "week", "month", "year",
+     *                       "range".
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth,
+     *                     lastYear), or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX,
+     *                     previousX).
+     * @param int $idSubtable Subtable ID to load.
+     * @param string|false $segment (Optional) Custom segment to filter the report.
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @return DataTable|DataTable\Map Campaign names for the selected source/medium row.
+     */
     public function getNameFromSourceMediumId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
