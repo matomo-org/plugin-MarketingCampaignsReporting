@@ -38,7 +38,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns campaign IDs with standard campaign metrics.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -64,7 +67,10 @@ class API extends \Piwik\Plugin\API
      *
      * Falls back to the Referrers campaigns report when no archived data is available.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -98,7 +104,10 @@ class API extends \Piwik\Plugin\API
      *
      * Falls back to Referrers campaign subtables and then campaign label lookup when needed.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -154,7 +163,10 @@ class API extends \Piwik\Plugin\API
      *
      * Falls back to merged Referrers campaign subtables when no archived keyword data is available.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -187,7 +199,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns campaign sources with standard campaign metrics.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -211,7 +226,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns campaign media with standard campaign metrics.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -235,7 +253,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns campaign contents with standard campaign metrics.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -259,7 +280,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns campaign groups with standard campaign metrics.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -283,7 +307,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns campaign placements with standard campaign metrics.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -307,7 +334,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns hierarchical source/medium report rows.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
@@ -332,7 +362,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns campaign names for a hierarchical source/medium subtable ID.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                         - Single site ID (e.g. 1)
+     *                         - Multiple site IDs (e.g. [1, 4, 5])
+     *                         - Comma-separated list ("1,4,5") or "all"
      * @param string $period The period to process, processes data for the period containing the
      *                       specified date. Allowed values: "day", "week", "month", "year",
      *                       "range".
