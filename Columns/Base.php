@@ -12,6 +12,7 @@ namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Tracker\Action;
@@ -41,6 +42,7 @@ abstract class Base extends VisitDimension
     {
         $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
         $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
+        $campaignValuesMasked = MarketingCampaignsReporting::isCampaignValuesMaskingEnabled((int) $request->getIdSiteIfExists());
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
@@ -53,6 +55,7 @@ abstract class Base extends VisitDimension
             $request,
             $campaignParameters
         );
+        $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $campaignValuesMasked);
 
         if (empty($campaignDimensions)) {
             // If for some reason a campaign was detected in Core Tracker
@@ -84,6 +87,7 @@ abstract class Base extends VisitDimension
     {
         $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
         $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
+        $campaignValuesMasked = MarketingCampaignsReporting::isCampaignValuesMaskingEnabled((int) $request->getIdSiteIfExists());
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
@@ -96,12 +100,14 @@ abstract class Base extends VisitDimension
             $visitProperties,
             $campaignParameters
         );
+        $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $campaignValuesMasked);
 
         if (empty($campaignDimensions)) {
             $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
                 $request,
                 $campaignParameters
             );
+            $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $campaignValuesMasked);
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
@@ -109,5 +115,23 @@ abstract class Base extends VisitDimension
         }
 
         return null;
+    }
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        return MarketingCampaignsReporting::formatCampaignValue($value);
+    }
+
+    private function maskDetectedCampaignDimensions($campaignDimensions, bool $campaignValuesMasked)
+    {
+        if (empty($campaignDimensions) || !$campaignValuesMasked) {
+            return $campaignDimensions;
+        }
+
+        foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
+            $campaignDimensions[$field] = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        }
+
+        return $campaignDimensions;
     }
 }
