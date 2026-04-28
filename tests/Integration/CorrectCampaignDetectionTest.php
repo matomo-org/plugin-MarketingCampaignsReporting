@@ -16,6 +16,7 @@ use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSourceMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Plugins\MarketingCampaignsReporting\VisitorDetails;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
 use Piwik\Policy\CnilPolicy;
@@ -175,8 +176,8 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
     public function testTrackingMasksCampaignDimensionsWhenCnilPolicyIsEnabled()
     {
-        $settingClass = $this->getCampaignValuesMaskedSettingClass();
-        if (empty($settingClass)) {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
             $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
         }
 
@@ -196,7 +197,6 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
 
             $data = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
-            $placeholder = $settingClass::DISCARDED_CAMPAIGN_PLACEHOLDER;
 
             self::assertEquals(Common::REFERRER_TYPE_CAMPAIGN, $data['referer_type']);
             self::assertEquals($placeholder, $data['referer_name']);
@@ -216,13 +216,12 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
     public function testCampaignPlaceholderIsFormattedForReports()
     {
-        $settingClass = $this->getCampaignValuesMaskedSettingClass();
-        if (empty($settingClass)) {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
             $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
         }
 
         $formatter = new Formatter();
-        $placeholder = $settingClass::DISCARDED_CAMPAIGN_PLACEHOLDER;
         $expectedLabel = Piwik::translate('PrivacyManager_CampaignParameterDiscarded');
 
         self::assertSame(
@@ -241,12 +240,11 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
     public function testVisitorDetailsFormatsMaskedCampaignValuesForApi()
     {
-        $settingClass = $this->getCampaignValuesMaskedSettingClass();
-        if (empty($settingClass)) {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
             $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
         }
 
-        $placeholder = $settingClass::DISCARDED_CAMPAIGN_PLACEHOLDER;
         $expectedLabel = Piwik::translate('PrivacyManager_CampaignParameterDiscarded');
 
         $visitorDetails = new VisitorDetails();
@@ -272,16 +270,5 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         self::assertSame($expectedLabel, $visitor['campaignSource']);
         self::assertSame($expectedLabel, $visitor['campaignGroup']);
         self::assertSame($expectedLabel, $visitor['campaignPlacement']);
-    }
-
-    private function getCampaignValuesMaskedSettingClass(): ?string
-    {
-        $class = 'Piwik\\Plugins\\PrivacyManager\\Settings\\CampaignParameterValuesMasked';
-
-        if (!class_exists($class)) {
-            return null;
-        }
-
-        return $class;
     }
 }

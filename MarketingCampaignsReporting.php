@@ -139,6 +139,15 @@ class MarketingCampaignsReporting extends Plugin
         return $settingClass::getPlaceholderValue();
     }
 
+    /**
+     * Formats stored campaign values for display.
+     *
+     * Accepts mixed input because callers may pass placeholder values or raw
+     * dimension values without first narrowing the type.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
     public static function formatCampaignValue($value)
     {
         $settingClass = self::getCampaignValuesMaskedSettingClass();
