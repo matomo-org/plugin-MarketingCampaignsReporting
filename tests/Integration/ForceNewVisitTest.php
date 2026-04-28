@@ -19,6 +19,8 @@ use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignMedium;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignPlacement;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSource;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -135,6 +137,55 @@ class ForceNewVisitTest extends IntegrationTestCase
         Fixture::checkResponse($this->tracker->doTrackPageView('Track another time with same campaign parameters'));
 
         $this->assertVisits(1, 1, 2);
+    }
+
+    public function testTrackingWithSameParametersDoesNotForceNewVisitWhenCampaignValuesAreMasked()
+    {
+        if (!class_exists('Piwik\\Plugins\\PrivacyManager\\Settings\\CampaignParameterValuesMasked')) {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+
+        try {
+            $url = $this->getUrlForTracking([
+                'pk_campaign'  => 'custom name',
+                'pk_keyword'   => 'custom keyword',
+                'pk_source'    => 'custom source',
+                'pk_medium'    => 'custom medium',
+                'pk_content'   => 'custom content',
+                'pk_id'        => 'custom id',
+                'pk_group'     => 'custom group',
+                'pk_placement' => 'custom placement',
+            ]);
+
+            $this->tracker->setUrl($url);
+
+            Fixture::checkResponse($this->tracker->doTrackPageView('Track visit with masked campaign parameters'));
+
+            $this->assertVisits(1, 1, 1);
+
+            $this->moveTimeForward(0.05);
+
+            $url = $this->getUrlForTracking([
+                'pk_campaign'  => 'custom name',
+                'pk_keyword'   => 'custom keyword',
+                'pk_source'    => 'custom source',
+                'pk_medium'    => 'custom medium',
+                'pk_content'   => 'custom content',
+                'pk_id'        => 'custom id',
+                'pk_group'     => 'custom group',
+                'pk_placement' => 'custom placement',
+            ], 'anotherpage');
+
+            $this->tracker->setUrl($url);
+
+            Fixture::checkResponse($this->tracker->doTrackPageView('Track another time with same masked campaign parameters'));
+
+            $this->assertVisits(1, 1, 2);
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
     }
 
     /**

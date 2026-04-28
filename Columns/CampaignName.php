@@ -50,6 +50,10 @@ class CampaignName extends Base
             $request,
             $campaignParameters
         );
+        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $campaignDimensions,
+            (int) $request->getIdSiteIfExists()
+        );
 
         // Never start a new visit, if the visit was detected as AI Assistant by core, unless
         // there are campaign parameters detected, that do not resolve to an AI Assistant.
