@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.2.0 - 2026-05-11
+- added support for campaign masking via CNIL policy
+
 #### 5.1.7 - 2026-04-27
 - Updated API documentation
 
