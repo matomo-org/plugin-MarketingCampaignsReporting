@@ -42,7 +42,7 @@ abstract class Base extends VisitDimension
     {
         $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
         $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
-        $campaignValuesMasked = MarketingCampaignsReporting::isCampaignValuesMaskingEnabled((int) $request->getIdSiteIfExists());
+        $isCampaignValuesMasked = MarketingCampaignsReporting::isCampaignValuesMaskingEnabled((int) $request->getIdSiteIfExists());
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
@@ -55,7 +55,7 @@ abstract class Base extends VisitDimension
             $request,
             $campaignParameters
         );
-        $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $campaignValuesMasked);
+        $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $isCampaignValuesMasked);
 
         if (empty($campaignDimensions)) {
             // If for some reason a campaign was detected in Core Tracker
@@ -87,7 +87,7 @@ abstract class Base extends VisitDimension
     {
         $campaignDetector   = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
         $campaignParameters = MarketingCampaignsReporting::getCampaignParameters();
-        $campaignValuesMasked = MarketingCampaignsReporting::isCampaignValuesMaskingEnabled((int) $request->getIdSiteIfExists());
+        $isCampaignValuesMasked = MarketingCampaignsReporting::isCampaignValuesMaskingEnabled((int) $request->getIdSiteIfExists());
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
@@ -100,14 +100,14 @@ abstract class Base extends VisitDimension
             $visitProperties,
             $campaignParameters
         );
-        $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $campaignValuesMasked);
+        $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $isCampaignValuesMasked);
 
         if (empty($campaignDimensions)) {
             $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
                 $request,
                 $campaignParameters
             );
-            $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $campaignValuesMasked);
+            $campaignDimensions = $this->maskDetectedCampaignDimensions($campaignDimensions, $isCampaignValuesMasked);
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
@@ -128,6 +128,7 @@ abstract class Base extends VisitDimension
             return $campaignDimensions;
         }
 
+        // Mask every campaign field once a campaign is detected so partial URLs cannot leak raw values.
         foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
             $campaignDimensions[$field] = MarketingCampaignsReporting::getCampaignPlaceholderValue();
         }

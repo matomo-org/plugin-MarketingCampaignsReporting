@@ -15,6 +15,8 @@ use Piwik\Db;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSourceMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\VisitorDetails;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
@@ -231,6 +233,45 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             $expectedLabel,
             (new ReferrerName())->formatValue($placeholder, $this->idSite, $formatter)
         );
+        self::assertSame(
+            $expectedLabel . ' - ' . $expectedLabel,
+            (new CampaignSourceMedium())->formatValue($placeholder . ' - ' . $placeholder, $this->idSite, $formatter)
+        );
+    }
+
+    public function testVisitorDetailsFormatsMaskedCampaignValuesForApi()
+    {
+        $settingClass = $this->getCampaignValuesMaskedSettingClass();
+        if (empty($settingClass)) {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        $placeholder = $settingClass::DISCARDED_CAMPAIGN_PLACEHOLDER;
+        $expectedLabel = Piwik::translate('PrivacyManager_CampaignParameterDiscarded');
+
+        $visitorDetails = new VisitorDetails();
+        $visitorDetails->setDetails([
+            'campaign_id' => $placeholder,
+            'campaign_content' => $placeholder,
+            'campaign_keyword' => $placeholder,
+            'campaign_medium' => $placeholder,
+            'campaign_name' => $placeholder,
+            'campaign_source' => $placeholder,
+            'campaign_group' => $placeholder,
+            'campaign_placement' => $placeholder,
+        ]);
+
+        $visitor = [];
+        $visitorDetails->extendVisitorDetails($visitor);
+
+        self::assertSame($expectedLabel, $visitor['campaignId']);
+        self::assertSame($expectedLabel, $visitor['campaignContent']);
+        self::assertSame($expectedLabel, $visitor['campaignKeyword']);
+        self::assertSame($expectedLabel, $visitor['campaignMedium']);
+        self::assertSame($expectedLabel, $visitor['campaignName']);
+        self::assertSame($expectedLabel, $visitor['campaignSource']);
+        self::assertSame($expectedLabel, $visitor['campaignGroup']);
+        self::assertSame($expectedLabel, $visitor['campaignPlacement']);
     }
 
     private function getCampaignValuesMaskedSettingClass(): ?string
