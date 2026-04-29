@@ -30,7 +30,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         );
 
         foreach ($fields as $name => $field) {
-            $visitor[$name] = empty($this->details[$field]) ? '' : $this->details[$field];
+            $visitor[$name] = empty($this->details[$field]) ? '' : MarketingCampaignsReporting::formatCampaignValue($this->details[$field]);
         }
     }
 
@@ -50,7 +50,8 @@ class VisitorDetails extends VisitorDetailsAbstract
 
         foreach ($fields as $field => $name) {
             if (!empty($visitorDetails[$field])) {
-                $campaignData[$name] = html_entity_decode($visitorDetails[$field], ENT_QUOTES, 'UTF-8');
+                $value = html_entity_decode($visitorDetails[$field], ENT_QUOTES, 'UTF-8');
+                $campaignData[$name] = MarketingCampaignsReporting::formatCampaignValue($value);
             }
         }
 

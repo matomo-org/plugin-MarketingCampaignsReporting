@@ -12,6 +12,15 @@ namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Metrics\Formatter;
+use Piwik\Piwik;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
+use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSourceMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
+use Piwik\Plugins\MarketingCampaignsReporting\VisitorDetails;
+use Piwik\Plugins\Referrers\Columns\ReferrerName;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Version;
@@ -163,5 +172,103 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
                 ],
             ];
         }
+    }
+
+    public function testTrackingMasksCampaignDimensionsWhenCnilPolicyIsEnabled()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = Fixture::getTracker(
+                $this->idSite,
+                date('Y-m-d H:i:s'),
+                $defaultInit = true,
+                $useLocal = false
+            );
+
+            $tracker->setUrl('https://www.example.com/?utm_source=newsletter_7&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM&utm_content=hero-banner&mtm_group=Audience%20Group%201&mtm_placement=Google%20Search');
+
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $data = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+
+            self::assertEquals(Common::REFERRER_TYPE_CAMPAIGN, $data['referer_type']);
+            self::assertEquals($placeholder, $data['referer_name']);
+            self::assertEquals($placeholder, $data['referer_keyword']);
+            self::assertEquals($placeholder, $data['campaign_source']);
+            self::assertEquals($placeholder, $data['campaign_medium']);
+            self::assertEquals($placeholder, $data['campaign_content']);
+            self::assertEquals($placeholder, $data['campaign_id']);
+            self::assertEquals($placeholder, $data['campaign_group']);
+            self::assertEquals($placeholder, $data['campaign_placement']);
+            self::assertEquals($placeholder, $data['campaign_name']);
+            self::assertEquals($placeholder, $data['campaign_keyword']);
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
+    public function testCampaignPlaceholderIsFormattedForReports()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        $formatter = new Formatter();
+        $expectedLabel = Piwik::translate('PrivacyManager_CampaignParameterDiscarded');
+
+        self::assertSame(
+            $expectedLabel,
+            (new CampaignName())->formatValue($placeholder, $this->idSite, $formatter)
+        );
+        self::assertSame(
+            $expectedLabel,
+            (new ReferrerName())->formatValue($placeholder, $this->idSite, $formatter)
+        );
+        self::assertSame(
+            $expectedLabel . ' - ' . $expectedLabel,
+            (new CampaignSourceMedium())->formatValue($placeholder . ' - ' . $placeholder, $this->idSite, $formatter)
+        );
+    }
+
+    public function testVisitorDetailsFormatsMaskedCampaignValuesForApi()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        $expectedLabel = Piwik::translate('PrivacyManager_CampaignParameterDiscarded');
+
+        $visitorDetails = new VisitorDetails();
+        $visitorDetails->setDetails([
+            'campaign_id' => $placeholder,
+            'campaign_content' => $placeholder,
+            'campaign_keyword' => $placeholder,
+            'campaign_medium' => $placeholder,
+            'campaign_name' => $placeholder,
+            'campaign_source' => $placeholder,
+            'campaign_group' => $placeholder,
+            'campaign_placement' => $placeholder,
+        ]);
+
+        $visitor = [];
+        $visitorDetails->extendVisitorDetails($visitor);
+
+        self::assertSame($expectedLabel, $visitor['campaignId']);
+        self::assertSame($expectedLabel, $visitor['campaignContent']);
+        self::assertSame($expectedLabel, $visitor['campaignKeyword']);
+        self::assertSame($expectedLabel, $visitor['campaignMedium']);
+        self::assertSame($expectedLabel, $visitor['campaignName']);
+        self::assertSame($expectedLabel, $visitor['campaignSource']);
+        self::assertSame($expectedLabel, $visitor['campaignGroup']);
+        self::assertSame($expectedLabel, $visitor['campaignPlacement']);
     }
 }

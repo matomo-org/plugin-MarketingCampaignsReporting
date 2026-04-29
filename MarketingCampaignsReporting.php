@@ -24,6 +24,8 @@ use Piwik\Plugins\Referrers\Reports\GetCampaigns;
  */
 class MarketingCampaignsReporting extends Plugin
 {
+    private const CAMPAIGN_VALUES_MASKED_SETTING_CLASS = 'Piwik\\Plugins\\PrivacyManager\\Settings\\CampaignParameterValuesMasked';
+
     public static $CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS = array('mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
     public static $CAMPAIGN_KEYWORD_FIELD_DEFAULT_URL_PARAMS = array('mtm_keyword', 'matomo_kwd', 'mtm_kwd', 'pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term');
     public static $CAMPAIGN_SOURCE_FIELD_DEFAULT_URL_PARAMS = array('mtm_source', 'pk_source', 'utm_source');
@@ -115,6 +117,54 @@ class MarketingCampaignsReporting extends Plugin
         }
 
         return $campaignFields;
+    }
+
+    public static function isCampaignValuesMaskingEnabled(?int $idSite): bool
+    {
+        $settingClass = self::getCampaignValuesMaskedSettingClass();
+        if (empty($settingClass)) {
+            return false;
+        }
+
+        return $settingClass::isEnabled($idSite);
+    }
+
+    public static function getCampaignPlaceholderValue(): string
+    {
+        $settingClass = self::getCampaignValuesMaskedSettingClass();
+        if (empty($settingClass)) {
+            return '';
+        }
+
+        return $settingClass::getPlaceholderValue();
+    }
+
+    /**
+     * Formats stored campaign values for display.
+     *
+     * Accepts mixed input because callers may pass placeholder values or raw
+     * dimension values without first narrowing the type.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    public static function formatCampaignValue($value)
+    {
+        $settingClass = self::getCampaignValuesMaskedSettingClass();
+        if (empty($settingClass)) {
+            return $value;
+        }
+
+        return $settingClass::formatValue($value);
+    }
+
+    private static function getCampaignValuesMaskedSettingClass(): ?string
+    {
+        if (!class_exists(self::CAMPAIGN_VALUES_MASKED_SETTING_CLASS)) {
+            return null;
+        }
+
+        return self::CAMPAIGN_VALUES_MASKED_SETTING_CLASS;
     }
 
     public function isTrackerPlugin()

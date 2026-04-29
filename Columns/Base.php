@@ -12,6 +12,7 @@ namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Tracker\Action;
@@ -52,6 +53,10 @@ abstract class Base extends VisitDimension
         $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
             $request,
             $campaignParameters
+        );
+        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $campaignDimensions,
+            (int) $request->getIdSiteIfExists()
         );
 
         if (empty($campaignDimensions)) {
@@ -96,11 +101,19 @@ abstract class Base extends VisitDimension
             $visitProperties,
             $campaignParameters
         );
+        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $campaignDimensions,
+            (int) $request->getIdSiteIfExists()
+        );
 
         if (empty($campaignDimensions)) {
             $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
                 $request,
                 $campaignParameters
+            );
+            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+                $campaignDimensions,
+                (int) $request->getIdSiteIfExists()
             );
         }
 
@@ -109,5 +122,32 @@ abstract class Base extends VisitDimension
         }
 
         return null;
+    }
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        return MarketingCampaignsReporting::formatCampaignValue($value);
+    }
+
+    protected function normalizeDetectedCampaignDimensions($campaignDimensions, int $idSite)
+    {
+        return $this->maskDetectedCampaignDimensions(
+            $campaignDimensions,
+            MarketingCampaignsReporting::isCampaignValuesMaskingEnabled($idSite)
+        );
+    }
+
+    private function maskDetectedCampaignDimensions($campaignDimensions, bool $campaignValuesMasked)
+    {
+        if (empty($campaignDimensions) || !$campaignValuesMasked) {
+            return $campaignDimensions;
+        }
+
+        // Mask every campaign field once a campaign is detected so partial URLs cannot leak raw values.
+        foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
+            $campaignDimensions[$field] = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        }
+
+        return $campaignDimensions;
     }
 }
