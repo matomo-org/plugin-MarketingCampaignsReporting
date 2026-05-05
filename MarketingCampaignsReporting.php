@@ -158,6 +158,43 @@ class MarketingCampaignsReporting extends Plugin
         return $settingClass::formatValue($value);
     }
 
+    /**
+     * Formats labels composed of multiple campaign dimensions separated by the
+     * archive label separator.
+     *
+     * if all campaign dimensions are masked by policy, then a single placeholder
+     * value is returned, rather than several separated by SEPARATOR_COMBINED_DIMENSIONS
+     *
+     * @param mixed $value
+     */
+    public static function formatCombinedCampaignValue($value): string
+    {
+        $parts = explode(Archiver::SEPARATOR_COMBINED_DIMENSIONS, (string) $value);
+        $placeholder = self::getCampaignPlaceholderValue();
+        $nonEmptyParts = array_values(array_filter($parts, function ($part) {
+            return $part !== '';
+        }));
+
+        if (!empty($nonEmptyParts) && $placeholder !== '') {
+            $allPartsAreMasked = true;
+
+            foreach ($nonEmptyParts as $part) {
+                if ($part !== $placeholder) {
+                    $allPartsAreMasked = false;
+                    break;
+                }
+            }
+
+            if ($allPartsAreMasked) {
+                return (string) self::formatCampaignValue($placeholder);
+            }
+        }
+
+        $parts = array_map([self::class, 'formatCampaignValue'], $parts);
+
+        return implode(Archiver::SEPARATOR_COMBINED_DIMENSIONS, $parts);
+    }
+
     private static function getCampaignValuesMaskedSettingClass(): ?string
     {
         if (!class_exists(self::CAMPAIGN_VALUES_MASKED_SETTING_CLASS)) {

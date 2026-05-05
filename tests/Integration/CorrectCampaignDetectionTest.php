@@ -10,10 +10,12 @@
 namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
 use Piwik\Common;
-use Piwik\Date;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugins\MarketingCampaignsReporting\API;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSourceMedium;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
@@ -233,8 +235,42 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             (new ReferrerName())->formatValue($placeholder, $this->idSite, $formatter)
         );
         self::assertSame(
-            $expectedLabel . ' - ' . $expectedLabel,
+            $expectedLabel,
             (new CampaignSourceMedium())->formatValue($placeholder . ' - ' . $placeholder, $this->idSite, $formatter)
+        );
+    }
+
+    public function testCampaignPlaceholderIsFormattedInCampaignReportLabels()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        $expectedLabel = Piwik::translate('PrivacyManager_CampaignParameterDiscarded');
+        $subtable = new DataTable();
+        $subtable->addRow(new Row([
+            Row::COLUMNS => [
+                'label' => $placeholder . ' - ' . $placeholder,
+            ],
+        ]));
+
+        $table = new DataTable();
+        $table->addRow(new Row([
+            Row::COLUMNS => [
+                'label' => $placeholder,
+            ],
+            Row::DATATABLE_ASSOCIATED => $subtable,
+        ]));
+
+        $method = new \ReflectionMethod(API::class, 'formatCampaignLabels');
+        $method->setAccessible(true);
+        $method->invoke(API::getInstance(), $table);
+
+        self::assertSame($expectedLabel, $table->getFirstRow()->getColumn('label'));
+        self::assertSame(
+            $expectedLabel,
+            $table->getFirstRow()->getSubtable()->getFirstRow()->getColumn('label')
         );
     }
 
