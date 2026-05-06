@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\MarketingCampaignsReporting\DataTable\Filter;
 
-use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 
