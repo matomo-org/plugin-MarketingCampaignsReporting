@@ -16,6 +16,7 @@ use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\MarketingCampaignsReporting\DataTable\Filter\FormatCampaignLabels;
 use Piwik\Plugins\Referrers\API as ReferrersAPI;
 
 /**
@@ -59,7 +60,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_ID_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -95,7 +97,8 @@ class API extends \Piwik\Plugin\API
             $dataTable          = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
         }
 
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -124,14 +127,17 @@ class API extends \Piwik\Plugin\API
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_NAME_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
 
         if (!$this->isTableEmpty($dataTable)) {
-            return $this->formatCampaignLabels($dataTable);
+            $dataTable->filter(FormatCampaignLabels::class);
+            return $dataTable;
         }
 
         // try to load sub table from referrers api. That might work, if the report leading to this subtable was loaded using the referrers api fallback
         $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
 
         if (!$this->isTableEmpty($referrersDataTable)) {
-            return $this->formatCampaignLabels($this->mergeDataTableMaps($dataTable, $referrersDataTable));
+            $dataTable = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
+            $dataTable->filter(FormatCampaignLabels::class);
+            return $dataTable;
         }
 
         // if we can't find a subtable report using the id, try fetching the label to search for a subtable
@@ -139,7 +145,8 @@ class API extends \Piwik\Plugin\API
         $row           = $campaignNames->getRowFromIdSubDataTable($idSubtable);
 
         if (!$row) {
-            return $this->formatCampaignLabels($dataTable);
+            $dataTable->filter(FormatCampaignLabels::class);
+            return $dataTable;
         }
 
         $campaignName = $row->getColumn('label');
@@ -149,10 +156,13 @@ class API extends \Piwik\Plugin\API
 
         if ($campaignRow && $idSubtable = $campaignRow->getIdSubDataTable()) {
             $referrersDataTable = ReferrersAPI::getInstance()->getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment);
-            return $this->formatCampaignLabels($this->mergeDataTableMaps($dataTable, $referrersDataTable));
+            $dataTable = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
+            $dataTable->filter(FormatCampaignLabels::class);
+            return $dataTable;
         }
 
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -189,7 +199,8 @@ class API extends \Piwik\Plugin\API
             $dataTable = $this->mergeDataTableMaps($dataTable, $referrersDataTable);
         }
 
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -216,7 +227,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_SOURCE_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -243,7 +255,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -270,7 +283,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_CONTENT_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -297,7 +311,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_GROUP_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -324,7 +339,8 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::CAMPAIGN_PLACEMENT_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -352,7 +368,8 @@ class API extends \Piwik\Plugin\API
     public function getSourceMedium($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
     {
         $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
-        return $this->formatCampaignLabels($dataTable);
+        $dataTable->filter(FormatCampaignLabels::class);
+        return $dataTable;
     }
 
     /**
@@ -378,36 +395,7 @@ class API extends \Piwik\Plugin\API
     public function getNameFromSourceMediumId($idSite, $period, $date, $idSubtable, $segment = false)
     {
         $dataTable = $this->getDataTable(Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $flat = false, $idSubtable);
-        return $this->formatCampaignLabels($dataTable);
-    }
-
-    private function formatCampaignLabels(DataTable\DataTableInterface $dataTable)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $childTable) {
-                $this->formatCampaignLabels($childTable);
-            }
-
-            return $dataTable;
-        }
-
-        foreach ($dataTable->getRows() as $row) {
-            $label = $row->getColumn('label');
-            if ($label !== false) {
-                $row->setColumn('label', MarketingCampaignsReporting::formatCombinedCampaignValue($label));
-            }
-
-            $subtable = $row->getSubtable();
-            if (!empty($subtable)) {
-                $this->formatCampaignLabels($subtable);
-            }
-
-            $comparisons = $row->getComparisons();
-            if (!empty($comparisons)) {
-                $this->formatCampaignLabels($comparisons);
-            }
-        }
-
+        $dataTable->filter(FormatCampaignLabels::class);
         return $dataTable;
     }
 
