@@ -10,12 +10,14 @@
 namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
 use Piwik\Common;
-use Piwik\Date;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Db;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSourceMedium;
+use Piwik\Plugins\MarketingCampaignsReporting\DataTable\Filter\FormatCampaignLabels;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Plugins\MarketingCampaignsReporting\VisitorDetails;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
@@ -233,8 +235,78 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             (new ReferrerName())->formatValue($placeholder, $this->idSite, $formatter)
         );
         self::assertSame(
-            $expectedLabel . ' - ' . $expectedLabel,
+            $expectedLabel,
             (new CampaignSourceMedium())->formatValue($placeholder . ' - ' . $placeholder, $this->idSite, $formatter)
+        );
+    }
+
+    public function testFormatCombinedCampaignValueCollapsesFullyMaskedValues()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        self::assertSame(
+            Piwik::translate('PrivacyManager_CampaignParameterDiscarded'),
+            MarketingCampaignsReporting::formatCombinedCampaignValue($placeholder . ' - ' . $placeholder)
+        );
+    }
+
+    public function testFormatCombinedCampaignValuePreservesSeparatorsWhenOnlySomePartsAreMasked()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        self::assertSame(
+            Piwik::translate('PrivacyManager_CampaignParameterDiscarded') . ' - newsletter',
+            MarketingCampaignsReporting::formatCombinedCampaignValue($placeholder . ' - newsletter')
+        );
+    }
+
+    public function testCampaignPlaceholderIsFormattedInCampaignReportLabels()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        $expectedLabel = Piwik::translate('PrivacyManager_CampaignParameterDiscarded');
+        $comparisons = new DataTable();
+        $comparisons->addRow(new Row([
+            Row::COLUMNS => [
+                'label' => $placeholder . ' - newsletter',
+            ],
+        ]));
+
+        $subtable = new DataTable();
+        $subtable->addRow(new Row([
+            Row::COLUMNS => [
+                'label' => $placeholder . ' - ' . $placeholder,
+            ],
+        ]));
+
+        $table = new DataTable();
+        $table->addRow(new Row([
+            Row::COLUMNS => [
+                'label' => $placeholder,
+            ],
+            Row::DATATABLE_ASSOCIATED => $subtable,
+        ]));
+        $table->getFirstRow()->setComparisons($comparisons);
+
+        $table->filter(FormatCampaignLabels::class);
+
+        self::assertSame($expectedLabel, $table->getFirstRow()->getColumn('label'));
+        self::assertSame(
+            $expectedLabel,
+            $table->getFirstRow()->getSubtable()->getFirstRow()->getColumn('label')
+        );
+        self::assertSame(
+            $expectedLabel . ' - newsletter',
+            $table->getFirstRow()->getComparisons()->getFirstRow()->getColumn('label')
         );
     }
 

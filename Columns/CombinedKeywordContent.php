@@ -11,12 +11,19 @@
 namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 
 use Piwik\Columns\Dimension;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
+use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 
 class CombinedKeywordContent extends Dimension
 {
     public function getName()
     {
         return Piwik::translate('MarketingCampaignsReporting_CombinedKeywordContent');
+    }
+
+    public function formatValue($value, $idSite, Formatter $formatter)
+    {
+        return MarketingCampaignsReporting::formatCombinedCampaignValue($value);
     }
 }

@@ -13,7 +13,6 @@ namespace Piwik\Plugins\MarketingCampaignsReporting\Columns;
 use Piwik\Columns\Dimension;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
-use Piwik\Plugins\MarketingCampaignsReporting\Archiver;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 
 class CampaignSourceMedium extends Dimension
@@ -25,9 +24,6 @@ class CampaignSourceMedium extends Dimension
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {
-        $parts = explode(Archiver::SEPARATOR_COMBINED_DIMENSIONS, (string) $value);
-        $parts = array_map([MarketingCampaignsReporting::class, 'formatCampaignValue'], $parts);
-
-        return implode(Archiver::SEPARATOR_COMBINED_DIMENSIONS, $parts);
+        return MarketingCampaignsReporting::formatCombinedCampaignValue($value);
     }
 }
