@@ -115,14 +115,13 @@ abstract class Base extends VisitDimension
                     (int) $request->getIdSiteIfExists()
                 );
             }
-        }
-
-        if (empty($campaignDimensions)) {
-            $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
-            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-                $campaignDimensions,
-                (int) $request->getIdSiteIfExists()
-            );
+            if (empty($campaignDimensions)) {
+                $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
+                $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+                    $campaignDimensions,
+                    (int) $request->getIdSiteIfExists()
+                );
+            }
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
