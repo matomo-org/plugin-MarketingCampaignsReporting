@@ -216,6 +216,47 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         }
     }
 
+    public function testGoalConversionUsesReferrerAttributionCampaignCookie()
+    {
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_conversion'));
+
+        $idGoal = \Piwik\Plugins\Goals\API::getInstance()->addGoal(
+            $this->idSite,
+            'manual goal',
+            'manually',
+            '',
+            'contains'
+        );
+
+        $tracker = Fixture::getTracker(
+            $this->idSite,
+            date('Y-m-d H:i:s'),
+            $defaultInit = true,
+            $useLocal = false
+        );
+
+        $tracker->setUrl('https://www.example.com/landing-page');
+        Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+        $tracker->setUrl('https://www.example.com/conversion-page');
+        $tracker->setCustomTrackingParameter('_rcn', 'Campaign Name');
+        $tracker->setCustomTrackingParameter('_rck', 'Campaign Keyword');
+        Fixture::checkResponse($tracker->doTrackGoal($idGoal, 42));
+
+        $conversion = Db::fetchRow(
+            'SELECT referer_type, referer_name, referer_keyword, campaign_name, campaign_keyword FROM '
+            . Common::prefixTable('log_conversion')
+            . ' LIMIT 1'
+        );
+
+        self::assertSame(Common::REFERRER_TYPE_CAMPAIGN, (int) $conversion['referer_type']);
+        self::assertSame('campaign name', $conversion['referer_name']);
+        self::assertSame('campaign keyword', $conversion['referer_keyword']);
+        self::assertSame('Campaign Name', $conversion['campaign_name']);
+        self::assertSame('Campaign Keyword', $conversion['campaign_keyword']);
+    }
+
     public function testCampaignPlaceholderIsFormattedForReports()
     {
         $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();

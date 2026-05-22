@@ -92,25 +92,33 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
+        $campaignDimensions = [];
+
         // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
-        if ($visitProperties['referer_type'] === 8) {
-            return null; // skip campaign detection when a AI assistant was detected as referrer by core
-        }
-
-        $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
-            $visitProperties,
-            $campaignParameters
-        );
-        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-            $campaignDimensions,
-            (int) $request->getIdSiteIfExists()
-        );
-
-        if (empty($campaignDimensions)) {
-            $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
-                $request,
+        if ($visitProperties['referer_type'] !== 8) {
+            $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
+                $visitProperties,
                 $campaignParameters
             );
+            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+                $campaignDimensions,
+                (int) $request->getIdSiteIfExists()
+            );
+
+            if (empty($campaignDimensions)) {
+                $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
+                    $request,
+                    $campaignParameters
+                );
+                $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+                    $campaignDimensions,
+                    (int) $request->getIdSiteIfExists()
+                );
+            }
+        }
+
+        if (empty($campaignDimensions)) {
+            $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
                 (int) $request->getIdSiteIfExists()
@@ -122,6 +130,30 @@ abstract class Base extends VisitDimension
         }
 
         return null;
+    }
+
+    private function getCampaignDimensionsFromReferrerAttributionCookie(Request $request): array
+    {
+        $campaignName = $this->getReferrerCampaignQueryParam($request, '_rcn');
+        if ($campaignName === '') {
+            return [];
+        }
+
+        $campaignDimensions = [
+            (new CampaignName())->getColumnName() => $campaignName,
+        ];
+
+        $campaignKeyword = $this->getReferrerCampaignQueryParam($request, '_rck');
+        if ($campaignKeyword !== '') {
+            $campaignDimensions[(new CampaignKeyword())->getColumnName()] = $campaignKeyword;
+        }
+
+        return $campaignDimensions;
+    }
+
+    private function getReferrerCampaignQueryParam(Request $request, string $paramName): string
+    {
+        return trim(urldecode($request->getParam($paramName)));
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)

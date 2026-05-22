@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.2.1 - 2026-05-25
+- Added code tp fallback to _rcn / _rck when no campaign_* values are found on the visit or current URL
+
 #### 5.2.0 - 2026-05-11
 - added support for campaign masking via CNIL policy
 
