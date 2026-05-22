@@ -92,36 +92,36 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
-        $campaignDimensions = [];
-
         // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
-        if ($visitProperties['referer_type'] !== 8) {
-            $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
-                $visitProperties,
+        if ($visitProperties['referer_type'] === 8) {
+            return null; // skip campaign detection when a AI assistant was detected as referrer by core
+        }
+
+        $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
+            $visitProperties,
+            $campaignParameters
+        );
+        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $campaignDimensions,
+            (int) $request->getIdSiteIfExists()
+        );
+
+        if (empty($campaignDimensions)) {
+            $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
+                $request,
                 $campaignParameters
             );
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
                 (int) $request->getIdSiteIfExists()
             );
-
-            if (empty($campaignDimensions)) {
-                $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
-                    $request,
-                    $campaignParameters
-                );
-                $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-                    $campaignDimensions,
-                    (int) $request->getIdSiteIfExists()
-                );
-            }
-            if (empty($campaignDimensions)) {
-                $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
-                $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-                    $campaignDimensions,
-                    (int) $request->getIdSiteIfExists()
-                );
-            }
+        }
+        if (empty($campaignDimensions)) {
+            $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
+            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+                $campaignDimensions,
+                (int) $request->getIdSiteIfExists()
+            );
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
