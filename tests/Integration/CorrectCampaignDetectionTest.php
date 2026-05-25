@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
 use Piwik\Db;
@@ -19,6 +20,7 @@ use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignName;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignSourceMedium;
 use Piwik\Plugins\MarketingCampaignsReporting\DataTable\Filter\FormatCampaignLabels;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
+use Piwik\Plugins\MarketingCampaignsReporting\SystemSettings;
 use Piwik\Plugins\MarketingCampaignsReporting\VisitorDetails;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
 use Piwik\Policy\CnilPolicy;
@@ -46,6 +48,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         parent::setUp();
 
         $this->idSite = Fixture::createWebsite('2016-01-01 00:00:01', 0, 'TestSite', 'https://example.com');
+        $this->setDoNotChangeCaseOfUtmParameters(true);
     }
 
     /**
@@ -218,6 +221,8 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
     public function testGoalConversionUsesReferrerAttributionCampaignCookie()
     {
+        $this->setDoNotChangeCaseOfUtmParameters(false);
+
         Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
         Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_conversion'));
 
@@ -253,8 +258,63 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         self::assertSame(Common::REFERRER_TYPE_CAMPAIGN, (int) $conversion['referer_type']);
         self::assertSame('campaign name', $conversion['referer_name']);
         self::assertSame('campaign keyword', $conversion['referer_keyword']);
-        self::assertSame('Campaign Name', $conversion['campaign_name']);
-        self::assertSame('Campaign Keyword', $conversion['campaign_keyword']);
+        self::assertSame('campaign name', $conversion['campaign_name']);
+        self::assertSame('campaign keyword', $conversion['campaign_keyword']);
+    }
+
+    public function testGoalConversionUsesReferrerAttributionCampaignCookieForAIAssistantVisit()
+    {
+        if (version_compare(Version::VERSION, '5.5.0-b1', '<')) {
+            $this->markTestSkipped('AI assistant referrer type is not available in this core version.');
+        }
+
+        $this->setDoNotChangeCaseOfUtmParameters(false);
+
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_conversion'));
+
+        $idGoal = \Piwik\Plugins\Goals\API::getInstance()->addGoal(
+            $this->idSite,
+            'manual goal',
+            'manually',
+            '',
+            'contains'
+        );
+
+        $tracker = Fixture::getTracker(
+            $this->idSite,
+            date('Y-m-d H:i:s'),
+            $defaultInit = true,
+            $useLocal = false
+        );
+
+        $tracker->setUrl('https://www.example.com/landing-page');
+        $tracker->setUrlReferrer('https://chatgpt.com/');
+        Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+        $visit = Db::fetchRow(
+            'SELECT referer_type FROM '
+            . Common::prefixTable('log_visit')
+            . ' LIMIT 1'
+        );
+        self::assertSame(Common::REFERRER_TYPE_AI_ASSISTANT, (int) $visit['referer_type']);
+
+        $tracker->setUrl('https://www.example.com/conversion-page');
+        $tracker->setCustomTrackingParameter('_rcn', 'Campaign Name');
+        $tracker->setCustomTrackingParameter('_rck', 'Campaign Keyword');
+        Fixture::checkResponse($tracker->doTrackGoal($idGoal, 42));
+
+        $conversion = Db::fetchRow(
+            'SELECT referer_type, referer_name, referer_keyword, campaign_name, campaign_keyword FROM '
+            . Common::prefixTable('log_conversion')
+            . ' LIMIT 1'
+        );
+
+        self::assertSame(Common::REFERRER_TYPE_CAMPAIGN, (int) $conversion['referer_type']);
+        self::assertSame('campaign name', $conversion['referer_name']);
+        self::assertSame('campaign keyword', $conversion['referer_keyword']);
+        self::assertSame('campaign name', $conversion['campaign_name']);
+        self::assertSame('campaign keyword', $conversion['campaign_keyword']);
     }
 
     public function testCampaignPlaceholderIsFormattedForReports()
@@ -383,5 +443,13 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         self::assertSame($expectedLabel, $visitor['campaignSource']);
         self::assertSame($expectedLabel, $visitor['campaignGroup']);
         self::assertSame($expectedLabel, $visitor['campaignPlacement']);
+    }
+
+    private function setDoNotChangeCaseOfUtmParameters(bool $value): void
+    {
+        $systemSettings = StaticContainer::get(SystemSettings::class);
+        $systemSettings->doNotChangeCaseOfUtmParameters->setIsWritableByCurrentUser(true);
+        $systemSettings->doNotChangeCaseOfUtmParameters->setValue($value);
+        $systemSettings->save();
     }
 }
