@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
+use Piwik\Plugins\MarketingCampaignsReporting\SystemSettings;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -92,19 +93,27 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
-        // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
-        if ($visitProperties['referer_type'] === 8) {
-            return null; // skip campaign detection when a AI assistant was detected as referrer by core
-        }
-
-        $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
-            $visitProperties,
-            $campaignParameters
-        );
+        $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
         $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
             $campaignDimensions,
             (int) $request->getIdSiteIfExists()
         );
+
+        // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
+        if (empty($campaignDimensions) && $visitProperties['referer_type'] === 8) {
+            return null; // skip campaign detection when a AI assistant was detected as referrer by core
+        }
+
+        if (empty($campaignDimensions)) {
+            $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
+                $visitProperties,
+                $campaignParameters
+            );
+            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+                $campaignDimensions,
+                (int) $request->getIdSiteIfExists()
+            );
+        }
 
         if (empty($campaignDimensions)) {
             $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
@@ -122,6 +131,43 @@ abstract class Base extends VisitDimension
         }
 
         return null;
+    }
+
+    private function getCampaignDimensionsFromReferrerAttributionCookie(Request $request): array
+    {
+        $campaignName = $this->getReferrerCampaignQueryParam($request, '_rcn');
+        if ($campaignName === '') {
+            return [];
+        }
+
+        $campaignDimensions = [
+            (new CampaignName())->getColumnName() => $campaignName,
+        ];
+
+        $campaignKeyword = $this->getReferrerCampaignQueryParam($request, '_rck');
+        if ($campaignKeyword !== '') {
+            $campaignDimensions[(new CampaignKeyword())->getColumnName()] = $campaignKeyword;
+        }
+
+        return $campaignDimensions;
+    }
+
+    private function getReferrerCampaignQueryParam(Request $request, string $paramName): string
+    {
+        $value = trim(urldecode($request->getParam($paramName)));
+
+        if ($value !== '' && $this->shouldLowerCampaignCase()) {
+            $value = mb_strtolower($value);
+        }
+
+        return $value;
+    }
+
+    private function shouldLowerCampaignCase(): bool
+    {
+        $systemSettings = StaticContainer::get(SystemSettings::class);
+
+        return !$systemSettings->doNotChangeCaseOfUtmParameters->getValue();
     }
 
     public function formatValue($value, $idSite, Formatter $formatter)
