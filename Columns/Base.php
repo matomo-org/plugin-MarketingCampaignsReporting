@@ -132,6 +132,10 @@ abstract class Base extends VisitDimension
             (int) $request->getIdSiteIfExists()
         );
 
+        if (!is_array($campaignDimensions)) {
+            $campaignDimensions = [];
+        }
+
         if (!empty($cookieCampaignDimensions)) {
             $campaignDimensions = array_merge($campaignDimensions, $cookieCampaignDimensions);
         }
