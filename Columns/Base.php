@@ -93,18 +93,18 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
-        $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
-        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-            $campaignDimensions,
-            (int) $request->getIdSiteIfExists()
-        );
-
         // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
-        if (empty($campaignDimensions) && $visitProperties['referer_type'] === 8) {
-            return null; // skip campaign detection when a AI assistant was detected as referrer by core
-        }
+        if ($visitProperties['referer_type'] === 8) {
+            $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
+            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+                $campaignDimensions,
+                (int) $request->getIdSiteIfExists()
+            );
 
-        if (empty($campaignDimensions)) {
+            if (empty($campaignDimensions)) {
+                return null; // skip campaign detection when a AI assistant was detected as referrer by core
+            }
+        } else {
             $campaignDimensions = $campaignDetector->detectCampaignFromVisit(
                 $visitProperties,
                 $campaignParameters
@@ -124,6 +124,20 @@ abstract class Base extends VisitDimension
                 $campaignDimensions,
                 (int) $request->getIdSiteIfExists()
             );
+        }
+
+        $cookieCampaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
+        $cookieCampaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $cookieCampaignDimensions,
+            (int) $request->getIdSiteIfExists()
+        );
+
+        if (!empty($cookieCampaignDimensions)) {
+            $campaignDimensions = array_merge($campaignDimensions, $cookieCampaignDimensions);
+        }
+
+        if (empty($campaignDimensions) && $visitProperties['referer_type'] === 8) {
+            return null; // skip campaign detection when a AI assistant was detected as referrer by core
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
