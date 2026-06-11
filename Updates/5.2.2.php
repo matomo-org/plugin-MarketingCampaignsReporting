@@ -14,6 +14,7 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Plugins\SitesManager\Model;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
 use Piwik\Updater\Migration\Custom as CustomMigration;
@@ -83,8 +84,9 @@ class Updates_5_2_2 extends PiwikUpdates
                     THEN lv.campaign_placement
                     ELSE lc.campaign_placement
                 END
-            WHERE lc.referer_type = " . Common::REFERRER_TYPE_CAMPAIGN . "
-              AND lc.server_time >= '$backfillStart'
+            WHERE lc.idsite = ?
+              AND lc.referer_type = " . Common::REFERRER_TYPE_CAMPAIGN . "
+              AND lc.server_time >= ?
               AND (
                   (lc.campaign_source IS NULL OR lc.campaign_source = '')
                   OR (lc.campaign_medium IS NULL OR lc.campaign_medium = '')
@@ -100,13 +102,19 @@ class Updates_5_2_2 extends PiwikUpdates
             self::BACKFILL_START_DATE
         );
 
-        return [
-            $this->migration->db->sql($backfillSql),
-            new CustomMigration(function () {
-                $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-                $invalidator->scheduleReArchiving('all', 'MarketingCampaignsReporting', null, Date::factory(self::BACKFILL_START_DATE));
-            }, $invalidateDescription),
-        ];
+        $migrations = [];
+
+        $model = new Model();
+        foreach ($model->getSitesId() as $idSite) {
+            $migrations[] = $this->migration->db->boundSql($backfillSql, [(int) $idSite, $backfillStart]);
+        }
+
+        $migrations[] = new CustomMigration(function () {
+            $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+            $invalidator->scheduleReArchiving('all', 'MarketingCampaignsReporting', null, Date::factory(self::BACKFILL_START_DATE));
+        }, $invalidateDescription);
+
+        return $migrations;
     }
 
     public function doUpdate(Updater $updater)
