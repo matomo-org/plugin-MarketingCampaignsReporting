@@ -100,12 +100,30 @@ class Updates_5_2_2 extends PiwikUpdates
               AND lc.server_time >= ?
               AND lc.server_time <= ?
               AND (
-                  (lc.campaign_source IS NULL OR lc.campaign_source = '')
-                  OR (lc.campaign_medium IS NULL OR lc.campaign_medium = '')
-                  OR (lc.campaign_content IS NULL OR lc.campaign_content = '')
-                  OR (lc.campaign_id IS NULL OR lc.campaign_id = '')
-                  OR (lc.campaign_group IS NULL OR lc.campaign_group = '')
-                  OR (lc.campaign_placement IS NULL OR lc.campaign_placement = '')
+                  (
+                      (lc.campaign_source IS NULL OR lc.campaign_source = '')
+                      AND lv.campaign_source IS NOT NULL AND lv.campaign_source <> ''
+                  )
+                  OR (
+                      (lc.campaign_medium IS NULL OR lc.campaign_medium = '')
+                      AND lv.campaign_medium IS NOT NULL AND lv.campaign_medium <> ''
+                  )
+                  OR (
+                      (lc.campaign_content IS NULL OR lc.campaign_content = '')
+                      AND lv.campaign_content IS NOT NULL AND lv.campaign_content <> ''
+                  )
+                  OR (
+                      (lc.campaign_id IS NULL OR lc.campaign_id = '')
+                      AND lv.campaign_id IS NOT NULL AND lv.campaign_id <> ''
+                  )
+                  OR (
+                      (lc.campaign_group IS NULL OR lc.campaign_group = '')
+                      AND lv.campaign_group IS NOT NULL AND lv.campaign_group <> ''
+                  )
+                  OR (
+                      (lc.campaign_placement IS NULL OR lc.campaign_placement = '')
+                      AND lv.campaign_placement IS NOT NULL AND lv.campaign_placement <> ''
+                  )
               )
         ";
 
@@ -155,17 +173,36 @@ class Updates_5_2_2 extends PiwikUpdates
             $match = Db::fetchOne(
                 "SELECT 1
                    FROM `$logConversion` lc FORCE INDEX (index_idsite_datetime)
+             INNER JOIN `" . Common::prefixTable('log_visit') . "` lv ON lv.idvisit = lc.idvisit
                   WHERE lc.idsite = ?
                     AND lc.referer_type = " . Common::REFERRER_TYPE_CAMPAIGN . "
                     AND lc.server_time >= ?
                     AND lc.server_time <= ?
                     AND (
-                        (lc.campaign_source IS NULL OR lc.campaign_source = '')
-                        OR (lc.campaign_medium IS NULL OR lc.campaign_medium = '')
-                        OR (lc.campaign_content IS NULL OR lc.campaign_content = '')
-                        OR (lc.campaign_id IS NULL OR lc.campaign_id = '')
-                        OR (lc.campaign_group IS NULL OR lc.campaign_group = '')
-                        OR (lc.campaign_placement IS NULL OR lc.campaign_placement = '')
+                        (
+                            (lc.campaign_source IS NULL OR lc.campaign_source = '')
+                            AND lv.campaign_source IS NOT NULL AND lv.campaign_source <> ''
+                        )
+                        OR (
+                            (lc.campaign_medium IS NULL OR lc.campaign_medium = '')
+                            AND lv.campaign_medium IS NOT NULL AND lv.campaign_medium <> ''
+                        )
+                        OR (
+                            (lc.campaign_content IS NULL OR lc.campaign_content = '')
+                            AND lv.campaign_content IS NOT NULL AND lv.campaign_content <> ''
+                        )
+                        OR (
+                            (lc.campaign_id IS NULL OR lc.campaign_id = '')
+                            AND lv.campaign_id IS NOT NULL AND lv.campaign_id <> ''
+                        )
+                        OR (
+                            (lc.campaign_group IS NULL OR lc.campaign_group = '')
+                            AND lv.campaign_group IS NOT NULL AND lv.campaign_group <> ''
+                        )
+                        OR (
+                            (lc.campaign_placement IS NULL OR lc.campaign_placement = '')
+                            AND lv.campaign_placement IS NOT NULL AND lv.campaign_placement <> ''
+                        )
                     )
                   LIMIT 1",
                 [(int) $siteId, $startDatetime, $endDatetime]
