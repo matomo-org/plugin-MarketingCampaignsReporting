@@ -1,5 +1,9 @@
 ## Changelog
 
+#### 5.2.2 - 2026-06-11
+- Added code to fix other campaign parameters being missed due to _rcn / _rck check.
+- Adds migration to repopulate the data from released date of v5.2.1
+
 #### 5.2.1 - 2026-05-26
 - Added code to fallback to _rcn / _rck when no campaign_* values are found on the visit or current URL
 

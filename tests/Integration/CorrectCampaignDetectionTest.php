@@ -241,7 +241,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             $useLocal = false
         );
 
-        $tracker->setUrl('https://www.example.com/landing-page');
+        $tracker->setUrl('https://www.example.com/landing-page?utm_campaign=Campaign%20Name&utm_term=Campaign%20Keyword&utm_source=campaign-source&utm_medium=campaign-medium');
         Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
 
         $tracker->setUrl('https://www.example.com/conversion-page');
@@ -250,7 +250,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         Fixture::checkResponse($tracker->doTrackGoal($idGoal, 42));
 
         $conversion = Db::fetchRow(
-            'SELECT referer_type, referer_name, referer_keyword, campaign_name, campaign_keyword FROM '
+            'SELECT referer_type, referer_name, referer_keyword, campaign_name, campaign_keyword, campaign_source, campaign_medium FROM '
             . Common::prefixTable('log_conversion')
             . ' LIMIT 1'
         );
@@ -260,6 +260,8 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         self::assertSame('campaign keyword', $conversion['referer_keyword']);
         self::assertSame('campaign name', $conversion['campaign_name']);
         self::assertSame('campaign keyword', $conversion['campaign_keyword']);
+        self::assertSame('campaign-source', $conversion['campaign_source']);
+        self::assertSame('campaign-medium', $conversion['campaign_medium']);
     }
 
     public function testGoalConversionUsesReferrerAttributionCampaignCookieForAIAssistantVisit()
