@@ -14,16 +14,20 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Plugins\SitesManager\Model;
+use Piwik\Db;
+use Piwik\Plugins\SitesManager\Model as SitesModel;
 use Piwik\Updater;
 use Piwik\Updater\Migration;
-use Piwik\Updater\Migration\Custom as CustomMigration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates as PiwikUpdates;
 
 class Updates_5_2_2 extends PiwikUpdates
 {
     private const BACKFILL_START_DATE = '2026-05-26';
+    /**
+     * @var int[]
+     */
+    private $affectedSiteIds = [];
 
     /**
      * @var MigrationFactory
@@ -40,12 +44,19 @@ class Updates_5_2_2 extends PiwikUpdates
      */
     public function getMigrations(Updater $updater)
     {
+        [$startDatetime, $endDatetime] = $this->parseDateRange(self::BACKFILL_START_DATE . ',today');
+        $affectedSiteIds = $this->getAffectedSiteIds($startDatetime, $endDatetime);
+        $this->affectedSiteIds = $affectedSiteIds;
+
+        if (empty($affectedSiteIds)) {
+            return [];
+        }
+
         $logConversion = Common::prefixTable('log_conversion');
         $logVisit = Common::prefixTable('log_visit');
-        $backfillStart = self::BACKFILL_START_DATE . ' 00:00:00';
 
         $backfillSql = "
-            UPDATE `$logConversion` lc
+            UPDATE `$logConversion` lc FORCE INDEX (index_idsite_datetime)
             INNER JOIN `$logVisit` lv ON lv.idvisit = lc.idvisit
             SET
                 lc.campaign_source = CASE
@@ -87,6 +98,7 @@ class Updates_5_2_2 extends PiwikUpdates
             WHERE lc.idsite = ?
               AND lc.referer_type = " . Common::REFERRER_TYPE_CAMPAIGN . "
               AND lc.server_time >= ?
+              AND lc.server_time <= ?
               AND (
                   (lc.campaign_source IS NULL OR lc.campaign_source = '')
                   OR (lc.campaign_medium IS NULL OR lc.campaign_medium = '')
@@ -97,22 +109,10 @@ class Updates_5_2_2 extends PiwikUpdates
               )
         ";
 
-        $invalidateDescription = sprintf(
-            'Schedule rearchiving for MarketingCampaignsReporting reports from %s onward',
-            self::BACKFILL_START_DATE
-        );
-
         $migrations = [];
-
-        $model = new Model();
-        foreach ($model->getSitesId() as $idSite) {
-            $migrations[] = $this->migration->db->boundSql($backfillSql, [(int) $idSite, $backfillStart]);
+        foreach ($affectedSiteIds as $idSite) {
+            $migrations[] = $this->migration->db->boundSql($backfillSql, [(int) $idSite, $startDatetime, $endDatetime]);
         }
-
-        $migrations[] = new CustomMigration(function () {
-            $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-            $invalidator->scheduleReArchiving('all', 'MarketingCampaignsReporting', null, Date::factory(self::BACKFILL_START_DATE));
-        }, $invalidateDescription);
 
         return $migrations;
     }
@@ -120,5 +120,62 @@ class Updates_5_2_2 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
+
+        if (!empty($this->affectedSiteIds)) {
+            $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+            $invalidator->scheduleReArchiving($this->affectedSiteIds, 'MarketingCampaignsReporting', null, Date::factory(self::BACKFILL_START_DATE));
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function parseDateRange(string $dates): array
+    {
+        $parts = array_map('trim', explode(',', $dates));
+        if (count($parts) !== 2) {
+            throw new \InvalidArgumentException(sprintf('Invalid date range: %s', $dates));
+        }
+
+        $start = Date::factory($parts[0])->getDatetime();
+        $end = Date::factory($parts[1])->getEndOfDay()->getDatetime();
+
+        return [$start, $end];
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getAffectedSiteIds(string $startDatetime, string $endDatetime): array
+    {
+        $logConversion = Common::prefixTable('log_conversion');
+        $siteIds = [];
+
+        foreach ((new SitesModel())->getSitesId() as $siteId) {
+            $match = Db::fetchOne(
+                "SELECT 1
+                   FROM `$logConversion` lc FORCE INDEX (index_idsite_datetime)
+                  WHERE lc.idsite = ?
+                    AND lc.referer_type = " . Common::REFERRER_TYPE_CAMPAIGN . "
+                    AND lc.server_time >= ?
+                    AND lc.server_time <= ?
+                    AND (
+                        (lc.campaign_source IS NULL OR lc.campaign_source = '')
+                        OR (lc.campaign_medium IS NULL OR lc.campaign_medium = '')
+                        OR (lc.campaign_content IS NULL OR lc.campaign_content = '')
+                        OR (lc.campaign_id IS NULL OR lc.campaign_id = '')
+                        OR (lc.campaign_group IS NULL OR lc.campaign_group = '')
+                        OR (lc.campaign_placement IS NULL OR lc.campaign_placement = '')
+                    )
+                  LIMIT 1",
+                [(int) $siteId, $startDatetime, $endDatetime]
+            );
+
+            if ($match) {
+                $siteIds[] = (int) $siteId;
+            }
+        }
+
+        return $siteIds;
     }
 }
