@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Fonte da campanha - Média",
         "Content": "Conteúdo da campanha",
         "Contents": "Coteúdo da campanha",
+        "DoNotChangeCaseOfUtmParametersDescription": "Quando ativada, a opção Matomo manterá a capitalização original dos parâmetros da campanha para garantir a compatibilidade com serviços de terceiros, como o Google. Se desativada, todos os parâmetros da campanha serão convertidos para minúsculas.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Mantenha a capitalização dos parâmetros da campanha",
         "Group": "Grupo da campanha",
         "Groups": "Grupos da campanha",
         "Keyword": "Palavra-chave da campanha",
