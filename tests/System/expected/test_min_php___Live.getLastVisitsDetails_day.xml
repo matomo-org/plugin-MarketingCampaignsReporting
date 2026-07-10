@@ -38,8 +38,8 @@
 				
 				
 				<referrerType>campaign</referrerType>
-				<referrerName>Ecommerce_campaign</referrerName>
-				<referrerKeyword>Ecommerce_keyword</referrerKeyword>
+				<referrerName>ecommerce_campaign</referrerName>
+				<referrerKeyword>ecommerce_keyword</referrerKeyword>
 				<itemDetails>
 					<row>
 						<itemSKU>item SKU</itemSKU>
@@ -202,8 +202,8 @@
 				
 				
 				<referrerType>campaign</referrerType>
-				<referrerName>Ecommerce_campaign</referrerName>
-				<referrerKeyword>Ecommerce_keyword</referrerKeyword>
+				<referrerName>ecommerce_campaign</referrerName>
+				<referrerKeyword>ecommerce_keyword</referrerKeyword>
 				<itemDetails>
 					<row>
 						<itemSKU>item SKU</itemSKU>
@@ -387,7 +387,7 @@
 				
 				<url>http://example.com/anotherpage</url>
 				<referrerType>campaign</referrerType>
-				<referrerName>Campaign_with_two_goals_conversions</referrerName>
+				<referrerName>campaign_with_two_goals_conversions</referrerName>
 				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
@@ -405,7 +405,7 @@
 				
 				<url>http://example.com/anotherpage</url>
 				<referrerType>campaign</referrerType>
-				<referrerName>Campaign_with_two_goals_conversions</referrerName>
+				<referrerName>campaign_with_two_goals_conversions</referrerName>
 				<referrerKeyword />
 				<icon>plugins/Morpheus/images/goal.png</icon>
 				<iconSVG>plugins/Morpheus/images/goal.svg</iconSVG>
