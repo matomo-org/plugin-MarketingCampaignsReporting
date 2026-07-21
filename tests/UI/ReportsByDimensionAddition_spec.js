@@ -40,9 +40,8 @@ describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
         });
         await page.waitForNetworkIdle();
         pageWrap = await page.$('.reportsByDimensionView');
-        // Puppeteer 24's element screenshot of an element taller than the viewport leaves the
-        // DataTable's position:sticky header floating mid-table. Grow the viewport to fit the whole
-        // report so no scrolling happens during capture and the header stays at the top.
+        // Puppeteer 24 leaves a tall element's sticky header floating mid-capture; grow the
+        // viewport to fit the report so it stays at the top.
         const box = await pageWrap.boundingBox();
         await page.webpage.setViewport({ width: 1500, height: Math.ceil(box.height) + 100 });
         await page.waitForTimeout(200);
