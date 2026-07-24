@@ -40,6 +40,12 @@ describe("MarketingCampaignsReporting_ReportsByDimensionAddition", function () {
         });
         await page.waitForNetworkIdle();
         pageWrap = await page.$('.reportsByDimensionView');
+        // Puppeteer 24 leaves a tall element's sticky header floating mid-capture; grow the
+        // viewport to fit the report so it stays at the top.
+        const box = await pageWrap.boundingBox();
+        await page.webpage.setViewport({ width: 1500, height: Math.ceil(box.height) + 100 });
+        await page.waitForTimeout(200);
+        pageWrap = await page.$('.reportsByDimensionView');
         expect(await pageWrap.screenshot()).to.matchImage('loaded_ecommerce');
     });
 });
