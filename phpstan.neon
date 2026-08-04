@@ -1,5 +1,5 @@
 parameters:
-    level: 1
+    level: 5
     phpVersion: 80100
     tmpDir: /tmp/phpstan/MarketingCampaignsReporting/main
     paths:
@@ -7,6 +7,10 @@ parameters:
     excludePaths:
         - tests/*
         - github-action-tests/ (?)
+    ignoreErrors:
+        # released update files are immutable history and must not be edited for analysis findings
+        - message: '#^Property Piwik\\Plugins\\MarketingCampaignsReporting\\Updates_5_1_0::\$migration is never read, only written\.$#'
+          path: Updates/5.1.0.php
     bootstrapFiles:
         - ../../bootstrap-phpstan.php
     universalObjectCratesClasses:
