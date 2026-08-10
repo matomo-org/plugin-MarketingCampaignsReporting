@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 6.0.0 - 2026-08-09
+- Compatibility with Matomo 6
+
 #### 5.2.2 - 2026-06-11
 - Added code to fix other campaign parameters being missed due to _rcn / _rck check.
 - Adds migration to repopulate the data from released date of v5.2.1

@@ -10,26 +10,6 @@
 		<sum_visit_length>1444</sum_visit_length>
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
-		<goals>
-			<row idgoal='ecommerceAbandonedCart'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>555</revenue>
-				<items>5</items>
-			</row>
-			<row idgoal='ecommerceOrder'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>555</revenue>
-				<revenue_subtotal>0</revenue_subtotal>
-				<revenue_tax>0</revenue_tax>
-				<revenue_shipping>0</revenue_shipping>
-				<revenue_discount>0</revenue_discount>
-				<items>5</items>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>555</revenue>
 		<segment>referrerType==campaign;referrerName==Ecommerce_campaign;referrerType==campaign;referrerKeyword==Ecommerce_keyword</segment>
 		<Referrers_Campaign>Ecommerce_campaign</Referrers_Campaign>
 		<Referrers_Keyword>Ecommerce_keyword</Referrers_Keyword>
@@ -183,15 +163,6 @@
 		<sum_visit_length>725</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
-		<goals>
-			<row idgoal='2'>
-				<nb_conversions>1</nb_conversions>
-				<nb_visits_converted>1</nb_visits_converted>
-				<revenue>3333</revenue>
-			</row>
-		</goals>
-		<nb_conversions>1</nb_conversions>
-		<revenue>3333</revenue>
 		<segment>referrerType==campaign;referrerName==Campaign_with_two_goals_conversions</segment>
 		<Referrers_Campaign>Campaign_with_two_goals_conversions</Referrers_Campaign>
 	</row>
@@ -272,11 +243,43 @@
 				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>1111</revenue>
 			</row>
+			<row idgoal='2'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>3333</revenue>
+			</row>
 		</goals>
-		<nb_conversions>2</nb_conversions>
-		<revenue>1111</revenue>
+		<nb_conversions>3</nb_conversions>
+		<revenue>4444</revenue>
 		<nb_visits>0</nb_visits>
 		<segment>referrerType==campaign;referrerName==campaign_with_two_goals_conversions</segment>
 		<Referrers_Campaign>campaign_with_two_goals_conversions</Referrers_Campaign>
+	</row>
+	<row>
+		<label>ecommerce_campaign - ecommerce_keyword</label>
+		<goals>
+			<row idgoal='ecommerceAbandonedCart'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>555</revenue>
+				<items>5</items>
+			</row>
+			<row idgoal='ecommerceOrder'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>555</revenue>
+				<revenue_subtotal>0</revenue_subtotal>
+				<revenue_tax>0</revenue_tax>
+				<revenue_shipping>0</revenue_shipping>
+				<revenue_discount>0</revenue_discount>
+				<items>5</items>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>555</revenue>
+		<nb_visits>0</nb_visits>
+		<segment>referrerType==campaign;referrerName==ecommerce_campaign;referrerType==campaign;referrerKeyword==ecommerce_keyword</segment>
+		<Referrers_Campaign>ecommerce_campaign</Referrers_Campaign>
+		<Referrers_Keyword>ecommerce_keyword</Referrers_Keyword>
 	</row>
 </result>
