@@ -20,8 +20,12 @@ describe("MarketingCampaignsReporting_Reports", function () {
 
     it('should show camppaign name report with flat page1', async function() {
         await page.evaluate(() => {
-            $('[data-report="MarketingCampaignsReporting.getName"] .dropdownConfigureIcon')[0].click();
-            $('[data-report="MarketingCampaignsReporting.getName"] .dataTableFlatten')[0].click()
+            // the actions moved into the report header, which is rendered outside the table, so
+            // `[data-report]` no longer contains them: climb to the wrapper holding both
+            const scope = $('[data-report="MarketingCampaignsReporting.getName"]').parents()
+                .filter((i, node) => $(node).find('.reportHeader').length > 0).first();
+            scope.find('.reportHeader__actionsTrigger')[0].click();
+            scope.find('.dataTableFlatten')[0].click();
         });
 
         await page.waitForNetworkIdle();
@@ -39,8 +43,8 @@ describe("MarketingCampaignsReporting_Reports", function () {
 
     it('should show camppaign_source-medium  report with flat page1', async function() {
       await page.evaluate(() => {
-        $('#widgetMarketingCampaignsReportinggetSourceMedium .dropdownConfigureIcon')[0].click();
-        $('#widgetMarketingCampaignsReportinggetSourceMedium .dataTableFlatten')[0].click()
+        $('#widgetMarketingCampaignsReportinggetSourceMedium .reportHeader__actionsTrigger')[0].click();
+        $('#widgetMarketingCampaignsReportinggetSourceMedium .dataTableFlatten')[0].click();
       });
 
       await page.waitForNetworkIdle();
