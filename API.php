@@ -421,6 +421,9 @@ class API extends \Piwik\Plugin\API
     ) {
         if ($dataTable instanceof DataTable) {
             if ($this->isTableEmpty($dataTable)) {
+                // the two tables are built from the same request, so they always have the same
+                // shape: when $dataTable is a DataTable, $referrersDataTable is one too
+                // @phpstan-ignore method.notFound
                 $referrersDataTable->setAllTableMetadata($dataTable->getAllTableMetadata());
                 return $referrersDataTable;
             } else {
@@ -428,6 +431,7 @@ class API extends \Piwik\Plugin\API
             }
         } elseif ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $label => $childTable) {
+                // @phpstan-ignore method.notFound (same-shape invariant: both are Maps here)
                 $newTable = $this->mergeDataTableMaps($childTable, $referrersDataTable->getTable($label));
                 $dataTable->addTable($newTable, $label);
             }
