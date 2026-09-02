@@ -10,3 +10,4 @@ jobs:
     uses: matomo-org/plugin-ci-workflows/.github/workflows/plugin-phpstan.yml@main
     with:
       plugin-name: MarketingCampaignsReporting
+      verify-hook: true
