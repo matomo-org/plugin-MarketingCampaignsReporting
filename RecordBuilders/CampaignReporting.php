@@ -90,6 +90,7 @@ class CampaignReporting extends RecordBuilder
         }
 
         $whereClause = $table . ".referer_type = " . Common::REFERRER_TYPE_CAMPAIGN;
+        // @phpstan-ignore booleanAnd.rightAlwaysTrue (guard for Matomo < 5.2.0-b6, which the declared range still supports)
         $query = $aggregatorMethod === 'queryConversionsByDimension' && version_compare(Version::VERSION, '5.2.0-b6', '>=')
             ? $logAggregator->$aggregatorMethod($dimensions, $whereClause, [], [], false, false, true)
             : $logAggregator->$aggregatorMethod($dimensions, $whereClause);
