@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
+use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\Live\API as LiveAPI;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignContent;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\CampaignGroup;
@@ -163,7 +165,7 @@ class ForceNewVisitTest extends IntegrationTestCase
 
             Fixture::checkResponse($this->tracker->doTrackPageView('Track visit with masked campaign parameters'));
 
-            $this->assertVisits(1, 1, 1);
+            $this->assertTrackedCounts(1, 1, 1);
 
             $this->moveTimeForward(0.05);
 
@@ -182,7 +184,7 @@ class ForceNewVisitTest extends IntegrationTestCase
 
             Fixture::checkResponse($this->tracker->doTrackPageView('Track another time with same masked campaign parameters'));
 
-            $this->assertVisits(1, 1, 2);
+            $this->assertTrackedCounts(1, 1, 2);
         } finally {
             PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
         }
@@ -314,6 +316,25 @@ class ForceNewVisitTest extends IntegrationTestCase
         $this->assertEquals($visitsExpected, $counters[0]['visits']);
         $this->assertEquals($uniqueVisitsExpected, $counters[0]['visitors']);
         $this->assertEquals($actionsExpected, $counters[0]['actions']);
+    }
+
+    /**
+     * Live.getCounters rounds its output while a data-rounding policy such as CNIL is active, which would
+     * collapse the small exact counts this test relies on (e.g. 1 and 2 would both become 10). Read the
+     * tracked counts straight from the log tables instead so the assertions stay rounding-immune.
+     */
+    private function assertTrackedCounts($visitsExpected, $uniqueVisitsExpected, $actionsExpected)
+    {
+        $visits   = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('log_visit')
+            . ' WHERE idsite = ?', [$this->idSite]);
+        $visitors = Db::fetchOne('SELECT COUNT(DISTINCT idvisitor) FROM ' . Common::prefixTable('log_visit')
+            . ' WHERE idsite = ?', [$this->idSite]);
+        $actions  = Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('log_link_visit_action')
+            . ' WHERE idsite = ?', [$this->idSite]);
+
+        $this->assertEquals($visitsExpected, $visits);
+        $this->assertEquals($uniqueVisitsExpected, $visitors);
+        $this->assertEquals($actionsExpected, $actions);
     }
 
     private function getUrlForTracking($params, $path = '')
