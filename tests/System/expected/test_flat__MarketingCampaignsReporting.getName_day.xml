@@ -30,6 +30,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>555</revenue>
+		<nb_visits_percent_of_total>11.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>11.1%</revenue_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>ecommerce_campaign</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>ecommerce_keyword - ecommerce_content</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==ecommerce_campaign</segment>
@@ -44,6 +50,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>10th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword a - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==10th</segment>
@@ -58,6 +68,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>11th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword b - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==11th</segment>
@@ -72,6 +86,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>12th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword c - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==12th</segment>
@@ -86,6 +104,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>13th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword d - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==13th</segment>
@@ -100,6 +122,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>14th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword e - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==14th</segment>
@@ -114,6 +140,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>15th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword f - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==15th</segment>
@@ -128,6 +158,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>16th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword g - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==16th</segment>
@@ -142,6 +176,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>17th</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword h - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==17th</segment>
@@ -156,6 +194,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>campaignnamedimension - no other dimension for this visit</MarketingCampaignsReporting_CampaignName>
 		<segment>campaignName==campaignnamedimension+-+no+other+dimension+for+this+visit</segment>
 	</row>
@@ -169,6 +211,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>campaign_hashed</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>keyword from #hash tag parameter</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==campaign_hashed</segment>
@@ -197,6 +243,12 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>4444</revenue>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>75%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>88.9%</revenue_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>campaign_with_two_goals_conversions</MarketingCampaignsReporting_CampaignName>
 		<segment>campaignName==campaign_with_two_goals_conversions</segment>
 	</row>
@@ -210,6 +262,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>default_offer</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>not_an_advanced_campaign_at_first</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==default_offer</segment>
@@ -224,6 +280,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;name&quot;...lenghty &quot;nam</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;keyword&quot;...lenghty &quot;k</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22nam</segment>
@@ -238,6 +298,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>november_offer</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>mot_clé_pépère - contains personalized campaigns for client</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==november_offer</segment>
@@ -252,6 +316,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>october_offer</MarketingCampaignsReporting_CampaignName>
 		<MarketingCampaignsReporting_CombinedKeywordContent>mot_clé_pépère - none</MarketingCampaignsReporting_CombinedKeywordContent>
 		<segment>campaignName==october_offer</segment>
@@ -266,6 +334,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<MarketingCampaignsReporting_CampaignName>should_be_new_visit</MarketingCampaignsReporting_CampaignName>
 		<segment>campaignName==should_be_new_visit</segment>
 	</row>

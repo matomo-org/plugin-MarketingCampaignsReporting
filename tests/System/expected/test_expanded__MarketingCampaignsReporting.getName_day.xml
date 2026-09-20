@@ -30,6 +30,12 @@
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>555</revenue>
+		<nb_visits_percent_of_total>11.1%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>11.1%</revenue_percent_of_total>
 		<segment>campaignName==ecommerce_campaign</segment>
 		<subtable>
 			<row>
@@ -62,6 +68,12 @@
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>555</revenue>
+				<nb_visits_percent_of_total>11.1%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>11.1%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+				<nb_conversions_percent_of_total>25%</nb_conversions_percent_of_total>
+				<bounce_count_percent_of_total>11.1%</bounce_count_percent_of_total>
+				<revenue_percent_of_total>11.1%</revenue_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -75,6 +87,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==10th</segment>
 		<subtable>
 			<row>
@@ -87,6 +103,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -100,6 +120,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==11th</segment>
 		<subtable>
 			<row>
@@ -112,6 +136,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -125,6 +153,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==12th</segment>
 		<subtable>
 			<row>
@@ -137,6 +169,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -150,6 +186,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==13th</segment>
 		<subtable>
 			<row>
@@ -162,6 +202,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -175,6 +219,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==14th</segment>
 		<subtable>
 			<row>
@@ -187,6 +235,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -200,6 +252,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==15th</segment>
 		<subtable>
 			<row>
@@ -212,6 +268,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -225,6 +285,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==16th</segment>
 		<subtable>
 			<row>
@@ -237,6 +301,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -250,6 +318,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==17th</segment>
 		<subtable>
 			<row>
@@ -262,6 +334,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -275,6 +351,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==campaignnamedimension+-+no+other+dimension+for+this+visit</segment>
 	</row>
 	<row>
@@ -287,6 +367,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==campaign_hashed</segment>
 		<subtable>
 			<row>
@@ -299,6 +383,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -326,6 +414,12 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>4444</revenue>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>50%</nb_visits_converted_percent_of_total>
+		<nb_conversions_percent_of_total>75%</nb_conversions_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
+		<revenue_percent_of_total>88.9%</revenue_percent_of_total>
 		<segment>campaignName==campaign_with_two_goals_conversions</segment>
 	</row>
 	<row>
@@ -338,6 +432,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==default_offer</segment>
 		<subtable>
 			<row>
@@ -350,6 +448,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -363,6 +465,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22name%22...lenghty+%22nam</segment>
 		<subtable>
 			<row>
@@ -375,6 +481,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -388,6 +498,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==november_offer</segment>
 		<subtable>
 			<row>
@@ -400,6 +514,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -413,6 +531,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==october_offer</segment>
 		<subtable>
 			<row>
@@ -425,6 +547,10 @@
 				<sum_visit_length>0</sum_visit_length>
 				<bounce_count>1</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
+				<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+				<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+				<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+				<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 			</row>
 		</subtable>
 	</row>
@@ -438,6 +564,10 @@
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
+		<nb_visits_percent_of_total>5.6%</nb_visits_percent_of_total>
+		<nb_actions_percent_of_total>5.6%</nb_actions_percent_of_total>
+		<nb_visits_converted_percent_of_total>0%</nb_visits_converted_percent_of_total>
+		<bounce_count_percent_of_total>5.6%</bounce_count_percent_of_total>
 		<segment>campaignName==should_be_new_visit</segment>
 	</row>
 </result>

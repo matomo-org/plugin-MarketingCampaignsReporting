@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "キャンペーンソース‐メディア",
         "Content": "キャンペーンの内容",
         "Contents": "キャンペーンコンテンツ",
+        "DoNotChangeCaseOfUtmParametersDescription": "この機能を有効にすると、MatomoはGoogleなどのサードパーティ製サービスとの互換性を確保するため、キャンペーンパラメータの大文字表記をそのまま保持します。無効にした場合、すべてのキャンペーンパラメータは小文字に変換されます。",
+        "DoNotChangeCaseOfUtmParametersTitle": "キャンペーンパラメータの大文字表記を維持する",
         "Group": "キャンペーンのグループ",
         "Groups": "キャンペーンのグループ",
         "Keyword": "キャンペーンのキーワード",

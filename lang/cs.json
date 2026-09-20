@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Zdroj kampaně - médium",
         "Content": "Obsah kampaně",
         "Contents": "Obsah kampaně",
+        "DoNotChangeCaseOfUtmParametersDescription": "Pokud je tato možnost povolena, Matomo zachová původní velikost písmen v parametrech kampaně, aby byla zajištěna kompatibilita se službami třetích stran, jako je Google. Pokud je zakázána, všechny parametry kampaně se převedou na malá písmena.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Zachovat velikost písmen v parametrech kampaně",
         "Group": "Skupina kampaně",
         "Groups": "Skupiny kampaně",
         "Keyword": "Klíčové slovo kampaně",
