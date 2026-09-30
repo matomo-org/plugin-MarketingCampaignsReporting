@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 6.0.1 - 2026-10-05
+- Fixed AI Assistant visits being split into multiple visits when campaign value masking is enabled
+
 #### 6.0.0 - 2026-08-09
 - Compatibility with Matomo 6
 
