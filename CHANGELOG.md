@@ -1,6 +1,6 @@
 ## Changelog
 
-#### 5.2.3 - 2026-09-30
+#### 5.2.3 - 2026-10-05
 - Fixed AI Assistant visits being split into multiple visits when campaign value masking is enabled
 
 #### 5.2.2 - 2026-06-11
