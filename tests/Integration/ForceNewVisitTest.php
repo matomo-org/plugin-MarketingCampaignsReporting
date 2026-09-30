@@ -292,7 +292,7 @@ class ForceNewVisitTest extends IntegrationTestCase
             $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
         }
 
-        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, $maskCampaignValues, $this->idSite);
+        $this->setCampaignValuesMasking($maskCampaignValues);
 
         try {
             $this->tracker->setUrl($this->getUrlForTracking(['utm_source' => 'chatgpt.com'], 'landing-page'));
@@ -308,7 +308,7 @@ class ForceNewVisitTest extends IntegrationTestCase
 
             $this->assertTrackedCounts(1, 1, 3);
         } finally {
-            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+            $this->setCampaignValuesMasking(false);
         }
     }
 
@@ -329,7 +329,7 @@ class ForceNewVisitTest extends IntegrationTestCase
             $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
         }
 
-        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, $maskCampaignValues, $this->idSite);
+        $this->setCampaignValuesMasking($maskCampaignValues);
 
         try {
             $url = $this->getUrlForTracking(['utm_source' => 'chatgpt.com']);
@@ -350,8 +350,20 @@ class ForceNewVisitTest extends IntegrationTestCase
 
             $this->assertTrackedCounts(2, 1, 2);
         } finally {
-            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+            $this->setCampaignValuesMasking(false);
         }
+    }
+
+    /**
+     * Older cores have no policies and therefore no campaign value masking, so there is nothing to toggle.
+     */
+    private function setCampaignValuesMasking(bool $enabled): void
+    {
+        if (!class_exists(PolicyManager::class)) {
+            return;
+        }
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, $enabled, $this->idSite);
     }
 
     private function assertVisits($visitsExpected, $uniqueVisitsExpected, $actionsExpected)
