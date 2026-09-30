@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 5.2.3 - 2026-09-30
+- Fixed AI Assistant visits being split into multiple visits when campaign value masking is enabled
+
 #### 5.2.2 - 2026-06-11
 - Added code to fix other campaign parameters being missed due to _rcn / _rck check.
 - Adds migration to repopulate the data from released date of v5.2.1

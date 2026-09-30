@@ -50,11 +50,6 @@ class CampaignName extends Base
             $request,
             $campaignParameters
         );
-        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-            $campaignDimensions,
-            (int) $request->getIdSiteIfExists()
-        );
-
         // Never start a new visit, if the visit was detected as AI Assistant by core, unless
         // there are campaign parameters detected, that do not resolve to an AI Assistant.
         // This is a hacky workaround to solves issues where randomly new visits are started when
@@ -68,6 +63,12 @@ class CampaignName extends Base
                 return false;
             }
         }
+
+        // Normalise only after the AI Assistant check, as masking replaces the raw values needed there
+        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $campaignDimensions,
+            (int) $request->getIdSiteIfExists()
+        );
 
         // we force a new visit if the referrer is a campaign and it's different than the currently recorded referrer.
         // if the current referrer is 'direct entry', however, we assume the referrer information was sent in a later request, and
