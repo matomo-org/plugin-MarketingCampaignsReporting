@@ -283,25 +283,87 @@ class ForceNewVisitTest extends IntegrationTestCase
         $this->assertVisits(1, 1, 2);
     }
 
-    public function testCampaignAfterAIAssistantForcesNewVisit(): void
+    /**
+     * @dataProvider getCampaignValuesMaskingStates
+     */
+    public function testEventsOnAIAssistantLandingPageDoNotForceNewVisit(bool $maskCampaignValues): void
     {
-        $url = $this->getUrlForTracking(['utm_source' => 'chatgpt.com']);
+        if ($maskCampaignValues && !class_exists('Piwik\\Plugins\\PrivacyManager\\Settings\\CampaignParameterValuesMasked')) {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
 
-        $this->tracker->setUrl($url);
-        $this->tracker->setUrlReferrer('https://chatgpt.com');
+        $this->setCampaignValuesMasking($maskCampaignValues);
 
-        Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
+        try {
+            $this->tracker->setUrl($this->getUrlForTracking(['utm_source' => 'chatgpt.com'], 'landing-page'));
+            $this->tracker->setUrlReferrer('https://chatgpt.com');
+            Fixture::checkResponse($this->tracker->doTrackPageView('Landing page'));
 
-        $this->assertVisits(1, 1, 1);
+            $this->tracker->setUrlReferrer('');
+            $this->moveTimeForward(0.001);
+            Fixture::checkResponse($this->tracker->doTrackEvent('Navigation', 'Breadcrumb'));
 
-        $this->moveTimeForward(0.05);
-        $this->tracker->setUrlReferrer('');
-        $url = $this->getUrlForTracking(['pk_campaign' => 'custom name']);
+            $this->moveTimeForward(0.002);
+            Fixture::checkResponse($this->tracker->doTrackEvent('Navigation', 'Breadcrumb'));
 
-        $this->tracker->setUrl($url);
-        Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
+            $this->assertTrackedCounts(1, 1, 3);
+        } finally {
+            $this->setCampaignValuesMasking(false);
+        }
+    }
 
-        $this->assertVisits(2, 1, 2);
+    public function getCampaignValuesMaskingStates(): array
+    {
+        return [
+            'masking off' => [false],
+            'masking on'  => [true],
+        ];
+    }
+
+    /**
+     * @dataProvider getCampaignValuesMaskingStates
+     */
+    public function testCampaignAfterAIAssistantForcesNewVisit(bool $maskCampaignValues): void
+    {
+        if ($maskCampaignValues && !class_exists('Piwik\\Plugins\\PrivacyManager\\Settings\\CampaignParameterValuesMasked')) {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        $this->setCampaignValuesMasking($maskCampaignValues);
+
+        try {
+            $url = $this->getUrlForTracking(['utm_source' => 'chatgpt.com']);
+
+            $this->tracker->setUrl($url);
+            $this->tracker->setUrlReferrer('https://chatgpt.com');
+
+            Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
+
+            $this->assertTrackedCounts(1, 1, 1);
+
+            $this->moveTimeForward(0.05);
+            $this->tracker->setUrlReferrer('');
+            $url = $this->getUrlForTracking(['pk_campaign' => 'custom name']);
+
+            $this->tracker->setUrl($url);
+            Fixture::checkResponse($this->tracker->doTrackPageView('Track visit'));
+
+            $this->assertTrackedCounts(2, 1, 2);
+        } finally {
+            $this->setCampaignValuesMasking(false);
+        }
+    }
+
+    /**
+     * Older cores have no policies and therefore no campaign value masking, so there is nothing to toggle.
+     */
+    private function setCampaignValuesMasking(bool $enabled): void
+    {
+        if (!class_exists(PolicyManager::class)) {
+            return;
+        }
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, $enabled, $this->idSite);
     }
 
     private function assertVisits($visitsExpected, $uniqueVisitsExpected, $actionsExpected)
