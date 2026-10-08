@@ -1,7 +1,25 @@
 {
     "MarketingCampaignsReporting": {
+        "CampaignId": "Kampanje-ID",
+        "CampaignIds": "Kampanje-ID-ar",
+        "CombinedKeywordContent": "Nøkkelord – innhald",
+        "CombinedSourceMedium": "Kjelde – medium",
+        "CombinedSourcesMediums": "Kampanjekjelde – medium",
+        "Content": "Kampanjeinnhald",
+        "Contents": "Kampanjeinnhald",
+        "DoNotChangeCaseOfUtmParametersDescription": "Når dette er skrudd på, beheld Matomo dei opphavlege store og små bokstavane i kampanjeparameterar, slik at dei fungerer med tredjepartstenester som Google. Viss det er skrudd av, blir alle kampanjeparameterar gjort om til små bokstavar.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Behald store og små bokstavar i kampanjeparameterar",
+        "Group": "Kampanjegruppe",
+        "Groups": "Kampanjegrupper",
         "Keyword": "Nøkkelord",
+        "Keywords": "Kampanjenøkkelord",
+        "Medium": "Kampanjemedium",
+        "Mediums": "Kampanjemedium",
         "Name": "Namn",
-        "Source": "Bron"
+        "Names": "Kampanjenamn",
+        "Placement": "Kampanjeplassering",
+        "Placements": "Kampanjeplasseringar",
+        "Source": "Bron",
+        "Sources": "Kampanjekjelder"
     }
 }
