@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Kampanjekilde – medium",
         "Content": "Kampanjeinnhold",
         "Contents": "Kampanjeinnhold",
+        "DoNotChangeCaseOfUtmParametersDescription": "Når dette er skrudd på, beholder Matomo de opprinnelige store og små bokstavene i kampanjeparametere, slik at de fungerer med tredjepartstjenester som Google. Hvis det er skrudd av, gjøres alle kampanjeparametere om til små bokstaver.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Behold store og små bokstaver i kampanjeparametere",
         "Group": "Kampanjegruppe",
         "Groups": "Kampanjegrupper",
         "Keyword": "Kampanje-nøkkelord",
