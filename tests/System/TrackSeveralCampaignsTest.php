@@ -162,7 +162,8 @@ class TrackSeveralCampaignsTest extends SystemTestCase
                 'date'              => $dateWithPluginEnabled,
                 'periods'           => ['day'],
                 'xmlFieldsToRemove' => $columnsToHide,
-                'testSuffix'        => $phpVersionPrefix,
+                // In Matomo 6.0.0-b6 the time spent on each page view is calculated more accurately
+                'testSuffix'        => $phpVersionPrefix . (version_compare(Version::VERSION, '6.0.0-b6', '<') ? 'old' : ''),
             ]
         ];
 
