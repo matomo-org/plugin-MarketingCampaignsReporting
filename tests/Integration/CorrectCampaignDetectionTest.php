@@ -219,6 +219,46 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         }
     }
 
+    public function testTrackingKeepsCampaignDimensionsForAVisitorWhoHasConsented()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '') {
+            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
+        }
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = Fixture::getTracker(
+                $this->idSite,
+                date('Y-m-d H:i:s'),
+                $defaultInit = true,
+                $useLocal = false
+            );
+
+            $tracker->setCustomTrackingParameter('consent', '1');
+            $tracker->setUrl('https://www.example.com/?utm_source=newsletter_7&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM&utm_content=hero-banner&mtm_group=Audience%20Group%201&mtm_placement=Google%20Search');
+
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $data = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+
+            // the case these are stored in depends on a setting of its own, which is not what
+            // this test is about
+            self::assertEquals(Common::REFERRER_TYPE_CAMPAIGN, $data['referer_type']);
+            self::assertEqualsIgnoringCase('newsletter_7', $data['campaign_source']);
+            self::assertEqualsIgnoringCase('email', $data['campaign_medium']);
+            self::assertEqualsIgnoringCase('hero-banner', $data['campaign_content']);
+            self::assertEqualsIgnoringCase('CAMPAIGN_ID_KABOOM', $data['campaign_id']);
+            self::assertEqualsIgnoringCase('Audience Group 1', $data['campaign_group']);
+            self::assertEqualsIgnoringCase('Google Search', $data['campaign_placement']);
+            self::assertNotEquals($placeholder, $data['campaign_name']);
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
     public function testGoalConversionUsesReferrerAttributionCampaignCookie()
     {
         $this->setDoNotChangeCaseOfUtmParameters(false);

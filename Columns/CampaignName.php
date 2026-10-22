@@ -67,7 +67,8 @@ class CampaignName extends Base
         // Normalise only after the AI Assistant check, as masking replaces the raw values needed there
         $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
             $campaignDimensions,
-            (int) $request->getIdSiteIfExists()
+            (int) $request->getIdSiteIfExists(),
+            $this->hasVisitorConsented($request, $visitor)
         );
 
         // we force a new visit if the referrer is a campaign and it's different than the currently recorded referrer.

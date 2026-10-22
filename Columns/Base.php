@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\CoreHome\Columns\Consent;
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Plugins\MarketingCampaignsReporting\SystemSettings;
 use Piwik\Tracker\Action;
@@ -57,7 +58,8 @@ abstract class Base extends VisitDimension
         );
         $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
             $campaignDimensions,
-            (int) $request->getIdSiteIfExists()
+            (int) $request->getIdSiteIfExists(),
+            $this->hasVisitorConsented($request, $visitor)
         );
 
         if (empty($campaignDimensions)) {
@@ -98,7 +100,8 @@ abstract class Base extends VisitDimension
             $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
-                (int) $request->getIdSiteIfExists()
+                (int) $request->getIdSiteIfExists(),
+                $this->hasVisitorConsented($request, $visitor)
             );
 
             if (empty($campaignDimensions)) {
@@ -111,7 +114,8 @@ abstract class Base extends VisitDimension
             );
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
-                (int) $request->getIdSiteIfExists()
+                (int) $request->getIdSiteIfExists(),
+                $this->hasVisitorConsented($request, $visitor)
             );
         }
 
@@ -122,14 +126,16 @@ abstract class Base extends VisitDimension
             );
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
-                (int) $request->getIdSiteIfExists()
+                (int) $request->getIdSiteIfExists(),
+                $this->hasVisitorConsented($request, $visitor)
             );
         }
 
         $cookieCampaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
         $cookieCampaignDimensions = $this->normalizeDetectedCampaignDimensions(
             $cookieCampaignDimensions,
-            (int) $request->getIdSiteIfExists()
+            (int) $request->getIdSiteIfExists(),
+            $this->hasVisitorConsented($request, $visitor)
         );
 
         if (!is_array($campaignDimensions)) {
@@ -193,12 +199,23 @@ abstract class Base extends VisitDimension
         return MarketingCampaignsReporting::formatCampaignValue($value);
     }
 
-    protected function normalizeDetectedCampaignDimensions($campaignDimensions, int $idSite)
+    protected function normalizeDetectedCampaignDimensions($campaignDimensions, int $idSite, bool $hasConsent = false)
     {
         return $this->maskDetectedCampaignDimensions(
             $campaignDimensions,
-            MarketingCampaignsReporting::isCampaignValuesMaskingEnabled($idSite)
+            MarketingCampaignsReporting::isCampaignValuesMaskingEnabled($idSite) && !$hasConsent
         );
+    }
+
+    /**
+     * Whether the visitor has given their consent, by this request or earlier in the visit.
+     *
+     * Masking is the treatment for a visitor who has not consented, so it is lifted for one who
+     * has, in the same way core lifts it for the campaign it records itself.
+     */
+    protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
+    {
+        return $request->hasConsent() || Consent::hasVisitConsented($visitor);
     }
 
     private function maskDetectedCampaignDimensions($campaignDimensions, bool $campaignValuesMasked)
