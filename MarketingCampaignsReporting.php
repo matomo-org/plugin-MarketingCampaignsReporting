@@ -18,6 +18,8 @@ use Piwik\Plugin;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\Base;
 use Piwik\Plugins\Referrers\Reports\GetCampaigns;
+use Piwik\Tracker\Request;
+use Piwik\Tracker\Visitor;
 
 /**
  * @package MarketingCampaignsReporting
@@ -25,6 +27,7 @@ use Piwik\Plugins\Referrers\Reports\GetCampaigns;
 class MarketingCampaignsReporting extends Plugin
 {
     private const CAMPAIGN_VALUES_MASKED_SETTING_CLASS = 'Piwik\\Plugins\\PrivacyManager\\Settings\\CampaignParameterValuesMasked';
+    private const CONSENT_COLUMN_CLASS = 'Piwik\\Plugins\\CoreHome\\Columns\\Consent';
 
     public static $CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS = array('mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
     public static $CAMPAIGN_KEYWORD_FIELD_DEFAULT_URL_PARAMS = array('mtm_keyword', 'matomo_kwd', 'mtm_kwd', 'pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term');
@@ -193,6 +196,45 @@ class MarketingCampaignsReporting extends Plugin
         $parts = array_map([self::class, 'formatCampaignValue'], $parts);
 
         return implode(Archiver::SEPARATOR_COMBINED_DIMENSIONS, $parts);
+    }
+
+    /**
+     * Whether this request reports consent, on a core that measures consent-aware analytics.
+     *
+     * A core without it cannot say, and every visitor is then one who has not consented, which
+     * is how this plugin has always treated them.
+     */
+    public static function requestHasConsent(Request $request): bool
+    {
+        return true === self::callCoreMethod($request, 'hasConsent');
+    }
+
+    /**
+     * Whether consent was recorded against the visit, on a core that measures consent-aware
+     * analytics.
+     */
+    public static function visitHasConsented(Visitor $visitor): bool
+    {
+        return true === self::callCoreMethod(self::CONSENT_COLUMN_CLASS, 'hasVisitConsented', [$visitor]);
+    }
+
+    /**
+     * Calls a core method that only the Matomo versions supporting consent-aware analytics have.
+     *
+     * The method is reached by name, as the masking setting above is reached by class name, so
+     * that the plugin analyses cleanly against the versions that have it and those that do not.
+     *
+     * @param object|string $target an instance, or a class name for a static method
+     * @param mixed[] $arguments
+     * @return mixed null where this core does not have the method
+     */
+    private static function callCoreMethod($target, string $method, array $arguments = [])
+    {
+        if (!method_exists($target, $method)) {
+            return null;
+        }
+
+        return call_user_func_array([$target, $method], $arguments);
     }
 
     private static function getCampaignValuesMaskedSettingClass(): ?string
