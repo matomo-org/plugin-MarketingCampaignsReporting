@@ -267,6 +267,12 @@ abstract class Base extends VisitDimension
      */
     protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
     {
+        // core only answers this where it measures consent-aware analytics. Until it does, every
+        // visitor is one who has not consented, which is how this plugin has always treated them
+        if (!method_exists($request, 'hasConsent')) {
+            return false;
+        }
+
         if ($request->hasConsent()) {
             return true;
         }
@@ -278,7 +284,7 @@ abstract class Base extends VisitDimension
             return false;
         }
 
-        return class_exists(Consent::class) && Consent::hasVisitConsented($visitor);
+        return method_exists(Consent::class, 'hasVisitConsented') && Consent::hasVisitConsented($visitor);
     }
 
     /**
