@@ -18,6 +18,7 @@ use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Plugins\MarketingCampaignsReporting\SystemSettings;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit\EntryPage;
 use Piwik\Tracker\Visitor;
 
 abstract class Base extends VisitDimension
@@ -57,7 +58,8 @@ abstract class Base extends VisitDimension
         );
         $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
             $campaignDimensions,
-            (int) $request->getIdSiteIfExists()
+            (int) $request->getIdSiteIfExists(),
+            $this->hasVisitorConsented($request, $visitor)
         );
 
         if (empty($campaignDimensions)) {
@@ -74,7 +76,7 @@ abstract class Base extends VisitDimension
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
-            return substr($campaignDimensions[$this->getColumnName()], 0, $this->getColumnName() == 'campaign_id' ? 100 : 255);
+            return $this->truncateCampaignValue($campaignDimensions[$this->getColumnName()]);
         }
 
         return null;
@@ -93,12 +95,19 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
+        // the attribution cookie this can draw on outlives the visit. Where the visit itself holds
+        // a discarded campaign, surfacing one against the conversion would contradict it with
+        // detail gathered before the visitor consented
+        $hasConsent = $this->hasVisitorConsented($request, $visitor)
+            && !$this->isDiscardedValue($visitor->getVisitorColumn((new CampaignName())->getColumnName()));
+
         // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
         if ($visitProperties['referer_type'] === 8) {
             $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
-                (int) $request->getIdSiteIfExists()
+                (int) $request->getIdSiteIfExists(),
+                $hasConsent
             );
 
             if (empty($campaignDimensions)) {
@@ -111,7 +120,8 @@ abstract class Base extends VisitDimension
             );
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
-                (int) $request->getIdSiteIfExists()
+                (int) $request->getIdSiteIfExists(),
+                $hasConsent
             );
         }
 
@@ -122,14 +132,16 @@ abstract class Base extends VisitDimension
             );
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
                 $campaignDimensions,
-                (int) $request->getIdSiteIfExists()
+                (int) $request->getIdSiteIfExists(),
+                $hasConsent
             );
         }
 
         $cookieCampaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
         $cookieCampaignDimensions = $this->normalizeDetectedCampaignDimensions(
             $cookieCampaignDimensions,
-            (int) $request->getIdSiteIfExists()
+            (int) $request->getIdSiteIfExists(),
+            $hasConsent
         );
 
         if (!is_array($campaignDimensions)) {
@@ -145,10 +157,55 @@ abstract class Base extends VisitDimension
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
-            return substr($campaignDimensions[$this->getColumnName()], 0, $this->getColumnName() == 'campaign_id' ? 100 : 255);
+            return $this->truncateCampaignValue($campaignDimensions[$this->getColumnName()]);
         }
 
         return null;
+    }
+
+    /**
+     * A campaign the policy discarded is a marker for "not collected", not a campaign the visitor
+     * arrived through. Once they consent, the request carrying the real values may record them in
+     * its place - but only while the visit is still on the page it arrived on, which is the only
+     * time those values are still in the URL to read.
+     *
+     * @param Action|null $action
+     * @return mixed
+     */
+    public function onExistingVisit(Request $request, Visitor $visitor, $action)
+    {
+        if (
+            !$this->isDiscardedValue($visitor->getVisitorColumn($this->getColumnName()))
+            || !$this->hasVisitorConsented($request, $visitor)
+            || true !== $this->isRequestOnEntryPage($visitor, $action, $request)
+        ) {
+            return false;
+        }
+
+        $campaignDetector = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
+
+        $campaignDimensions = $campaignDetector->detectCampaignFromRequest(
+            $request,
+            MarketingCampaignsReporting::getCampaignParameters()
+        );
+
+        // without a campaign in this request there is nothing to complete the visit from, and
+        // clearing the placeholder would claim the visitor arrived without one
+        if (empty($campaignDimensions)) {
+            return false;
+        }
+
+        $value = $campaignDimensions[$this->getColumnName()] ?? '';
+
+        // masking marks every campaign field as withheld, whether or not the campaign had one, so
+        // nothing says which of them this request is missing because the campaign never had it.
+        // The placeholder still describes that field correctly, where an empty value would claim
+        // the visitor arrived without one
+        if ('' === $value) {
+            return false;
+        }
+
+        return $this->truncateCampaignValue($value);
     }
 
     private function getCampaignDimensionsFromReferrerAttributionCookie(Request $request): array
@@ -193,12 +250,67 @@ abstract class Base extends VisitDimension
         return MarketingCampaignsReporting::formatCampaignValue($value);
     }
 
-    protected function normalizeDetectedCampaignDimensions($campaignDimensions, int $idSite)
+    protected function normalizeDetectedCampaignDimensions($campaignDimensions, int $idSite, bool $hasConsent = false)
     {
         return $this->maskDetectedCampaignDimensions(
             $campaignDimensions,
-            MarketingCampaignsReporting::isCampaignValuesMaskingEnabled($idSite)
+            MarketingCampaignsReporting::isCampaignValuesMaskingEnabled($idSite) && !$hasConsent
         );
+    }
+
+    /**
+     * Whether the visitor has given their consent, by this request or earlier in the visit.
+     *
+     * Masking is the treatment for a visitor who has not consented, so it is lifted for one who
+     * has, in the same way core lifts it for the campaign it records itself.
+     */
+    protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
+    {
+        if (MarketingCampaignsReporting::requestHasConsent($request)) {
+            return true;
+        }
+
+        // a visit being created now does not inherit the consent of the one before it: the
+        // recognised visit's columns are still loaded at this point, and the consent recorded
+        // against that visit says nothing about this one
+        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
+            return false;
+        }
+
+        return MarketingCampaignsReporting::visitHasConsented($visitor);
+    }
+
+    /**
+     * Whether the value stored for a campaign field is the one a compliance policy leaves behind
+     * instead of the campaign itself.
+     *
+     * @param mixed $value
+     */
+    protected function isDiscardedValue($value): bool
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+
+        return '' !== $placeholder && is_string($value) && $value === $placeholder;
+    }
+
+    /**
+     * Whether the visit is still on the page it arrived on, where core can tell. Null is returned
+     * where it cannot, and on a core that does not answer the question at all.
+     *
+     * @param Action|null $action
+     */
+    protected function isRequestOnEntryPage(Visitor $visitor, $action, ?Request $request = null): ?bool
+    {
+        if (!class_exists(EntryPage::class)) {
+            return null;
+        }
+
+        return EntryPage::isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    private function truncateCampaignValue($value)
+    {
+        return substr($value, 0, $this->getColumnName() == 'campaign_id' ? 100 : 255);
     }
 
     private function maskDetectedCampaignDimensions($campaignDimensions, bool $campaignValuesMasked)
