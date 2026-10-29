@@ -22,11 +22,13 @@ use Piwik\Plugins\MarketingCampaignsReporting\DataTable\Filter\FormatCampaignLab
 use Piwik\Plugins\MarketingCampaignsReporting\MarketingCampaignsReporting;
 use Piwik\Plugins\MarketingCampaignsReporting\SystemSettings;
 use Piwik\Plugins\MarketingCampaignsReporting\VisitorDetails;
+use Piwik\Plugins\PrivacyManager\Settings\ConsentAwareAnalytics;
 use Piwik\Plugins\Referrers\Columns\ReferrerName;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Cache;
 use Piwik\Version;
 
 /**
@@ -221,10 +223,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
     public function testTrackingKeepsCampaignDimensionsForAVisitorWhoHasConsented()
     {
-        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
-        if ($placeholder === '') {
-            $this->markTestSkipped('CampaignParameterValuesMasked is not available in this core version.');
-        }
+        $placeholder = $this->requireConsentAwareAnalytics();
 
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
         try {
@@ -257,6 +256,123 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         } finally {
             PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
         }
+    }
+
+    /**
+     * The visitor is measured before consenting, so the arrival page view is already recorded with
+     * the campaign discarded. Consent then reaches them while they are still on that page, so the
+     * request carries the campaign parameters again and the visit is completed with them.
+     */
+    public function testTrackingCompletesDiscardedCampaignDimensionsWhenConsentArrivesOnTheArrivalPage()
+    {
+        $placeholder = $this->requireConsentAwareAnalytics();
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = $this->getCampaignTracker();
+
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $data = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+            self::assertEquals($placeholder, $data['campaign_source'], 'discarded until the visitor consents');
+
+            $tracker->setCustomTrackingParameter('consent', '1');
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $data = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+
+            self::assertEquals(1, $this->countVisits(), 'consent must not start a second visit here');
+            self::assertEqualsIgnoringCase('newsletter_7', $data['campaign_source']);
+            self::assertEqualsIgnoringCase('email', $data['campaign_medium']);
+            self::assertEqualsIgnoringCase('hero-banner', $data['campaign_content']);
+            self::assertEqualsIgnoringCase('CAMPAIGN_ID_KABOOM', $data['campaign_id']);
+            self::assertEqualsIgnoringCase('Audience Group 1', $data['campaign_group']);
+            self::assertEqualsIgnoringCase('Google Search', $data['campaign_placement']);
+            // this campaign had neither, but masking marks every field as withheld and nothing
+            // was kept to tell the two apart, so they stay as they are - the same answer core
+            // gives for a campaign keyword it cannot complete
+            self::assertEquals($placeholder, $data['campaign_name']);
+            self::assertEquals($placeholder, $data['campaign_keyword']);
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
+    /**
+     * Once the visitor has moved on, the campaign parameters are gone from the request and nothing
+     * was kept of the discarded ones. Consent starts a visit of its own, and the visit measured
+     * without it keeps the treatment it was measured under.
+     */
+    public function testTrackingKeepsDiscardedCampaignDimensionsWhenConsentArrivesAfterNavigating()
+    {
+        $placeholder = $this->requireConsentAwareAnalytics();
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = $this->getCampaignTracker();
+
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $tracker->setCustomTrackingParameter('consent', '1');
+            $tracker->setUrl('https://www.example.com/another-page');
+            Fixture::checkResponse($tracker->doTrackPageView('Another page title'));
+
+            $visits = Db::fetchAll(
+                'SELECT * FROM ' . Common::prefixTable('log_visit') . ' ORDER BY idvisit ASC'
+            );
+
+            self::assertCount(2, $visits, 'consent away from the arrival page starts its own visit');
+            self::assertEquals($placeholder, $visits[0]['campaign_source'], 'the first visit keeps its treatment');
+            self::assertEquals($placeholder, $visits[0]['campaign_name']);
+            self::assertNull($visits[1]['campaign_source'], 'the campaign was not in the request by then');
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
+    /**
+     * Consent-aware measurement is opt-in per site and needs a core that supports it, so the tests
+     * that rely on it opt their site in and skip where it is not available.
+     *
+     * @return string the placeholder a discarded campaign is stored as
+     */
+    private function requireConsentAwareAnalytics(): string
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '' || !class_exists(ConsentAwareAnalytics::class)) {
+            $this->markTestSkipped('Consent-aware analytics is not available in this core version.');
+        }
+
+        $measurable = ConsentAwareAnalytics::getMeasurableSetting($this->idSite);
+        $measurable->setValue(true);
+        $measurable->save();
+
+        Cache::deleteTrackerCache();
+
+        return $placeholder;
+    }
+
+    private function getCampaignTracker()
+    {
+        $tracker = Fixture::getTracker(
+            $this->idSite,
+            date('Y-m-d H:i:s'),
+            $defaultInit = true,
+            $useLocal = false
+        );
+
+        $tracker->setUrl('https://www.example.com/?utm_source=newsletter_7&utm_medium=email&utm_id=CAMPAIGN_ID_KABOOM&utm_content=hero-banner&mtm_group=Audience%20Group%201&mtm_placement=Google%20Search');
+
+        return $tracker;
+    }
+
+    private function countVisits(): int
+    {
+        return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('log_visit'));
     }
 
     public function testGoalConversionUsesReferrerAttributionCampaignCookie()
