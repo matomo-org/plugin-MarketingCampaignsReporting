@@ -210,6 +210,18 @@ class MarketingCampaignsReporting extends Plugin
     }
 
     /**
+     * Whether the site this request belongs to measures consent-aware analytics at all.
+     *
+     * Consent recorded against a visit stops counting once it does not, so turning the setting
+     * off - or forcing cookieless tracking - takes effect for the visits that had already
+     * consented rather than only for the ones that start afterwards.
+     */
+    public static function measuresConsentAwareAnalytics(Request $request): bool
+    {
+        return true === self::callCoreMethod($request, 'measuresConsentAwareAnalytics');
+    }
+
+    /**
      * Whether consent was recorded against the visit, on a core that measures consent-aware
      * analytics.
      */

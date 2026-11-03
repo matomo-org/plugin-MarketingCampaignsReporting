@@ -277,7 +277,11 @@ abstract class Base extends VisitDimension
             return false;
         }
 
-        return MarketingCampaignsReporting::visitHasConsented($visitor);
+        // and consent recorded against the visit stops counting once the site stops measuring
+        // consent-aware analytics, so turning the setting off takes effect for visits that had
+        // already consented rather than only for new ones
+        return MarketingCampaignsReporting::measuresConsentAwareAnalytics($request)
+            && MarketingCampaignsReporting::visitHasConsented($visitor);
     }
 
     /**

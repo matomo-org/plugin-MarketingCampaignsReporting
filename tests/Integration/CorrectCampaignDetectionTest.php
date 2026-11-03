@@ -335,6 +335,48 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
     }
 
     /**
+     * Consent recorded against a visit stops counting once the site stops measuring consent-aware
+     * analytics. Turning the setting off has to take effect for the visits that already consented,
+     * not only for the ones that start afterwards.
+     */
+    public function testConsentStopsCountingOnceTheSiteStopsMeasuringIt()
+    {
+        $placeholder = $this->requireConsentAwareAnalytics();
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = $this->getCampaignTracker();
+            $tracker->setCustomTrackingParameter('consent', '1');
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $data = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+            self::assertEqualsIgnoringCase('newsletter_7', $data['campaign_source'], 'the visit consented');
+
+            $measurable = ConsentAwareAnalytics::getMeasurableSetting($this->idSite);
+            $measurable->setValue(false);
+            $measurable->save();
+            Cache::deleteTrackerCache();
+
+            $tracker->clearCustomTrackingParameters();
+            $tracker->setUrl('https://www.example.com/?utm_source=winter_clearance');
+            Fixture::checkResponse($tracker->doTrackPageView('Another page title'));
+
+            // the incoming campaign is masked again, so it reads as the stored one rather than
+            // as a different campaign and does not split the visit. Were the visit still counted
+            // as consented, it would be compared in the clear and a second visit would start
+            self::assertEquals(1, $this->countVisits(), 'the visit kept its consent after the site stopped measuring it');
+
+            foreach (Db::fetchAll('SELECT campaign_source FROM ' . Common::prefixTable('log_visit')) as $row) {
+                self::assertNotEquals('winter_clearance', $row['campaign_source']);
+            }
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
+    /**
      * Consent-aware measurement is opt-in per site and needs a core that supports it, so the tests
      * that rely on it opt their site in and skip where it is not available.
      *
