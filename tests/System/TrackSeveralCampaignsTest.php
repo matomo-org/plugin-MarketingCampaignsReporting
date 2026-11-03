@@ -110,6 +110,11 @@ class TrackSeveralCampaignsTest extends SystemTestCase
             ]);
         }
 
+        if (version_compare(Version::VERSION, '6.1.0-alpha', '<')) {
+            // In Matomo 6.1 the AI chatbot traffic ratio had been added
+            $xmlFieldsToRemove[] = 'BotTracking_AIChatbotsTrafficRatio';
+        }
+
         $apiToTest[] = [
             'API.get',
             [
