@@ -1,13 +1,25 @@
 {
     "MarketingCampaignsReporting": {
-        "CombinedSourceMedium": "Kilde - medie",
         "CampaignId": "Kampagne Id",
+        "CampaignIds": "Kampagne-ID'er",
         "CombinedKeywordContent": "Søgeord - Indhold",
-        "Names": "Kampagne navne",
-        "Keywords": "Kampagne søgeord",
-        "Sources": "Kampagne kilder",
-        "Mediums": "Kampagne medier",
+        "CombinedSourceMedium": "Kilde - medie",
+        "CombinedSourcesMediums": "Kampagne kilde - medie",
+        "Content": "Kampagneindhold",
         "Contents": "Kampagne indhold",
-        "CombinedSourcesMediums": "Kampagne kilde - medie"
+        "DoNotChangeCaseOfUtmParametersDescription": "Når denne indstilling er aktiveret, bevarer Matomo de oprindelige store og små bogstaver i kampagneparametre for at sikre kompatibilitet med tredjepartstjenester som Google. Hvis den er deaktiveret, konverteres alle kampagneparametre til små bogstaver.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Bevar store og små bogstaver i kampagneparametre",
+        "Group": "Kampagnegruppe",
+        "Groups": "Kampagnegrupper",
+        "Keyword": "Kampagnesøgeord",
+        "Keywords": "Kampagne søgeord",
+        "Medium": "Kampagnemedie",
+        "Mediums": "Kampagne medier",
+        "Name": "Kampagnenavn",
+        "Names": "Kampagne navne",
+        "Placement": "Kampagneplacering",
+        "Placements": "Kampagneplaceringer",
+        "Source": "Kampagnekilde",
+        "Sources": "Kampagne kilder"
     }
 }
