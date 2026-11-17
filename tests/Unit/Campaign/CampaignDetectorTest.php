@@ -98,6 +98,15 @@ class CampaignDetectorTest extends \PHPUnit\Framework\TestCase
                     'campaign_keyword' => 'sdf2'
                 ]
             ],
+            'array values are ignored'                    => [
+                'request'        => $this->createRequestMock(
+                    'http://example.com/?mtm_campaign[]=arr&utm_campaign=campName&mtm_kwd[]=arr'
+                ),
+                'campaignParams' => $this->getCampaignParameters(),
+                'expectedOutput' => [
+                    'campaign_name' => 'campName',
+                ]
+            ],
             'no query string'                             => [
                 'request'        => $this->createRequestMock(
                     'https://whatever.com/cat1/cat2'
