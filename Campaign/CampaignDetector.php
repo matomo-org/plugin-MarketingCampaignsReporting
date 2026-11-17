@@ -83,7 +83,11 @@ class CampaignDetector implements CampaignDetectorInterface
      */
     protected function getValueFromQueryString($param, $queryString)
     {
-        $valueFromRequest = UrlHelper::getParameterFromQueryString($queryString, $param) ?? '';
+        $valueFromRequest = UrlHelper::getParameterFromQueryString($queryString, $param);
+        // an array, eg from utm_source[]=, is treated as absent so the next alias can still match
+        if (!is_string($valueFromRequest)) {
+            return false;
+        }
         $valueFromRequest = trim(urldecode($valueFromRequest));
         $valueFromRequest = substr($valueFromRequest, 0, 250);
         if (!empty($valueFromRequest)) {
