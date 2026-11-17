@@ -79,7 +79,7 @@ class CampaignDetector implements CampaignDetectorInterface
     /**
      * @param $param
      * @param $queryString
-     * @return bool|null|string
+     * @return string|false
      */
     protected function getValueFromQueryString($param, $queryString)
     {
