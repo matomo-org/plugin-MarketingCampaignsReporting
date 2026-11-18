@@ -7,7 +7,10 @@
         "CombinedSourcesMediums": "活动源-中",
         "Content": "广告活动内容",
         "Contents": "活动内容",
+        "DoNotChangeCaseOfUtmParametersDescription": "启用后，Matomo 将保留广告活动参数的原始大小写，以确保与 Google 等第三方服务兼容。如果停用，所有广告活动参数都将转换为小写。",
+        "DoNotChangeCaseOfUtmParametersTitle": "保留广告活动参数的大小写",
         "Group": "活动组",
+        "Groups": "广告活动组",
         "Keyword": "广告系列关键字",
         "Keywords": "活动关键字",
         "Medium": "广告媒体",
@@ -15,6 +18,7 @@
         "Name": "广告活动名称",
         "Names": "活动名称",
         "Placement": "活动投放",
+        "Placements": "广告活动投放位置",
         "Source": "广告活动源",
         "Sources": "活动源"
     }
