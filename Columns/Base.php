@@ -95,19 +95,23 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
-        // the attribution cookie this can draw on outlives the visit. Where the visit itself holds
-        // a discarded campaign, surfacing one against the conversion would contradict it with
-        // detail gathered before the visitor consented
+        // where the visit itself holds a discarded campaign, surfacing one against the conversion
+        // would contradict it with detail gathered before the visitor consented
         $hasConsent = $this->hasVisitorConsented($request, $visitor)
             && !$this->isDiscardedValue($visitor->getVisitorColumn((new CampaignName())->getColumnName()));
 
+        // the attribution cookie outlives the visit, so the campaign it carries is only reported
+        // where it is the one the visit holds
+        $cookieCampaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
+        $cookieHasConsent = $hasConsent
+            && $this->conversionMayReportCookieCampaign($visitor, $cookieCampaignDimensions);
+
         // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
         if ($visitProperties['referer_type'] === 8) {
-            $campaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
             $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-                $campaignDimensions,
+                $cookieCampaignDimensions,
                 (int) $request->getIdSiteIfExists(),
-                $hasConsent
+                $cookieHasConsent
             );
 
             if (empty($campaignDimensions)) {
@@ -137,11 +141,10 @@ abstract class Base extends VisitDimension
             );
         }
 
-        $cookieCampaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
         $cookieCampaignDimensions = $this->normalizeDetectedCampaignDimensions(
             $cookieCampaignDimensions,
             (int) $request->getIdSiteIfExists(),
-            $hasConsent
+            $cookieHasConsent
         );
 
         if (!is_array($campaignDimensions)) {
@@ -282,6 +285,39 @@ abstract class Base extends VisitDimension
         // already consented rather than only for new ones
         return MarketingCampaignsReporting::measuresConsentAwareAnalytics($request)
             && MarketingCampaignsReporting::visitHasConsented($visitor);
+    }
+
+    /**
+     * Whether a consented conversion may report the campaign the attribution cookie carries,
+     * rather than the placeholder the policy would otherwise write.
+     *
+     * The cookie outlives the visit and may name an older campaign than the one the visit holds,
+     * or one the visit never had, so it may only be reported where it is the campaign the visit
+     * holds in the clear - the rule core applies to the campaign it records itself, in
+     * Referrers\Columns\Base::conversionMayReportCampaignValue().
+     *
+     * @param array<string, string> $cookieCampaignDimensions
+     */
+    protected function conversionMayReportCookieCampaign(Visitor $visitor, array $cookieCampaignDimensions): bool
+    {
+        $nameColumn    = (new CampaignName())->getColumnName();
+        $keywordColumn = (new CampaignKeyword())->getColumnName();
+
+        $held = (string) $visitor->getVisitorColumn($nameColumn);
+
+        if ('' === $held || $this->isDiscardedValue($held)) {
+            return false;
+        }
+
+        // stored values are lowercased unless a setting keeps their case, which the cookie
+        // may not have been sent in
+        if (mb_strtolower($held) !== mb_strtolower($cookieCampaignDimensions[$nameColumn] ?? '')) {
+            return false;
+        }
+
+        return !isset($cookieCampaignDimensions[$keywordColumn])
+            || mb_strtolower((string) $visitor->getVisitorColumn($keywordColumn))
+                === mb_strtolower($cookieCampaignDimensions[$keywordColumn]);
     }
 
     /**

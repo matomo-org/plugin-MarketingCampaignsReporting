@@ -517,6 +517,269 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         self::assertSame('campaign keyword', $conversion['campaign_keyword']);
     }
 
+    /**
+     * The attribution cookie outlives the visit, so a consented conversion can carry a campaign
+     * the visit never held, or an older one than the visit holds. Where the policy masks campaign
+     * values, the conversion reports the cookie campaign only where it is the one the visit holds
+     * in the clear - the rule core applies to the campaign it records itself.
+     *
+     * @dataProvider getConsentedConversionTestData
+     */
+    public function testAConsentedConversionReportsOnlyTheCampaignTheVisitHolds(
+        string $arrival,
+        string $cookieName,
+        string $cookieKeyword,
+        bool $doNotChangeCase,
+        bool $expectReported,
+        ?bool $expectCoreReportsName,
+        bool $conversionRepeatsConsent = true
+    ) {
+        if ('ai' === $arrival && version_compare(Version::VERSION, '5.5.0-b1', '<')) {
+            $this->markTestSkipped('AI assistant referrer type is not available in this core version.');
+        }
+
+        $placeholder = $this->requireConsentAwareAnalytics();
+        $this->setDoNotChangeCaseOfUtmParameters($doNotChangeCase);
+
+        if ('{placeholder}' === $cookieName) {
+            $cookieName = $placeholder;
+        }
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            $conversion = $this->trackConversionWithAttributionCookie(
+                $arrival,
+                $cookieName,
+                $cookieKeyword,
+                '1',
+                false,
+                [],
+                $conversionRepeatsConsent
+            );
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+
+        if ($expectReported) {
+            self::assertEqualsIgnoringCase('Campaign Name', $conversion['campaign_name']);
+            self::assertEqualsIgnoringCase('Campaign Keyword', $conversion['campaign_keyword']);
+            self::assertEqualsIgnoringCase('campaign-source', $conversion['campaign_source']);
+            self::assertEqualsIgnoringCase('campaign-medium', $conversion['campaign_medium']);
+        } else {
+            foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
+                self::assertSame($placeholder, $conversion[$field], $field . ' reported a campaign the visit does not hold');
+            }
+        }
+
+        // the campaign core records for the same conversion, where it decides the same way
+        if (true === $expectCoreReportsName) {
+            self::assertEqualsIgnoringCase('Campaign Name', $conversion['referer_name']);
+        } elseif (false === $expectCoreReportsName) {
+            self::assertNotEqualsIgnoringCase($cookieName, $conversion['referer_name']);
+        }
+    }
+
+    public function getConsentedConversionTestData(): iterable
+    {
+        // arrival, cookie name, cookie keyword, keep the case of campaign values, reported, core reports the name,
+        // and whether the conversion request repeats the consent the visit already holds
+        yield 'visit arrived directly' => ['direct', 'Campaign Name', 'Campaign Keyword', false, false, false];
+        yield 'visit arrived from an AI assistant' => ['ai', 'Campaign Name', 'Campaign Keyword', false, false, false];
+        yield 'visit holds another campaign' => ['campaign', 'Autumn Sale', 'Campaign Keyword', false, false, false];
+        yield 'visit holds the campaign under another keyword' => ['campaign', 'Campaign Name', 'Other Keyword', false, false, true];
+        yield 'cookie carries the placeholder' => ['campaign', '{placeholder}', '', false, false, null];
+        yield 'cookie is longer than the stored campaign' => ['long', str_repeat('a', 300), '', false, false, null];
+        yield 'visit holds the campaign' => ['campaign', 'Campaign Name', 'Campaign Keyword', false, true, true];
+        yield 'visit holds the campaign in another case' => ['campaign', 'CAMPAIGN NAME', 'CAMPAIGN KEYWORD', false, true, true];
+        yield 'visit holds the campaign, case kept, cookie in another case' => ['campaign', 'campaign name', 'campaign keyword', true, true, true];
+        yield 'visit holds the campaign, case kept' => ['campaign', 'Campaign Name', 'Campaign Keyword', true, true, true];
+        yield 'cookie carries no keyword' => ['campaign', 'Campaign Name', '', false, true, true];
+        yield 'no cookie' => ['campaign', '', '', false, true, true];
+        yield 'visit arrived directly, consent not repeated' => ['direct', 'Campaign Name', 'Campaign Keyword', false, false, false, false];
+        yield 'visit holds the campaign, consent not repeated' => ['campaign', 'Campaign Name', 'Campaign Keyword', false, true, true, false];
+    }
+
+    /**
+     * The conversion is masked as before wherever consent does not count for the visit.
+     *
+     * @dataProvider getUnconsentedConversionTestData
+     */
+    public function testAConversionReportsThePlaceholderWhereConsentDoesNotCount(?string $consent, bool $optedIn, bool $optOutMidVisit)
+    {
+        $placeholder = $this->requireConsentAwareAnalytics();
+        $this->setDoNotChangeCaseOfUtmParameters(false);
+
+        if (!$optedIn) {
+            $this->setConsentAwareAnalytics(false);
+        }
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            $conversion = $this->trackConversionWithAttributionCookie(
+                'campaign',
+                'Campaign Name',
+                'Campaign Keyword',
+                $consent,
+                $optOutMidVisit
+            );
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+
+        foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
+            self::assertSame($placeholder, $conversion[$field], $field);
+        }
+    }
+
+    public function getUnconsentedConversionTestData(): iterable
+    {
+        // consent, site opted in, site stops measuring consent before the conversion
+        yield 'no consent' => [null, true, false];
+        yield 'consent refused' => ['0', true, false];
+        yield 'site not opted in' => ['1', false, false];
+        yield 'site stops measuring consent mid visit' => ['1', true, true];
+    }
+
+    /**
+     * An attribution cookie sent as an array carries no campaign, and must not fail the request.
+     */
+    public function testAConsentedConversionIgnoresAnArrayValuedAttributionCookie()
+    {
+        $this->requireConsentAwareAnalytics();
+        $this->setDoNotChangeCaseOfUtmParameters(false);
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            $conversion = $this->trackConversionWithAttributionCookie('direct', '', '', '1', false, ['_rcn[]' => 'Campaign Name']);
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+
+        self::assertNull($conversion['campaign_name']);
+    }
+
+    /**
+     * A campaign carried by the conversion request itself is this request's own and is consented
+     * with it, so a consenting visitor's conversion records it as a site without the policy does.
+     */
+    public function testAConsentedConversionRecordsItsOwnCampaignAsASiteWithoutThePolicy()
+    {
+        $this->requireConsentAwareAnalytics();
+        $this->setDoNotChangeCaseOfUtmParameters(false);
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            $withPolicy = $this->trackConversionWithCampaignInItsUrl();
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+
+        $withoutPolicy = $this->trackConversionWithCampaignInItsUrl();
+
+        self::assertNotEmpty($withoutPolicy['campaign_name']);
+        self::assertSame($withoutPolicy, $withPolicy);
+    }
+
+    /**
+     * @param array<string, string> $extraParameters
+     * @return array<string, mixed> the conversion row
+     */
+    private function trackConversionWithAttributionCookie(
+        string $arrival,
+        string $cookieName,
+        string $cookieKeyword,
+        ?string $consent,
+        bool $optOutMidVisit = false,
+        array $extraParameters = [],
+        bool $conversionRepeatsConsent = true
+    ): array {
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_conversion'));
+
+        $idGoal = \Piwik\Plugins\Goals\API::getInstance()->addGoal($this->idSite, 'manual goal', 'manually', '', 'contains');
+
+        $tracker = Fixture::getTracker($this->idSite, date('Y-m-d H:i:s'), $defaultInit = true, $useLocal = false);
+
+        if (null !== $consent) {
+            $tracker->setCustomTrackingParameter('consent', $consent);
+        }
+
+        if ('ai' === $arrival) {
+            $tracker->setUrl('https://www.example.com/landing-page');
+            $tracker->setUrlReferrer('https://chatgpt.com/');
+        } elseif ('direct' === $arrival) {
+            $tracker->setUrl('https://www.example.com/landing-page');
+        } elseif ('long' === $arrival) {
+            $tracker->setUrl('https://www.example.com/landing-page?utm_campaign=' . str_repeat('a', 300) . '&utm_source=campaign-source');
+        } else {
+            $tracker->setUrl('https://www.example.com/landing-page?utm_campaign=Campaign%20Name&utm_term=Campaign%20Keyword&utm_source=campaign-source&utm_medium=campaign-medium');
+        }
+
+        Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+        if ('ai' === $arrival) {
+            $visit = Db::fetchRow('SELECT referer_type FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+            self::assertSame(Common::REFERRER_TYPE_AI_ASSISTANT, (int) $visit['referer_type']);
+        }
+
+        if ($optOutMidVisit) {
+            $this->setConsentAwareAnalytics(false);
+        }
+
+        // the tracker sends custom parameters with one request only
+        if (null !== $consent && $conversionRepeatsConsent) {
+            $tracker->setCustomTrackingParameter('consent', $consent);
+        }
+
+        $tracker->setUrl('https://www.example.com/conversion-page');
+        if ('' !== $cookieName) {
+            $tracker->setCustomTrackingParameter('_rcn', $cookieName);
+        }
+        if ('' !== $cookieKeyword) {
+            $tracker->setCustomTrackingParameter('_rck', $cookieKeyword);
+        }
+        foreach ($extraParameters as $name => $value) {
+            $tracker->setCustomTrackingParameter($name, $value);
+        }
+        Fixture::checkResponse($tracker->doTrackGoal($idGoal, 42));
+
+        self::assertEquals(1, $this->countVisits(), 'the conversion should stay in the visit it was tracked in');
+
+        return Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_conversion') . ' LIMIT 1');
+    }
+
+    /**
+     * @return array<string, mixed> the campaign columns of the conversion
+     */
+    private function trackConversionWithCampaignInItsUrl(): array
+    {
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+        Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_conversion'));
+
+        $idGoal = \Piwik\Plugins\Goals\API::getInstance()->addGoal($this->idSite, 'manual goal', 'manually', '', 'contains');
+
+        $tracker = Fixture::getTracker($this->idSite, date('Y-m-d H:i:s'), $defaultInit = true, $useLocal = false);
+        $tracker->setCustomTrackingParameter('consent', '1');
+        $tracker->setUrl('https://www.example.com/landing-page');
+        Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+        $tracker->setCustomTrackingParameter('consent', '1');
+        $tracker->setUrl('https://www.example.com/conversion-page?utm_campaign=Campaign%20Name&utm_term=Campaign%20Keyword&utm_source=campaign-source');
+        Fixture::checkResponse($tracker->doTrackGoal($idGoal, 42));
+
+        $conversion = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_conversion') . ' LIMIT 1');
+
+        return array_intersect_key($conversion, array_flip(MarketingCampaignsReporting::getAdvancedCampaignFields()));
+    }
+
+    private function setConsentAwareAnalytics(bool $enabled): void
+    {
+        $measurable = ConsentAwareAnalytics::getMeasurableSetting($this->idSite);
+        $measurable->setValue($enabled);
+        $measurable->save();
+        Cache::deleteTrackerCache();
+    }
+
     public function testCampaignPlaceholderIsFormattedForReports()
     {
         $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
