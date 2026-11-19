@@ -1,5 +1,11 @@
 ## Changelog
 
+#### 6.0.3
+- Fixed an error when tracking a page URL with malformed campaign parameters
+
+#### 6.0.2 - 2026-11-16
+- Fixed PHP deprecation notices on PHP 8.4 and newer
+
 #### 6.0.1 - 2026-10-05
 - Fixed AI Assistant visits being split into multiple visits when campaign value masking is enabled
 

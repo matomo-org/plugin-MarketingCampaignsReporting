@@ -7,6 +7,8 @@
         "CombinedSourcesMediums": "Fuente de la campaña - Medio",
         "Content": "Contenido de la campaña",
         "Contents": "Contenidos de la campaña",
+        "DoNotChangeCaseOfUtmParametersDescription": "Si se activa, Matomo conservará las mayúsculas y minúsculas originales de los parámetros de campaña para garantizar la compatibilidad con servicios de terceros como Google. Si se desactiva, todos los parámetros de campaña se convertirán a minúsculas.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Conservar las mayúsculas y minúsculas de los parámetros de campaña",
         "Group": "Grupo de campaña",
         "Groups": "Grupos de campaña",
         "Keyword": "Palabra clave de la campaña",
