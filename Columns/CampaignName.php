@@ -77,6 +77,7 @@ class CampaignName extends Base
         if (
             !empty($campaignDimensions)
             && $this->isCampaignInformationNew($visitor, $campaignDimensions, $action, $request)
+            && !$this->shouldCompleteWithheldCampaign($request, $visitor, $action)
         ) {
             Common::printDebug("Existing visit detected, but creating new visit because campaign information is different than last action.");
 

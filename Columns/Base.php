@@ -95,24 +95,20 @@ abstract class Base extends VisitDimension
 
         $visitProperties = $visitor->visitProperties->getProperties();
 
-        // where the visit itself holds a discarded campaign, surfacing one against the conversion
-        // would contradict it with detail gathered before the visitor consented
-        $hasConsent = $this->hasVisitorConsented($request, $visitor)
-            && !$this->isDiscardedValue($visitor->getVisitorColumn((new CampaignName())->getColumnName()));
+        // a visit holding a discarded campaign reports it as discarded whatever this says: its own
+        // values are the placeholder, and the cookie is only reported where the visit holds it
+        $hasConsent = $this->hasVisitorConsented($request, $visitor);
 
-        // the attribution cookie outlives the visit, so the campaign it carries is only reported
-        // where it is the one the visit holds
-        $cookieCampaignDimensions = $this->getCampaignDimensionsFromReferrerAttributionCookie($request);
-        $cookieHasConsent = $hasConsent
-            && $this->conversionMayReportCookieCampaign($visitor, $cookieCampaignDimensions);
+        $cookieCampaignDimensions = $this->normalizeCookieCampaignDimensions(
+            $this->getCampaignDimensionsFromReferrerAttributionCookie($request),
+            $visitor,
+            (int) $request->getIdSiteIfExists(),
+            $hasConsent
+        );
 
         // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
         if ($visitProperties['referer_type'] === 8) {
-            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
-                $cookieCampaignDimensions,
-                (int) $request->getIdSiteIfExists(),
-                $cookieHasConsent
-            );
+            $campaignDimensions = $cookieCampaignDimensions;
 
             if (empty($campaignDimensions)) {
                 return null; // skip campaign detection when a AI assistant was detected as referrer by core
@@ -141,22 +137,12 @@ abstract class Base extends VisitDimension
             );
         }
 
-        $cookieCampaignDimensions = $this->normalizeDetectedCampaignDimensions(
-            $cookieCampaignDimensions,
-            (int) $request->getIdSiteIfExists(),
-            $cookieHasConsent
-        );
-
         if (!is_array($campaignDimensions)) {
             $campaignDimensions = [];
         }
 
         if (!empty($cookieCampaignDimensions)) {
             $campaignDimensions = array_merge($campaignDimensions, $cookieCampaignDimensions);
-        }
-
-        if (empty($campaignDimensions) && $visitProperties['referer_type'] === 8) {
-            return null; // skip campaign detection when a AI assistant was detected as referrer by core
         }
 
         if (!empty($campaignDimensions) && array_key_exists($this->getColumnName(), $campaignDimensions)) {
@@ -172,16 +158,22 @@ abstract class Base extends VisitDimension
      * its place - but only while the visit is still on the page it arrived on, which is the only
      * time those values are still in the URL to read.
      *
+     * A campaign the tracker withheld until consent left no marker at all, and is completed the
+     * same way where consent reveals it (see shouldCompleteWithheldCampaign()).
+     *
      * @param Action|null $action
      * @return mixed
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        if (
-            !$this->isDiscardedValue($visitor->getVisitorColumn($this->getColumnName()))
-            || !$this->hasVisitorConsented($request, $visitor)
-            || true !== $this->isRequestOnEntryPage($visitor, $action, $request)
-        ) {
+        if ($this->isDiscardedValue($visitor->getVisitorColumn($this->getColumnName()))) {
+            if (
+                !$this->hasVisitorConsented($request, $visitor)
+                || true !== $this->isRequestOnEntryPage($visitor, $action, $request)
+            ) {
+                return false;
+            }
+        } elseif (!$this->shouldCompleteWithheldCampaign($request, $visitor, $action)) {
             return false;
         }
 
@@ -269,55 +261,94 @@ abstract class Base extends VisitDimension
      */
     protected function hasVisitorConsented(Request $request, Visitor $visitor): bool
     {
-        if (MarketingCampaignsReporting::requestHasConsent($request)) {
-            return true;
-        }
-
-        // a visit being created now does not inherit the consent of the one before it: the
-        // recognised visit's columns are still loaded at this point, and the consent recorded
-        // against that visit says nothing about this one
-        if ($request->getMetadata('CoreHome', 'isNewVisit')) {
-            return false;
-        }
-
-        // and consent recorded against the visit stops counting once the site stops measuring
-        // consent-aware analytics, so turning the setting off takes effect for visits that had
-        // already consented rather than only for new ones
-        return MarketingCampaignsReporting::measuresConsentAwareAnalytics($request)
-            && MarketingCampaignsReporting::visitHasConsented($visitor);
+        return MarketingCampaignsReporting::visitHasConsent($request, $visitor);
     }
 
     /**
-     * Whether a consented conversion may report the campaign the attribution cookie carries,
-     * rather than the placeholder the policy would otherwise write.
+     * Whether consent reported now reveals the campaign this visit actually arrived through.
+     *
+     * Where the tracker withholds campaign parameters until consent, the request that opened the
+     * visit carried none, so it was attributed to whatever was left - the referring site, or a
+     * direct entry. Consent given while the visitor is still on the page they arrived on brings
+     * the campaign with it, and it describes that same arrival rather than a new one, so the visit
+     * is completed with it rather than split. This is the rule core applies to the campaign it
+     * records itself, in Referrers\Columns\Base::shouldCompleteWithheldCampaign().
+     *
+     * @param Action|null $action
+     */
+    protected function shouldCompleteWithheldCampaign(Request $request, Visitor $visitor, $action = null): bool
+    {
+        if (
+            !MarketingCampaignsReporting::requestHasConsent($request)
+            || MarketingCampaignsReporting::visitHasConsented($visitor)
+        ) {
+            return false;
+        }
+
+        // a visit already holding a campaign is completed through the placeholder rules instead,
+        // and a second campaign over the first is a change rather than a completion. The visit as
+        // stored is read, as the other campaign fields may already be completed by now
+        foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
+            if ('' !== (string) $visitor->getImmutableVisitorColumn($field)) {
+                return false;
+            }
+        }
+
+        return true === $this->isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * The campaign the attribution cookie carries, as a conversion may report it.
      *
      * The cookie outlives the visit and may name an older campaign than the one the visit holds,
-     * or one the visit never had, so it may only be reported where it is the campaign the visit
-     * holds in the clear - the rule core applies to the campaign it records itself, in
-     * Referrers\Columns\Base::conversionMayReportCampaignValue().
+     * or one the visit never had. Where the policy masks campaign values, a consenting visitor's
+     * conversion therefore reports each value only where it is the one the visit holds in the
+     * clear, and the placeholder otherwise - the rule core applies to the campaign it records
+     * itself, in Referrers\Columns\Base::conversionMayReportCampaignValue(). Each value is judged
+     * on its own, because a visit can hold its campaign name and still have had the keyword
+     * withheld. For a visitor who has not consented the campaign is masked as a whole, as before.
      *
      * @param array<string, string> $cookieCampaignDimensions
+     * @return array<string, string>
      */
-    protected function conversionMayReportCookieCampaign(Visitor $visitor, array $cookieCampaignDimensions): bool
-    {
-        $nameColumn    = (new CampaignName())->getColumnName();
-        $keywordColumn = (new CampaignKeyword())->getColumnName();
+    protected function normalizeCookieCampaignDimensions(
+        array $cookieCampaignDimensions,
+        Visitor $visitor,
+        int $idSite,
+        bool $hasConsent
+    ): array {
+        if (!$hasConsent) {
+            return $this->normalizeDetectedCampaignDimensions($cookieCampaignDimensions, $idSite);
+        }
 
-        $held = (string) $visitor->getVisitorColumn($nameColumn);
+        if (!MarketingCampaignsReporting::isCampaignValuesMaskingEnabled($idSite)) {
+            return $cookieCampaignDimensions;
+        }
+
+        foreach ([(new CampaignName())->getColumnName(), (new CampaignKeyword())->getColumnName()] as $column) {
+            if (isset($cookieCampaignDimensions[$column]) && !$this->visitHoldsCampaignValue($visitor, $column, $cookieCampaignDimensions[$column])) {
+                $cookieCampaignDimensions[$column] = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+            }
+        }
+
+        return $cookieCampaignDimensions;
+    }
+
+    /**
+     * Whether the visit holds this campaign value in the clear.
+     *
+     * Stored values are lowercased unless a setting keeps their case, which the value compared
+     * with them may not have been sent in.
+     */
+    private function visitHoldsCampaignValue(Visitor $visitor, string $column, string $value): bool
+    {
+        $held = (string) $visitor->getVisitorColumn($column);
 
         if ('' === $held || $this->isDiscardedValue($held)) {
             return false;
         }
 
-        // stored values are lowercased unless a setting keeps their case, which the cookie
-        // may not have been sent in
-        if (mb_strtolower($held) !== mb_strtolower($cookieCampaignDimensions[$nameColumn] ?? '')) {
-            return false;
-        }
-
-        return !isset($cookieCampaignDimensions[$keywordColumn])
-            || mb_strtolower((string) $visitor->getVisitorColumn($keywordColumn))
-                === mb_strtolower($cookieCampaignDimensions[$keywordColumn]);
+        return mb_strtolower($held) === mb_strtolower($value);
     }
 
     /**

@@ -199,10 +199,20 @@ class MarketingCampaignsReporting extends Plugin
     }
 
     /**
-     * Whether this request reports consent, on a core that measures consent-aware analytics.
+     * Whether the visit this request is recorded against holds the visitor's consent, given by
+     * this request or earlier in the same visit, as core decides it for everything the consent
+     * governs.
      *
-     * A core without it cannot say, and every visitor is then one who has not consented, which
-     * is how this plugin has always treated them.
+     * A core without consent-aware analytics cannot say, and every visitor is then one who has
+     * not consented, which is how this plugin has always treated them.
+     */
+    public static function visitHasConsent(Request $request, Visitor $visitor): bool
+    {
+        return true === self::callCoreMethod(self::CONSENT_COLUMN_CLASS, 'visitHasConsent', [$request, $visitor]);
+    }
+
+    /**
+     * Whether this request reports consent, on a site that measures consent-aware analytics.
      */
     public static function requestHasConsent(Request $request): bool
     {
@@ -210,20 +220,7 @@ class MarketingCampaignsReporting extends Plugin
     }
 
     /**
-     * Whether the site this request belongs to measures consent-aware analytics at all.
-     *
-     * Consent recorded against a visit stops counting once it does not, so turning the setting
-     * off - or forcing cookieless tracking - takes effect for the visits that had already
-     * consented rather than only for the ones that start afterwards.
-     */
-    public static function measuresConsentAwareAnalytics(Request $request): bool
-    {
-        return true === self::callCoreMethod($request, 'measuresConsentAwareAnalytics');
-    }
-
-    /**
-     * Whether consent was recorded against the visit, on a core that measures consent-aware
-     * analytics.
+     * Whether consent was recorded against the visit before this request.
      */
     public static function visitHasConsented(Visitor $visitor): bool
     {
