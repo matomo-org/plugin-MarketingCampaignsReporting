@@ -65,9 +65,10 @@ class CampaignName extends Base
         }
 
         // Normalise only after the AI Assistant check, as masking replaces the raw values needed there
-        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+        $campaignDimensions = $this->normalizeDetectedCampaignDimensionsForConsent(
             $campaignDimensions,
-            (int) $request->getIdSiteIfExists()
+            (int) $request->getIdSiteIfExists(),
+            $this->hasVisitorConsented($request, $visitor)
         );
 
         // we force a new visit if the referrer is a campaign and it's different than the currently recorded referrer.
@@ -75,7 +76,8 @@ class CampaignName extends Base
         // we just update the existing referrer information instead of creating a visit.
         if (
             !empty($campaignDimensions)
-            && $this->isCampaignInformationNew($visitor, $campaignDimensions)
+            && $this->isCampaignInformationNewForRequest($visitor, $campaignDimensions, $action, $request)
+            && !$this->consentRevealsArrival($request, $visitor, $action)
         ) {
             Common::printDebug("Existing visit detected, but creating new visit because campaign information is different than last action.");
 
@@ -95,6 +97,24 @@ class CampaignName extends Base
         return false;
     }
 
+    /**
+     * As isCampaignInformationNew(), for a request that may carry the campaign a policy discarded.
+     *
+     * This is a method of its own so that isCampaignInformationNew() keeps the signature a plugin
+     * extending this dimension may already be overriding, as core does for its referrer columns.
+     *
+     * @param Action|null $action
+     */
+    protected function isCampaignInformationNewForRequest(Visitor $visitor, $campaignDimensions, $action, Request $request)
+    {
+        foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $infoName) {
+            if ($this->hasReferrerColumnChangedForRequest($visitor, $campaignDimensions, $infoName, $action, $request)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected function hasReferrerColumnChanged(Visitor $visitor, $information, $infoName)
     {
         $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
@@ -106,5 +126,30 @@ class CampaignName extends Base
         }
 
         return $result;
+    }
+
+    /**
+     * As hasReferrerColumnChanged(), telling a discarded campaign apart from a different one.
+     *
+     * @param Action|null $action
+     */
+    protected function hasReferrerColumnChangedForRequest(Visitor $visitor, $information, $infoName, $action, Request $request)
+    {
+        $existing = Common::mb_strtolower($visitor->getVisitorColumn($infoName) ?? '');
+        $new      = isset($information[$infoName]) ? Common::mb_strtolower($information[$infoName]) : false;
+
+        // the incoming campaign was discarded as well, so it stands for the stored one rather than
+        // for a different campaign, and must not count as a change
+        if ($this->isDiscardedValue($new)) {
+            return false;
+        }
+
+        // a discarded campaign kept nothing to compare an incoming one against, so the two can
+        // only be told apart while the visit is still on the page it arrived on
+        if ($this->isDiscardedValue($existing)) {
+            return false === $this->isRequestOnEntryPage($visitor, $action, $request);
+        }
+
+        return $this->hasReferrerColumnChanged($visitor, $information, $infoName);
     }
 }
