@@ -343,8 +343,13 @@ abstract class Base extends VisitDimension
      */
     protected function shouldCompleteWithheldCampaign(Visitor $visitor, array $campaignDimensions): bool
     {
+        // core may also attribute the visit to an AI assistant from this very request, where it
+        // came from a direct entry, so the type it holds now is checked as well as the stored one
         // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
-        if ((int) $visitor->getImmutableVisitorColumn('referer_type') === 8) {
+        if (
+            (int) $visitor->getImmutableVisitorColumn('referer_type') === 8
+            || (int) $visitor->getVisitorColumn('referer_type') === 8
+        ) {
             return false;
         }
 

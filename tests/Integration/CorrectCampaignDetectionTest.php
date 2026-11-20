@@ -737,11 +737,11 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
      *
      * @dataProvider getWithheldCampaignTestData
      */
-    public function testConsentOnTheArrivalPageCompletesAWithheldCampaign(string $referrer, string $carrier)
+    public function testConsentOnTheArrivalPageCompletesAWithheldCampaign(string $referrer, string $carrier, bool $policy = true)
     {
         $this->requireConsentAwareAnalytics();
 
-        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, $policy, $this->idSite);
         try {
             Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
 
@@ -781,6 +781,9 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             yield "arrived from another site, consent by $carrier" => ['https://www.facebook.com/', $carrier];
             yield "arrived directly, consent by $carrier" => ['', $carrier];
         }
+
+        // nothing is withheld by a policy here, but the tracker still withholds the campaign until consent
+        yield 'arrived from another site, no policy enforced' => ['https://www.facebook.com/', 'pageview', false];
     }
 
     /**
@@ -947,12 +950,9 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         string $referrer,
         string $query,
         string $carrier,
-        int $expectedType
+        int $expectedType,
+        string $consentReferrer = ''
     ) {
-        if ('' !== $referrer && version_compare(Version::VERSION, '5.5.0-b1', '<')) {
-            $this->markTestSkipped('AI assistant referrer type is not available in this core version.');
-        }
-
         $this->requireConsentAwareAnalytics();
 
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
@@ -965,6 +965,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
 
             $tracker->setUrl('https://www.example.com/?' . $query);
+            $tracker->setUrlReferrer($consentReferrer);
             $tracker->setCustomTrackingParameter('consent', '1');
 
             if ('ping' === $carrier) {
@@ -977,7 +978,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
             self::assertEquals(1, $this->countVisits(), 'consent on the arrival page should not have split the visit');
             self::assertEquals(1, $visit['consent'], 'the consent never reached the visit');
-            self::assertEquals($expectedType, (int) $visit['referer_type'], 'core changed how the visit arrived');
+            self::assertEquals($expectedType, (int) $visit['referer_type'], 'core attributes the visit differently');
 
             foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
                 self::assertNull($visit[$field], $field . ' was completed');
@@ -994,6 +995,9 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             yield "AI assistant, campaign, consent by $carrier" => ['https://chatgpt.com/', 'utm_campaign=autumn_sale&utm_source=chatgpt.com', $carrier, Common::REFERRER_TYPE_AI_ASSISTANT];
             yield "direct, source only, consent by $carrier" => ['', 'mtm_source=newsletter_7', $carrier, Common::REFERRER_TYPE_DIRECT_ENTRY];
         }
+
+        // core attributes a direct entry to the AI assistant the consenting request names
+        yield 'direct, AI assistant named with the consent' => ['', 'utm_campaign=autumn_sale', 'pageview', Common::REFERRER_TYPE_AI_ASSISTANT, 'https://chatgpt.com/'];
     }
 
     /**
