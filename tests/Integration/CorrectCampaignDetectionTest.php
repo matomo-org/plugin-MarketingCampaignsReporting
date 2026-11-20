@@ -1010,8 +1010,11 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
      *
      * @dataProvider getDiscardedCampaignNotCompletedTestData
      */
-    public function testADiscardedCampaignIsCompletedOnlyWhereCoreCompletesIt(string $consentQuery, string $consentReferrer)
-    {
+    public function testADiscardedCampaignIsCompletedOnlyWhereCoreCompletesIt(
+        string $consentQuery,
+        string $consentReferrer,
+        string $arrivalQuery = 'utm_campaign=autumn_sale&utm_source=newsletter_7'
+    ) {
         $placeholder = $this->requireConsentAwareAnalytics();
 
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
@@ -1019,7 +1022,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
 
             $tracker = Fixture::getTracker($this->idSite, date('Y-m-d H:i:s'), $defaultInit = true, $useLocal = false);
-            $tracker->setUrl('https://www.example.com/?utm_campaign=autumn_sale&utm_source=newsletter_7');
+            $tracker->setUrl('https://www.example.com/?' . $arrivalQuery);
             Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
 
             $tracker->setUrl('https://www.example.com/?' . $consentQuery);
@@ -1044,6 +1047,8 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
     {
         yield 'consent names an AI assistant' => ['utm_campaign=autumn_sale&utm_source=newsletter_7', 'https://chatgpt.com/'];
         yield 'consent carries no campaign core reads' => ['mtm_source=other_source', ''];
+        // core reads nothing of this campaign, so completes nothing, and it stays withheld here too
+        yield 'campaign only these dimensions read' => ['utm_content=hero', '', 'utm_content=hero'];
     }
 
     /**

@@ -162,6 +162,9 @@ abstract class Base extends VisitDimension
      * A campaign the tracker withheld until consent left no marker at all, and is completed the
      * same way where consent reveals it (see consentRevealsArrival()).
      *
+     * Either way the visit is completed only where core completed the campaign it records from
+     * this same request (see coreCompletedCampaign()), so the two never disagree about it.
+     *
      * @param Action|null $action
      * @return mixed
      */
@@ -188,7 +191,8 @@ abstract class Base extends VisitDimension
         );
 
         // without a campaign in this request there is nothing to complete the visit from, and
-        // clearing the placeholder would claim the visitor arrived without one
+        // clearing the placeholder would claim the visitor arrived without one; and where core did
+        // not complete its own campaign from it, completing these would contradict core
         if (empty($campaignDimensions) || !$this->coreCompletedCampaign($visitor)) {
             return false;
         }
@@ -336,6 +340,10 @@ abstract class Base extends VisitDimension
      * Referrers\Columns\Base::shouldCompleteWithheldCampaign() and ::shouldCompleteDiscardedCampaign().
      * Core's referrer columns are required by these dimensions (getRequiredVisitFields()), so they
      * have run for this request by now, and what they recorded is compared with the visit as stored.
+     *
+     * A campaign carried only by parameters these dimensions read and core does not - a content or
+     * placement on its own, say - is therefore never completed: core completes nothing from it, and
+     * the visit keeps the placeholder it was measured with.
      */
     protected function coreCompletedCampaign(Visitor $visitor): bool
     {
