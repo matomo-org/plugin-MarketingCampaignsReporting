@@ -784,6 +784,9 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
         // nothing is withheld by a policy here, but the tracker still withholds the campaign until consent
         yield 'arrived from another site, no policy enforced' => ['https://www.facebook.com/', 'pageview', false];
+        // core records the campaign over the AI assistant the visit was first attributed to, as the
+        // consenting request names no assistant
+        yield 'arrived from an AI assistant, consent names none' => ['https://chatgpt.com/', 'pageview'];
     }
 
     /**
@@ -998,6 +1001,49 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
 
         // core attributes a direct entry to the AI assistant the consenting request names
         yield 'direct, AI assistant named with the consent' => ['', 'utm_campaign=autumn_sale', 'pageview', Common::REFERRER_TYPE_AI_ASSISTANT, 'https://chatgpt.com/'];
+    }
+
+    /**
+     * A discarded campaign is completed only where core completes its own: a consenting request
+     * that core attributes to an AI assistant, or whose parameters core does not read as a
+     * campaign, leaves the visit as it was measured.
+     *
+     * @dataProvider getDiscardedCampaignNotCompletedTestData
+     */
+    public function testADiscardedCampaignIsCompletedOnlyWhereCoreCompletesIt(string $consentQuery, string $consentReferrer)
+    {
+        $placeholder = $this->requireConsentAwareAnalytics();
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = Fixture::getTracker($this->idSite, date('Y-m-d H:i:s'), $defaultInit = true, $useLocal = false);
+            $tracker->setUrl('https://www.example.com/?utm_campaign=autumn_sale&utm_source=newsletter_7');
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $tracker->setUrl('https://www.example.com/?' . $consentQuery);
+            $tracker->setUrlReferrer($consentReferrer);
+            $tracker->setCustomTrackingParameter('consent', '1');
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $visit = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+
+            self::assertEquals(1, $this->countVisits());
+            self::assertSame($placeholder, $visit['referer_name'], 'core completed the visit');
+
+            foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
+                self::assertSame($placeholder, $visit[$field], $field . ' was completed');
+            }
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
+    public function getDiscardedCampaignNotCompletedTestData(): iterable
+    {
+        yield 'consent names an AI assistant' => ['utm_campaign=autumn_sale&utm_source=newsletter_7', 'https://chatgpt.com/'];
+        yield 'consent carries no campaign core reads' => ['mtm_source=other_source', ''];
     }
 
     /**

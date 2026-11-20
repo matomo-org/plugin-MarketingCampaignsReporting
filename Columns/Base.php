@@ -189,11 +189,7 @@ abstract class Base extends VisitDimension
 
         // without a campaign in this request there is nothing to complete the visit from, and
         // clearing the placeholder would claim the visitor arrived without one
-        if (empty($campaignDimensions)) {
-            return false;
-        }
-
-        if (!$isDiscarded && !$this->shouldCompleteWithheldCampaign($visitor, $campaignDimensions)) {
+        if (empty($campaignDimensions) || !$this->coreCompletedCampaign($visitor)) {
             return false;
         }
 
@@ -332,28 +328,29 @@ abstract class Base extends VisitDimension
     }
 
     /**
-     * Whether a campaign consent revealed on the arrival page completes the visit.
+     * Whether core completed the campaign it records itself from this request.
      *
-     * Only one core records as a campaign does, as core completes only a campaign in
-     * Referrers\Columns\Base::shouldCompleteWithheldCampaign(): it needs a campaign name, and a
-     * visit core attributed to an AI assistant stays one, as it does where it carried the campaign
-     * parameters from the start (see onNewVisit()).
-     *
-     * @param array<string, string> $campaignDimensions what the request carries
+     * The campaign dimensions here complete a visit only where core does, so that the two never
+     * tell different stories about how the visit began: core completes only a campaign it detects
+     * as one - not an AI assistant, nor parameters it does not read as a campaign - in
+     * Referrers\Columns\Base::shouldCompleteWithheldCampaign() and ::shouldCompleteDiscardedCampaign().
+     * Core's referrer columns are required by these dimensions (getRequiredVisitFields()), so they
+     * have run for this request by now, and what they recorded is compared with the visit as stored.
      */
-    protected function shouldCompleteWithheldCampaign(Visitor $visitor, array $campaignDimensions): bool
+    protected function coreCompletedCampaign(Visitor $visitor): bool
     {
-        // core may also attribute the visit to an AI assistant from this very request, where it
-        // came from a direct entry, so the type it holds now is checked as well as the stored one
-        // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
+        $name = (string) $visitor->getVisitorColumn('referer_name');
+
         if (
-            (int) $visitor->getImmutableVisitorColumn('referer_type') === 8
-            || (int) $visitor->getVisitorColumn('referer_type') === 8
+            Common::REFERRER_TYPE_CAMPAIGN != $visitor->getVisitorColumn('referer_type')
+            || '' === $name
+            || $this->isDiscardedValue($name)
         ) {
             return false;
         }
 
-        return '' !== (string) ($campaignDimensions[(new CampaignName())->getColumnName()] ?? '');
+        return Common::REFERRER_TYPE_CAMPAIGN != $visitor->getImmutableVisitorColumn('referer_type')
+            || $this->isDiscardedValue($visitor->getImmutableVisitorColumn('referer_name'));
     }
 
     /**
