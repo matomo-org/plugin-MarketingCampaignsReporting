@@ -56,7 +56,7 @@ abstract class Base extends VisitDimension
             $request,
             $campaignParameters
         );
-        $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+        $campaignDimensions = $this->normalizeDetectedCampaignDimensionsForConsent(
             $campaignDimensions,
             (int) $request->getIdSiteIfExists(),
             $this->hasVisitorConsented($request, $visitor)
@@ -97,7 +97,8 @@ abstract class Base extends VisitDimension
 
         // a visit holding a discarded campaign reports it as discarded whatever this says: its own
         // values are the placeholder, and the cookie is only reported where the visit holds it
-        $hasConsent = $this->hasVisitorConsented($request, $visitor);
+        $hasConsent = $this->hasVisitorConsented($request, $visitor)
+            && $this->mayRelaxForThisVisit($request, $visitor, $action);
 
         $cookieCampaignDimensions = $this->normalizeCookieCampaignDimensions(
             $this->getCampaignDimensionsFromReferrerAttributionCookie($request),
@@ -118,7 +119,7 @@ abstract class Base extends VisitDimension
                 $visitProperties,
                 $campaignParameters
             );
-            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $campaignDimensions = $this->normalizeDetectedCampaignDimensionsForConsent(
                 $campaignDimensions,
                 (int) $request->getIdSiteIfExists(),
                 $hasConsent
@@ -130,7 +131,7 @@ abstract class Base extends VisitDimension
                 $request,
                 $campaignParameters
             );
-            $campaignDimensions = $this->normalizeDetectedCampaignDimensions(
+            $campaignDimensions = $this->normalizeDetectedCampaignDimensionsForConsent(
                 $campaignDimensions,
                 (int) $request->getIdSiteIfExists(),
                 $hasConsent
@@ -159,21 +160,23 @@ abstract class Base extends VisitDimension
      * time those values are still in the URL to read.
      *
      * A campaign the tracker withheld until consent left no marker at all, and is completed the
-     * same way where consent reveals it (see shouldCompleteWithheldCampaign()).
+     * same way where consent reveals it (see consentRevealsArrival()).
      *
      * @param Action|null $action
      * @return mixed
      */
     public function onExistingVisit(Request $request, Visitor $visitor, $action)
     {
-        if ($this->isDiscardedValue($visitor->getVisitorColumn($this->getColumnName()))) {
+        $isDiscarded = $this->isDiscardedValue($visitor->getVisitorColumn($this->getColumnName()));
+
+        if ($isDiscarded) {
             if (
                 !$this->hasVisitorConsented($request, $visitor)
                 || true !== $this->isRequestOnEntryPage($visitor, $action, $request)
             ) {
                 return false;
             }
-        } elseif (!$this->shouldCompleteWithheldCampaign($request, $visitor, $action)) {
+        } elseif (!$this->consentRevealsArrival($request, $visitor, $action)) {
             return false;
         }
 
@@ -187,6 +190,10 @@ abstract class Base extends VisitDimension
         // without a campaign in this request there is nothing to complete the visit from, and
         // clearing the placeholder would claim the visitor arrived without one
         if (empty($campaignDimensions)) {
+            return false;
+        }
+
+        if (!$isDiscarded && !$this->shouldCompleteWithheldCampaign($visitor, $campaignDimensions)) {
             return false;
         }
 
@@ -245,7 +252,19 @@ abstract class Base extends VisitDimension
         return MarketingCampaignsReporting::formatCampaignValue($value);
     }
 
-    protected function normalizeDetectedCampaignDimensions($campaignDimensions, int $idSite, bool $hasConsent = false)
+    protected function normalizeDetectedCampaignDimensions($campaignDimensions, int $idSite)
+    {
+        return $this->normalizeDetectedCampaignDimensionsForConsent($campaignDimensions, $idSite, false);
+    }
+
+    /**
+     * As normalizeDetectedCampaignDimensions(), lifting the masking for a visitor who has given
+     * their consent.
+     *
+     * This is a method of its own so that normalizeDetectedCampaignDimensions() keeps the signature
+     * a plugin extending these dimensions may already be overriding.
+     */
+    protected function normalizeDetectedCampaignDimensionsForConsent($campaignDimensions, int $idSite, bool $hasConsent)
     {
         return $this->maskDetectedCampaignDimensions(
             $campaignDimensions,
@@ -265,18 +284,33 @@ abstract class Base extends VisitDimension
     }
 
     /**
-     * Whether consent reported now reveals the campaign this visit actually arrived through.
+     * Whether the consent this request reports may relax what is recorded against the visit it is
+     * being written to, as core decides it in Referrers\Columns\Base::mayRelaxForThisVisit().
+     *
+     * A request can report consent and still land on a visit measured before any was given,
+     * without being able to start one of its own. Its consent then belongs to a later visit, and
+     * nothing it carries may be recorded in the clear against this one.
+     *
+     * @param Action|null $action
+     */
+    protected function mayRelaxForThisVisit(Request $request, Visitor $visitor, $action = null): bool
+    {
+        return !MarketingCampaignsReporting::requestHasConsent($request)
+            || MarketingCampaignsReporting::consentAppliesToVisit($request, $visitor, $action);
+    }
+
+    /**
+     * Whether consent reported now describes the arrival of this visit rather than a new one.
      *
      * Where the tracker withholds campaign parameters until consent, the request that opened the
      * visit carried none, so it was attributed to whatever was left - the referring site, or a
      * direct entry. Consent given while the visitor is still on the page they arrived on brings
-     * the campaign with it, and it describes that same arrival rather than a new one, so the visit
-     * is completed with it rather than split. This is the rule core applies to the campaign it
-     * records itself, in Referrers\Columns\Base::shouldCompleteWithheldCampaign().
+     * the campaign parameters back with it, and they describe that same arrival, so they do not
+     * start a new visit, as core does not in Referrers\Columns\Base::shouldCompleteWithheldCampaign().
      *
      * @param Action|null $action
      */
-    protected function shouldCompleteWithheldCampaign(Request $request, Visitor $visitor, $action = null): bool
+    protected function consentRevealsArrival(Request $request, Visitor $visitor, $action = null): bool
     {
         if (
             !MarketingCampaignsReporting::requestHasConsent($request)
@@ -295,6 +329,26 @@ abstract class Base extends VisitDimension
         }
 
         return true === $this->isRequestOnEntryPage($visitor, $action, $request);
+    }
+
+    /**
+     * Whether a campaign consent revealed on the arrival page completes the visit.
+     *
+     * Only one core records as a campaign does, as core completes only a campaign in
+     * Referrers\Columns\Base::shouldCompleteWithheldCampaign(): it needs a campaign name, and a
+     * visit core attributed to an AI assistant stays one, as it does where it carried the campaign
+     * parameters from the start (see onNewVisit()).
+     *
+     * @param array<string, string> $campaignDimensions what the request carries
+     */
+    protected function shouldCompleteWithheldCampaign(Visitor $visitor, array $campaignDimensions): bool
+    {
+        // @todo Not using Common::REFERRER_TYPE_AI_ASSISTANT for BC reasons. Can be changed with Matomo 6
+        if ((int) $visitor->getImmutableVisitorColumn('referer_type') === 8) {
+            return false;
+        }
+
+        return '' !== (string) ($campaignDimensions[(new CampaignName())->getColumnName()] ?? '');
     }
 
     /**

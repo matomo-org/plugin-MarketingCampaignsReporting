@@ -936,6 +936,108 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         }
     }
 
+    /**
+     * Consent on the arrival page completes only a campaign core records as one. A visit core
+     * attributed to an AI assistant stays one, as it does where the campaign parameters were there
+     * from the start, and parameters without a campaign name are not a campaign to core.
+     *
+     * @dataProvider getConsentRevealingNoCampaignTestData
+     */
+    public function testConsentOnTheArrivalPageDoesNotCompleteWhatCoreDoesNotRecordAsACampaign(
+        string $referrer,
+        string $query,
+        string $carrier,
+        int $expectedType
+    ) {
+        if ('' !== $referrer && version_compare(Version::VERSION, '5.5.0-b1', '<')) {
+            $this->markTestSkipped('AI assistant referrer type is not available in this core version.');
+        }
+
+        $this->requireConsentAwareAnalytics();
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = Fixture::getTracker($this->idSite, date('Y-m-d H:i:s'), $defaultInit = true, $useLocal = false);
+            $tracker->setUrl('https://www.example.com/');
+            $tracker->setUrlReferrer($referrer);
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $tracker->setUrl('https://www.example.com/?' . $query);
+            $tracker->setCustomTrackingParameter('consent', '1');
+
+            if ('ping' === $carrier) {
+                Fixture::checkResponse($tracker->doPing());
+            } else {
+                Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+            }
+
+            $visit = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+
+            self::assertEquals(1, $this->countVisits(), 'consent on the arrival page should not have split the visit');
+            self::assertEquals(1, $visit['consent'], 'the consent never reached the visit');
+            self::assertEquals($expectedType, (int) $visit['referer_type'], 'core changed how the visit arrived');
+
+            foreach (MarketingCampaignsReporting::getAdvancedCampaignFields() as $field) {
+                self::assertNull($visit[$field], $field . ' was completed');
+            }
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
+    public function getConsentRevealingNoCampaignTestData(): iterable
+    {
+        foreach (['ping', 'pageview'] as $carrier) {
+            yield "AI assistant, source only, consent by $carrier" => ['https://chatgpt.com/', 'utm_source=chatgpt.com', $carrier, Common::REFERRER_TYPE_AI_ASSISTANT];
+            yield "AI assistant, campaign, consent by $carrier" => ['https://chatgpt.com/', 'utm_campaign=autumn_sale&utm_source=chatgpt.com', $carrier, Common::REFERRER_TYPE_AI_ASSISTANT];
+            yield "direct, source only, consent by $carrier" => ['', 'mtm_source=newsletter_7', $carrier, Common::REFERRER_TYPE_DIRECT_ENTRY];
+        }
+    }
+
+    /**
+     * Consent reported by a conversion that cannot be placed on the arrival page does not apply to
+     * the visit it is recorded against, so the campaign its URL carries is not recorded in the
+     * clear there, as core records none.
+     */
+    public function testAConsentingConversionAfterNavigatingDoesNotRelaxTheVisitBefore()
+    {
+        $placeholder = $this->requireConsentAwareAnalytics();
+        $this->setCreateNewVisitWhenCampaignChanges(false);
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_conversion'));
+
+            $idGoal = \Piwik\Plugins\Goals\API::getInstance()->addGoal($this->idSite, 'manual goal', 'manually', '', 'contains');
+
+            $tracker = Fixture::getTracker($this->idSite, date('Y-m-d H:i:s'), $defaultInit = true, $useLocal = false);
+            $tracker->setUrl('https://www.example.com/landing-page');
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $tracker->setUrl('https://www.example.com/another-page');
+            Fixture::checkResponse($tracker->doTrackPageView('Another page title'));
+
+            $tracker->setCustomTrackingParameter('consent', '1');
+            $tracker->setUrl('https://www.example.com/another-page?utm_campaign=autumn_sale&utm_source=newsletter_7');
+            Fixture::checkResponse($tracker->doTrackGoal($idGoal, 42));
+
+            $visit = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+            $conversion = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_conversion') . ' LIMIT 1');
+
+            self::assertEquals(1, $this->countVisits());
+            self::assertEmpty($visit['consent'], 'the consent applied to the visit');
+            self::assertEquals(Common::REFERRER_TYPE_DIRECT_ENTRY, (int) $conversion['referer_type'], 'core records no campaign');
+            self::assertSame($placeholder, $conversion['campaign_name']);
+            self::assertSame($placeholder, $conversion['campaign_source']);
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+            $this->setCreateNewVisitWhenCampaignChanges(true);
+        }
+    }
+
     private function setCreateNewVisitWhenCampaignChanges(bool $enabled): void
     {
         $env = new TestingEnvironmentVariables();

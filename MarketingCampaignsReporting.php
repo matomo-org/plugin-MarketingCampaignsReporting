@@ -18,6 +18,7 @@ use Piwik\Plugin;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\MarketingCampaignsReporting\Columns\Base;
 use Piwik\Plugins\Referrers\Reports\GetCampaigns;
+use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
@@ -225,6 +226,16 @@ class MarketingCampaignsReporting extends Plugin
     public static function visitHasConsented(Visitor $visitor): bool
     {
         return true === self::callCoreMethod(self::CONSENT_COLUMN_CLASS, 'hasVisitConsented', [$visitor]);
+    }
+
+    /**
+     * Whether the consent this request reports applies to the visit it is being recorded against.
+     *
+     * @param Action|null $action
+     */
+    public static function consentAppliesToVisit(Request $request, Visitor $visitor, $action = null): bool
+    {
+        return true === self::callCoreMethod(self::CONSENT_COLUMN_CLASS, 'appliesToVisit', [$request, $visitor, $action]);
     }
 
     /**
