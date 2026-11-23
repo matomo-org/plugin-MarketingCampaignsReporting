@@ -1,7 +1,25 @@
 {
     "MarketingCampaignsReporting": {
+        "CampaignId": "ID campanie",
+        "CampaignIds": "ID-uri de campanii",
+        "CombinedKeywordContent": "Cuvânt cheie - conținut",
+        "CombinedSourceMedium": "Sursă - mediu",
+        "CombinedSourcesMediums": "Sursă - mediu campanie",
+        "Content": "Conținutul campaniei",
+        "Contents": "Conținuturi ale campaniilor",
+        "DoNotChangeCaseOfUtmParametersDescription": "Când este activată, Matomo va păstra majusculele originale din parametrii de campanie, pentru a asigura compatibilitatea cu servicii terțe precum Google. Dacă este dezactivată, toți parametrii de campanie vor fi convertiți în litere mici.",
+        "DoNotChangeCaseOfUtmParametersTitle": "Păstrarea majusculelor din parametrii de campanie",
+        "Group": "Grupul campaniei",
+        "Groups": "Grupuri de campanii",
         "Keyword": "Cuvânt-cheie",
+        "Keywords": "Cuvinte cheie ale campaniilor",
+        "Medium": "Mediul campaniei",
+        "Mediums": "Medii ale campaniilor",
         "Name": "Nume",
-        "Source": "Sursa"
+        "Names": "Nume de campanii",
+        "Placement": "Plasarea campaniei",
+        "Placements": "Plasări ale campaniilor",
+        "Source": "Sursa",
+        "Sources": "Surse ale campaniilor"
     }
 }
