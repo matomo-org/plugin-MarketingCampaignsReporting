@@ -1,6 +1,6 @@
 ## Changelog
 
-#### 6.0.3
+#### 6.0.3 - 2026-11-23
 - Fixed an error when tracking a page URL with malformed campaign parameters
 
 #### 6.0.2 - 2026-11-16
