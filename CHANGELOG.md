@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 6.1.0
+- Campaign dimensions are kept for visitors who give their consent, on sites that measure consent-aware analytics
+
 #### 6.0.3 - 2026-11-23
 - Fixed an error when tracking a page URL with malformed campaign parameters
 
