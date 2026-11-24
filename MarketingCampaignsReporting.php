@@ -226,18 +226,28 @@ class MarketingCampaignsReporting extends Plugin
      *
      * Core answers for the consent, the compliance policy and the entry page. Whether the visit
      * already holds a campaign is left to the caller, as the fields that say so are this plugin's
-     * own. A core that cannot say leaves the ordinary rules to decide the visit, which is how this
-     * plugin behaved before consent-aware analytics existed.
+     * own.
      *
      * @param Action|null $action
+     * @return bool|null null where this core does not answer this question itself
      */
-    public static function consentRevealsWithheldArrival(Request $request, Visitor $visitor, $action = null): bool
+    public static function consentRevealsWithheldArrival(Request $request, Visitor $visitor, $action = null): ?bool
     {
-        return true === self::callCoreMethod(
+        $revealed = self::callCoreMethod(
             self::CONSENT_COLUMN_CLASS,
             'revealsWithheldCampaignArrival',
             [$request, $visitor, $action]
         );
+
+        return is_bool($revealed) ? $revealed : null;
+    }
+
+    /**
+     * Whether consent was recorded against the visit before this request.
+     */
+    public static function visitHasConsented(Visitor $visitor): bool
+    {
+        return true === self::callCoreMethod(self::CONSENT_COLUMN_CLASS, 'hasVisitConsented', [$visitor]);
     }
 
     /**

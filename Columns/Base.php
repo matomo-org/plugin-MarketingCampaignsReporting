@@ -342,6 +342,11 @@ abstract class Base extends VisitDimension
      * cannot answer is asked here: whether the visit already holds a campaign in the fields this
      * plugin records, which core does not read.
      *
+     * A core old enough not to answer this question is asked the parts of it that it does answer,
+     * which is what these dimensions applied before core exposed the whole rule. That core is
+     * still completing the campaign of such an arrival itself, so leaving these fields behind
+     * would have the two describe the same visit differently.
+     *
      * @param Action|null $action
      */
     protected function consentRevealsArrival(Request $request, Visitor $visitor, $action = null): bool
@@ -355,7 +360,15 @@ abstract class Base extends VisitDimension
             }
         }
 
-        return MarketingCampaignsReporting::consentRevealsWithheldArrival($request, $visitor, $action);
+        $revealed = MarketingCampaignsReporting::consentRevealsWithheldArrival($request, $visitor, $action);
+
+        if (null !== $revealed) {
+            return $revealed;
+        }
+
+        return MarketingCampaignsReporting::requestHasConsent($request)
+            && !MarketingCampaignsReporting::visitHasConsented($visitor)
+            && true === $this->isRequestOnEntryPage($visitor, $action, $request);
     }
 
     /**
