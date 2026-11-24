@@ -849,13 +849,16 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             $visits = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('log_visit') . ' ORDER BY idvisit ASC');
 
             // a campaign arriving on a visit that holds none starts a visit of its own where the
-            // site splits visits on a campaign change, and is left out of it where it does not
-            self::assertCount($splitOnCampaignChange ? 2 : 1, $visits);
+            // site splits visits on a campaign change, and is left out of it where it does not.
+            // Consent reported on the arrival page never splits it: core reads that campaign as the
+            // one the visitor arrived through, even where the server does not honour the consent
+            $expectsSplit = $splitOnCampaignChange && '1' !== $consent;
+            self::assertCount($expectsSplit ? 2 : 1, $visits);
             self::assertNull($visits[0]['campaign_name'], 'the first visit was completed');
             self::assertNull($visits[0]['campaign_source']);
             self::assertEquals('Facebook', $visits[0]['referer_name']);
 
-            if ($splitOnCampaignChange) {
+            if ($expectsSplit) {
                 self::assertEquals($placeholder, $visits[1]['campaign_source'], 'the new visit did not consent');
             }
         } finally {

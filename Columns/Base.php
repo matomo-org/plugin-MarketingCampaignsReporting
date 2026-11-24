@@ -180,7 +180,7 @@ abstract class Base extends VisitDimension
                 return false;
             }
         } elseif (!$this->consentRevealsArrival($request, $visitor, $action)) {
-            return false;
+            return $this->placeholderWhereCoreMaskedTheArrival($visitor);
         }
 
         $campaignDetector = StaticContainer::get('advanced_campaign_reporting.campaign_detector');
@@ -208,6 +208,40 @@ abstract class Base extends VisitDimension
         }
 
         return $this->truncateCampaignValue($value);
+    }
+
+    /**
+     * Core completes the campaign of a visit that arrived without one - a direct entry, say - and
+     * stores its own placeholder there where masking applies. These columns hold nothing at all
+     * then, and an empty value claims the visitor arrived without a campaign, so the placeholder
+     * describes them the way core's describes its own.
+     *
+     * @return string|false
+     */
+    private function placeholderWhereCoreMaskedTheArrival(Visitor $visitor)
+    {
+        // only a field holding nothing is described, never one that already holds a campaign
+        if ('' !== (string) $visitor->getVisitorColumn($this->getColumnName())) {
+            return false;
+        }
+
+        // core has to have attributed the visit to a campaign in this request, not before it
+        if (
+            Common::REFERRER_TYPE_CAMPAIGN != $visitor->getVisitorColumn('referer_type')
+            || Common::REFERRER_TYPE_CAMPAIGN == $visitor->getImmutableVisitorColumn('referer_type')
+        ) {
+            return false;
+        }
+
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+
+        // and to have masked it: where core kept the real campaign, consent revealed the arrival
+        // and the branch above has already dealt with it
+        if ('' === $placeholder || !$this->isDiscardedValue($visitor->getVisitorColumn('referer_name'))) {
+            return false;
+        }
+
+        return $placeholder;
     }
 
     private function getCampaignDimensionsFromReferrerAttributionCookie(Request $request): array
@@ -306,7 +340,8 @@ abstract class Base extends VisitDimension
      * visit carried none, so it was attributed to whatever was left - the referring site, or a
      * direct entry. Consent given while the visitor is still on the page they arrived on brings
      * the campaign parameters back with it, and they describe that same arrival, so they do not
-     * start a new visit, as core does not in Referrers\Columns\Base::shouldCompleteWithheldCampaign().
+     * start a new visit, as core does not in
+     * Referrers\Columns\Base::withheldCampaignDescribesTheArrival().
      *
      * @param Action|null $action
      */
