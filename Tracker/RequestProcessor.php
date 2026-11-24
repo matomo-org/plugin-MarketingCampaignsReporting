@@ -54,4 +54,29 @@ class RequestProcessor extends Tracker\RequestProcessor
             $visitProperties->setProperty('referer_keyword', substr($campaignKeyword, 0, 255));
         }
     }
+
+    /**
+     * Where this request completed the campaign of an existing visit - consent given on the page
+     * the visitor arrived on - core recorded its own campaign name and keyword alongside these
+     * dimensions. They are written the same way as for a new visit, so that one campaign is not
+     * stored under two different names.
+     */
+    public function onExistingVisit(&$valuesToUpdate, Tracker\Visit\VisitProperties $visitProperties, Tracker\Request $request)
+    {
+        $columns = [
+            'referer_name' => (new CampaignName())->getColumnName(),
+            'referer_keyword' => (new CampaignKeyword())->getColumnName(),
+        ];
+
+        foreach ($columns as $refererColumn => $campaignColumn) {
+            // only where both were completed by this request, so a value the visit already held is never replaced
+            if (empty($valuesToUpdate[$refererColumn]) || empty($valuesToUpdate[$campaignColumn])) {
+                continue;
+            }
+
+            $value = substr($valuesToUpdate[$campaignColumn], 0, 255);
+            $valuesToUpdate[$refererColumn] = $value;
+            $visitProperties->setProperty($refererColumn, $value);
+        }
+    }
 }
