@@ -336,24 +336,16 @@ abstract class Base extends VisitDimension
     /**
      * Whether consent reported now describes the arrival of this visit rather than a new one.
      *
-     * Where the tracker withholds campaign parameters until consent, the request that opened the
-     * visit carried none, so it was attributed to whatever was left - the referring site, or a
-     * direct entry. Consent given while the visitor is still on the page they arrived on brings
-     * the campaign parameters back with it, and they describe that same arrival, so they do not
-     * start a new visit, as core does not in
-     * Referrers\Columns\Base::withheldCampaignDescribesTheArrival().
+     * Core decides this for its own referrer columns, and these dimensions ask it rather than keep
+     * a copy of the rule, so that the two can never split a visit differently. Core's answer has
+     * changed more than once already, and each change broke a test of this plugin. Only what core
+     * cannot answer is asked here: whether the visit already holds a campaign in the fields this
+     * plugin records, which core does not read.
      *
      * @param Action|null $action
      */
     protected function consentRevealsArrival(Request $request, Visitor $visitor, $action = null): bool
     {
-        if (
-            !MarketingCampaignsReporting::requestHasConsent($request)
-            || MarketingCampaignsReporting::visitHasConsented($visitor)
-        ) {
-            return false;
-        }
-
         // a visit already holding a campaign is completed through the placeholder rules instead,
         // and a second campaign over the first is a change rather than a completion. The visit as
         // stored is read, as the other campaign fields may already be completed by now
@@ -363,7 +355,7 @@ abstract class Base extends VisitDimension
             }
         }
 
-        return true === $this->isRequestOnEntryPage($visitor, $action, $request);
+        return MarketingCampaignsReporting::consentRevealsWithheldArrival($request, $visitor, $action);
     }
 
     /**
