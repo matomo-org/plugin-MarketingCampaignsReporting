@@ -1,5 +1,8 @@
 ## Changelog
 
+#### 6.1.1
+- Fixed the campaign recorded against a visit that a visitor's consent completes on the page they arrived on
+
 #### 6.1.0 - 2026-11-24
 - Campaign dimensions are kept for visitors who give their consent, on sites that measure consent-aware analytics
 
