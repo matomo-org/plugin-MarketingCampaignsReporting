@@ -806,7 +806,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
 
             $tracker->setUrlReferrer('');
-            $tracker->setUrl('https://www.example.com/?utm_campaign=autumn_sale&utm_source=newsletter_7&utm_medium=email');
+            $tracker->setUrl('https://www.example.com/?utm_campaign=Autumn_Sale&utm_term=Running_Shoes&utm_source=newsletter_7&utm_medium=email');
             $tracker->setCustomTrackingParameter('consent', '1');
 
             if ('ping' === $carrier) {
@@ -823,6 +823,10 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             self::assertEquals(1, $visit['consent'], 'the consent never reached the visit');
             self::assertEqualsIgnoringCase('autumn_sale', $visit['referer_name'], 'core completes the visit');
             self::assertEqualsIgnoringCase('autumn_sale', $visit['campaign_name']);
+            // stored under the same name as for a visit that consented from the start, so that one
+            // campaign does not show as two in core's reports
+            self::assertSame($visit['campaign_name'], $visit['referer_name']);
+            self::assertSame($visit['campaign_keyword'], $visit['referer_keyword']);
             self::assertEqualsIgnoringCase('newsletter_7', $visit['campaign_source']);
             self::assertEqualsIgnoringCase('email', $visit['campaign_medium']);
         } finally {
