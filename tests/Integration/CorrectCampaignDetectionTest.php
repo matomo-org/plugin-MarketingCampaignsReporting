@@ -741,6 +741,15 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
     {
         $this->requireConsentAwareAnalytics();
 
+        // Whether the visit is split is core's decision alone, and a core that does not expose the
+        // rule by name does not yet keep the arrival together where no policy masks the campaign.
+        if (
+            !$policy
+            && !method_exists('Piwik\\Plugins\\CoreHome\\Columns\\Consent', 'revealsWithheldCampaignArrival')
+        ) {
+            $this->markTestSkipped('Completing a withheld campaign without a policy is not available in this core version.');
+        }
+
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, $policy, $this->idSite);
         try {
             Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
