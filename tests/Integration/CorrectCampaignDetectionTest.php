@@ -791,7 +791,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
         // rule by name does not yet keep the arrival together where no policy masks the campaign.
         if (
             !$policy
-            && !method_exists('Piwik\\Plugins\\CoreHome\\Columns\\Consent', 'revealsWithheldCampaignArrival')
+            && !method_exists('Piwik\\Tracker\\Visit\\WithheldCampaign', 'revealsArrival')
         ) {
             $this->markTestSkipped('Completing a withheld campaign without a policy is not available in this core version.');
         }

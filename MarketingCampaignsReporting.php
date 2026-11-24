@@ -29,6 +29,7 @@ class MarketingCampaignsReporting extends Plugin
 {
     private const CAMPAIGN_VALUES_MASKED_SETTING_CLASS = 'Piwik\\Plugins\\PrivacyManager\\Settings\\CampaignParameterValuesMasked';
     private const CONSENT_COLUMN_CLASS = 'Piwik\\Plugins\\CoreHome\\Columns\\Consent';
+    private const WITHHELD_CAMPAIGN_CLASS = 'Piwik\\Tracker\\Visit\\WithheldCampaign';
 
     public static $CAMPAIGN_NAME_FIELD_DEFAULT_URL_PARAMS = array('mtm_campaign', 'matomo_campaign', 'mtm_cpn', 'pk_campaign', 'piwik_campaign', 'pk_cpn', 'utm_campaign');
     public static $CAMPAIGN_KEYWORD_FIELD_DEFAULT_URL_PARAMS = array('mtm_keyword', 'matomo_kwd', 'mtm_kwd', 'pk_keyword', 'piwik_kwd', 'pk_kwd', 'utm_term');
@@ -234,8 +235,8 @@ class MarketingCampaignsReporting extends Plugin
     public static function consentRevealsWithheldArrival(Request $request, Visitor $visitor, $action = null): ?bool
     {
         $revealed = self::callCoreMethod(
-            self::CONSENT_COLUMN_CLASS,
-            'revealsWithheldCampaignArrival',
+            self::WITHHELD_CAMPAIGN_CLASS,
+            'revealsArrival',
             [$request, $visitor, $action]
         );
 
