@@ -378,6 +378,52 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
     }
 
     /**
+     * A site whose policy masks campaigns need not measure consent-aware analytics, and its
+     * tracker can report a consent all the same. Core reads a campaign arriving with that consent
+     * on the entry page as the one the visit arrived through, so it completes the visit rather
+     * than splitting it - and masks the campaign, because the server does not honour a consent
+     * the site does not measure.
+     *
+     * These dimensions describe that masked campaign the way core describes its own. Leaving the
+     * fields empty would claim the visitor arrived through no campaign at all, which is the one
+     * thing the visit is known not to be.
+     */
+    public function testAMaskedArrivalIsDescribedWhereTheServerDoesNotHonourTheConsent()
+    {
+        $placeholder = MarketingCampaignsReporting::getCampaignPlaceholderValue();
+        if ($placeholder === '' || !class_exists(ConsentAwareAnalytics::class)) {
+            $this->markTestSkipped('Consent-aware analytics is not available in this core version.');
+        }
+
+        $measurable = ConsentAwareAnalytics::getMeasurableSetting($this->idSite);
+        $measurable->setValue(false);
+        $measurable->save();
+        Cache::deleteTrackerCache();
+
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true, $this->idSite);
+        try {
+            Db::query('TRUNCATE TABLE ' . Common::prefixTable('log_visit'));
+
+            $tracker = Fixture::getTracker($this->idSite, date('Y-m-d H:i:s'), $defaultInit = true, $useLocal = false);
+            $tracker->setUrl('https://www.example.com/');
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $tracker->setUrl('https://www.example.com/?utm_campaign=autumn_sale&utm_source=newsletter_7&utm_medium=email');
+            $tracker->setCustomTrackingParameter('consent', '1');
+            Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
+
+            $visit = Db::fetchRow('SELECT * FROM ' . Common::prefixTable('log_visit') . ' LIMIT 1');
+
+            self::assertEquals(1, $this->countVisits(), 'the arrival was split rather than completed');
+            self::assertSame($placeholder, $visit['referer_name'], 'core masked the campaign it completed');
+            self::assertSame($placeholder, $visit['campaign_name'], 'the masked arrival was left undescribed');
+            self::assertSame($placeholder, $visit['campaign_source']);
+        } finally {
+            PolicyManager::setPolicyActiveStatus(CnilPolicy::class, false, $this->idSite);
+        }
+    }
+
+    /**
      * Consent-aware measurement is opt-in per site and needs a core that supports it, so the tests
      * that rely on it opt their site in and skip where it is not available.
      *
@@ -760,7 +806,7 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             Fixture::checkResponse($tracker->doTrackPageView('Some page title'));
 
             $tracker->setUrlReferrer('');
-            $tracker->setUrl('https://www.example.com/?utm_campaign=autumn_sale&utm_source=newsletter_7&utm_medium=email');
+            $tracker->setUrl('https://www.example.com/?utm_campaign=Autumn_Sale&utm_term=Running_Shoes&utm_source=newsletter_7&utm_medium=email');
             $tracker->setCustomTrackingParameter('consent', '1');
 
             if ('ping' === $carrier) {
@@ -777,6 +823,10 @@ class CorrectCampaignDetectionTest extends IntegrationTestCase
             self::assertEquals(1, $visit['consent'], 'the consent never reached the visit');
             self::assertEqualsIgnoringCase('autumn_sale', $visit['referer_name'], 'core completes the visit');
             self::assertEqualsIgnoringCase('autumn_sale', $visit['campaign_name']);
+            // stored under the same name as for a visit that consented from the start, so that one
+            // campaign does not show as two in core's reports
+            self::assertSame($visit['campaign_name'], $visit['referer_name']);
+            self::assertSame($visit['campaign_keyword'], $visit['referer_keyword']);
             self::assertEqualsIgnoringCase('newsletter_7', $visit['campaign_source']);
             self::assertEqualsIgnoringCase('email', $visit['campaign_medium']);
         } finally {

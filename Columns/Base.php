@@ -190,11 +190,16 @@ abstract class Base extends VisitDimension
             MarketingCampaignsReporting::getCampaignParameters()
         );
 
-        // without a campaign in this request there is nothing to complete the visit from, and
+        // Without a campaign in this request there is nothing to complete the visit from, and
         // clearing the placeholder would claim the visitor arrived without one; and where core did
-        // not complete its own campaign from it, completing these would contradict core
+        // not complete its own campaign from it, completing these would contradict core.
+        //
+        // Core can still have completed a campaign of its own here and masked it, because the
+        // consent reveals the arrival whether or not the server honours that consent. Its
+        // placeholder is then described rather than left out, as an empty value would claim the
+        // visitor arrived through no campaign at all.
         if (empty($campaignDimensions) || !$this->coreCompletedCampaign($visitor)) {
-            return false;
+            return $this->placeholderWhereCoreMaskedTheArrival($visitor);
         }
 
         $value = $campaignDimensions[$this->getColumnName()] ?? '';
