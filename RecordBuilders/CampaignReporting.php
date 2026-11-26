@@ -81,10 +81,15 @@ class CampaignReporting extends RecordBuilder
                 $passes = [[[$dimensionsForRecord[0]], false], [$dimensionsForRecord, true]];
             }
 
+            $subtablesMissRows = false;
             foreach ($passes as [$dimensions, $subtablesOnly]) {
                 foreach (['log_visit', 'log_conversion'] as $table) {
-                    $this->aggregateFromLogs($logAggregator, $record, $dimensions, $table, $rankingQueryLimit, $idGoals, $subtablesOnly);
+                    $rankedPastLimit = $this->aggregateFromLogs($logAggregator, $record, $dimensions, $table, $rankingQueryLimit, $idGoals, $subtablesOnly);
+                    $subtablesMissRows = $subtablesMissRows || ($subtablesOnly && $rankedPastLimit);
                 }
+            }
+            if ($subtablesMissRows) {
+                $this->addSubtableRemainders($record);
             }
 
             $record->filter(DataTable\Filter\EnrichRecordWithGoalMetricSums::class);
@@ -98,6 +103,7 @@ class CampaignReporting extends RecordBuilder
      * @param string[][] $dimensionsForRecord the columns of the record's label, then of its subtable's label
      * @param int[] $idGoals
      * @param bool $subtablesOnly add rows only to the subtables of rows already in the record
+     * @return bool whether the ranking query summed rows past its limit into "Others"
      */
     protected function aggregateFromLogs(
         LogAggregator $logAggregator,
@@ -107,11 +113,12 @@ class CampaignReporting extends RecordBuilder
         int $rankingQueryLimit,
         array $idGoals,
         bool $subtablesOnly = false
-    ): void {
+    ): bool {
         $isConversions = $table === 'log_conversion';
         if ($isConversions && $rankingQueryLimit > 0 && empty($idGoals)) {
-            return;
+            return false;
         }
+        $rankedPastLimit = false;
 
         $labelColumns = array_values(array_unique(array_merge(...$dimensionsForRecord)));
         $dimensions = $this->getSelectedDimensions($labelColumns, $table);
@@ -168,6 +175,7 @@ class CampaignReporting extends RecordBuilder
             }
 
             if ($rankingQuery && $row[$labelColumns[0]] === RankingQuery::LABEL_SUMMARY_ROW) {
+                $rankedPastLimit = true;
                 // in the subtables pass these visits are already counted in the top level
                 if (!$subtablesOnly) {
                     $record->sumRowWithLabel(RankingQuery::LABEL_SUMMARY_ROW, $columns);
@@ -209,6 +217,71 @@ class CampaignReporting extends RecordBuilder
             }
             $subtable->sumRowWithLabel($subLabel, $columns);
         }
+
+        return $rankedPastLimit;
+    }
+
+    /**
+     * Sums into each subtable's "Others" row what its row has but the subtable is missing, since the
+     * combinations ranked past the limit cannot be told apart by row.
+     */
+    private function addSubtableRemainders(DataTable $record): void
+    {
+        foreach ($record->getRowsWithoutSummaryRow() as $row) {
+            $remainder = $row->getColumns();
+            unset($remainder['label'], $remainder[Metrics::INDEX_MAX_ACTIONS]);
+
+            $subtable = $row->getSubtable();
+            foreach ($subtable ? $subtable->getRows() : [] as $subRow) {
+                $remainder = $this->subtractColumns($remainder, $subRow->getColumns());
+            }
+
+            $remainder = $this->keepPositiveColumns($remainder);
+            if (empty($remainder)) {
+                continue;
+            }
+            if (empty($subtable)) {
+                $subtable = new DataTable();
+                $subtable->setMaximumAllowedRows(self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInSubtable);
+                $row->setSubtable($subtable);
+            }
+            $subtable->sumRowWithLabel(RankingQuery::LABEL_SUMMARY_ROW, $remainder);
+        }
+    }
+
+    private function subtractColumns(array $columns, array $subtrahend): array
+    {
+        foreach ($columns as $name => $value) {
+            if (!isset($subtrahend[$name])) {
+                continue;
+            }
+            if (is_array($value) && is_array($subtrahend[$name])) {
+                $columns[$name] = $this->subtractColumns($value, $subtrahend[$name]);
+            } elseif (is_numeric($value) && is_numeric($subtrahend[$name])) {
+                $columns[$name] = $value - $subtrahend[$name];
+            }
+        }
+        return $columns;
+    }
+
+    private function keepPositiveColumns(array $columns): array
+    {
+        foreach ($columns as $name => $value) {
+            if (is_array($value)) {
+                $value = $this->keepPositiveColumns($value);
+            } elseif (is_numeric($value)) {
+                // revenue is a float, so a fully covered row can leave a rounding error
+                $value = round((float) $value, 2) > 0 ? $value : null;
+            } else {
+                $value = null;
+            }
+            if (empty($value)) {
+                unset($columns[$name]);
+            } else {
+                $columns[$name] = $value;
+            }
+        }
+        return $columns;
     }
 
     /**

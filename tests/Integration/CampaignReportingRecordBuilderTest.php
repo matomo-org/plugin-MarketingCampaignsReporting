@@ -120,6 +120,12 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $spread = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('spread');
         $this->assertNotEmpty($spread);
         $this->assertSame(15, (int) $spread->getColumn(Metrics::INDEX_NB_VISITS));
+
+        // the keywords past the limit are summed into the subtable's "Others" row
+        $keywords = $spread->getSubtable();
+        $this->assertNotEmpty($keywords->getSummaryRow());
+        $this->assertSame(15, $this->sumColumn($keywords, Metrics::INDEX_NB_VISITS));
+        $this->assertSame(15, $this->sumConversions($keywords, $this->idGoal));
     }
 
     public function testAggregateKeepsAllVisitsWithoutRankingQueryLimit(): void
