@@ -11,6 +11,7 @@ namespace Piwik\Plugins\MarketingCampaignsReporting\tests\Integration;
 
 use Piwik\ArchiveProcessor;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
@@ -20,6 +21,7 @@ use Piwik\Period\Factory as PeriodFactory;
 use Piwik\Plugins\Goals\API as GoalsApi;
 use Piwik\Plugins\MarketingCampaignsReporting\Archiver;
 use Piwik\Plugins\MarketingCampaignsReporting\RecordBuilders\CampaignReporting;
+use Piwik\Plugins\MarketingCampaignsReporting\SystemSettings;
 use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
@@ -176,6 +178,31 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
 
         $names = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME];
         foreach (['Spring' => ['kwd1', 2], 'spring' => ['kwd2', 1]] as $label => [$keyword, $visits]) {
+            $row = $names->getRowFromLabel($label);
+            $this->assertNotEmpty($row, $label);
+            $this->assertSame($visits, (int) $row->getColumn(Metrics::INDEX_NB_VISITS), $label);
+            $this->assertSame($visits, (int) $row->getColumn(Metrics::INDEX_GOALS)[$this->idGoal][Metrics::INDEX_GOAL_NB_CONVERSIONS], $label);
+            $this->assertSame([$keyword], array_map(function ($subRow) {
+                return $subRow->getColumn('label');
+            }, $row->getSubtable()->getRows()), $label);
+        }
+    }
+
+    public function testAggregateKeepsSubtableRowsOfCampaignTrackedWithAndWithoutAccentWhenCaseIsLowered(): void
+    {
+        $systemSettings = StaticContainer::get(SystemSettings::class);
+        $systemSettings->doNotChangeCaseOfUtmParameters->setIsWritableByCurrentUser(true);
+        $systemSettings->doNotChangeCaseOfUtmParameters->setValue(false);
+        $systemSettings->save();
+
+        $tracker = $this->getTracker();
+        $this->addVisit($tracker, 1, 'mtm_campaign=Caf%C3%A9&mtm_kwd=kwd1&mtm_source=src&mtm_medium=med', false);
+        $this->addVisit($tracker, 2, 'mtm_campaign=caf%C3%A9&mtm_kwd=kwd1&mtm_source=src&mtm_medium=med', false);
+        $this->addVisit($tracker, 3, 'mtm_campaign=CAFE&mtm_kwd=kwd2&mtm_source=src&mtm_medium=med', false);
+        $records = $this->aggregate();
+
+        $names = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME];
+        foreach (['café' => ['kwd1', 2], 'cafe' => ['kwd2', 1]] as $label => [$keyword, $visits]) {
             $row = $names->getRowFromLabel($label);
             $this->assertNotEmpty($row, $label);
             $this->assertSame($visits, (int) $row->getColumn(Metrics::INDEX_NB_VISITS), $label);

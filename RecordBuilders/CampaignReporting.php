@@ -339,9 +339,10 @@ class CampaignReporting extends RecordBuilder
     private function getSelectedDimensions(array $labelColumns, string $table): array
     {
         $systemSettings = StaticContainer::get(SystemSettings::class);
-        // grouped by exact bytes when case is kept: the log tables' collation would otherwise merge "Spring" and
-        // "spring" under either spelling, and each query, the top level's and its subtables', can pick a different one
-        $expression = $systemSettings->doNotChangeCaseOfUtmParameters->getValue() ? 'CAST(%s AS BINARY)' : 'LOWER(%s)';
+        // grouped by exact bytes: the log tables' collation would otherwise merge "Spring" and "spring", or "café" and
+        // "cafe", under either spelling, and each query, the top level's and its subtables', can pick a different one.
+        // LOWER() goes inside the CAST, as it leaves a binary string unchanged
+        $expression = $systemSettings->doNotChangeCaseOfUtmParameters->getValue() ? 'CAST(%s AS BINARY)' : 'CAST(LOWER(%s) AS BINARY)';
 
         $dimensions = [];
         foreach ($labelColumns as $column) {
