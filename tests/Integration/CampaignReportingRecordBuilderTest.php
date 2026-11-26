@@ -47,8 +47,8 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         Archiver::HIERARCHICAL_SOURCE_MEDIUM_RECORD_NAME,
     ];
 
-    private $idSite;
-    private $idGoal;
+    private int $idSite;
+    private int $idGoal;
 
     public function setUp(): void
     {
@@ -140,6 +140,58 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $noKeyword = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('nokeyword');
         $this->assertSame(3, (int) $noKeyword->getColumn(Metrics::INDEX_NB_VISITS));
         $this->assertEmpty($noKeyword->getSubtable());
+    }
+
+    public function testAggregateCountsVisitsWithoutKeywordRankedPastLimitOnceInSubtableOthers(): void
+    {
+        $tracker = $this->getTracker();
+        $visitNumber = 0;
+        // 45 bigger combinations push the one without a keyword past the ranking limit in the subtables pass
+        for ($i = 1; $i <= 45; $i++) {
+            for ($j = 0; $j < 4; $j++) {
+                $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=big&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false);
+            }
+        }
+        for ($i = 1; $i <= 3; $i++) {
+            $this->addVisit($tracker, ++$visitNumber, 'mtm_campaign=nokeyword&mtm_source=src&mtm_medium=med', false);
+        }
+        $records = $this->aggregate();
+
+        // ranked-out combinations cannot be told apart, so these visits are kept in the subtable's "Others" row
+        $noKeyword = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('nokeyword');
+        $this->assertSame(3, (int) $noKeyword->getColumn(Metrics::INDEX_NB_VISITS));
+        $subtable = $noKeyword->getSubtable();
+        $this->assertNotEmpty($subtable);
+        $this->assertSame(1, $subtable->getRowsCount());
+        $this->assertSame(3, (int) $subtable->getSummaryRow()->getColumn(Metrics::INDEX_NB_VISITS));
+    }
+
+    public function testAggregateKeepsNegativeRevenueOfKeywordsRankedPastLimit(): void
+    {
+        Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referrers'] = 5;
+        $tracker = $this->getTracker();
+        $visitNumber = 0;
+        // 55 combinations against a limit of 40, so whatever order the unordered conversions query returns,
+        // some of "refunds"' keywords are ranked past the limit
+        for ($i = 1; $i <= 10; $i++) {
+            for ($j = 0; $j < 2; $j++) {
+                $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=camp$i&mtm_kwd=kwd&mtm_source=src&mtm_medium=med", false);
+            }
+        }
+        for ($i = 1; $i <= 45; $i++) {
+            $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=refunds&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false, -2);
+        }
+        $records = $this->aggregate();
+
+        $refunds = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('refunds');
+        $this->assertEquals(-90, $refunds->getColumn(Metrics::INDEX_GOALS)[$this->idGoal][Metrics::INDEX_GOAL_REVENUE]);
+        $keywords = $refunds->getSubtable();
+        $this->assertNotEmpty($keywords->getSummaryRow());
+        $revenue = 0;
+        foreach ($keywords->getRows() as $row) {
+            $revenue += $row->getColumn(Metrics::INDEX_GOALS)[$this->idGoal][Metrics::INDEX_GOAL_REVENUE] ?? 0;
+        }
+        $this->assertEquals(-90, $revenue);
     }
 
     public function testAggregateAddsNoVisitsToSubtableOfRowWhoseVisitsAreInOthers(): void
@@ -239,6 +291,29 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $late = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('zlate');
         $this->assertNotEmpty($late);
         $this->assertSame(3, (int) $late->getColumn(Metrics::INDEX_NB_VISITS));
+    }
+
+    public function testAggregateKeepsCampaignSpreadOverManyKeywordsWithoutRankingQueryLimit(): void
+    {
+        Config::getInstance()->General['archiving_ranking_query_row_limit'] = 0;
+
+        $tracker = $this->getTracker();
+        $visitNumber = 0;
+        // 25 campaigns whose one combination is bigger than each of "spread"'s fill the 20-row build cap
+        for ($i = 1; $i <= 25; $i++) {
+            for ($j = 0; $j < 2; $j++) {
+                $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=camp$i&mtm_kwd=kwd&mtm_source=src&mtm_medium=med", false);
+            }
+        }
+        for ($i = 1; $i <= 6; $i++) {
+            $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=spread&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false);
+        }
+        $records = $this->aggregate();
+
+        $spread = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('spread');
+        $this->assertNotEmpty($spread);
+        $this->assertSame(6, (int) $spread->getColumn(Metrics::INDEX_NB_VISITS));
+        $this->assertSame(6, $this->sumColumn($spread->getSubtable(), Metrics::INDEX_NB_VISITS));
     }
 
     public function testAggregateAttachesNoSubtableToOthersForCampaignNamedMinusOne(): void

@@ -1,7 +1,7 @@
 ## Changelog
 
 #### 6.1.2
-- Reduced memory use when archiving campaign reports for days with a very large number of distinct campaigns, fixed unique visitors being over-counted in most daily campaign reports, and campaign values that differ only in accents, or in case when case is kept, are now reported as separate rows
+- Reduced memory use when archiving campaign reports for days with a very large number of distinct campaigns, fixed unique visitors being over-counted in daily campaign reports, and campaign values that differ only in accents, or in case when case is kept, are now reported as separate rows
 
 #### 6.1.1 - 2026-11-24
 - Fixed the campaign recorded against a visit that a visitor's consent completes on the page they arrived on

@@ -38,6 +38,14 @@ class CampaignReporting extends RecordBuilder
 
     private const LABEL_ALIAS_PREFIX = 'label_';
 
+    private const REVENUE_GOAL_COLUMNS = [
+        Metrics::INDEX_GOAL_REVENUE,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT,
+    ];
+
     /**
      * @var array[][] per top-level label, the columns of the subtables pass's rows that have no subtable
      *                label: the subtable misses them without their having been ranked past the limit
@@ -83,9 +91,9 @@ class CampaignReporting extends RecordBuilder
             }
 
             $passes = [[$dimensionsForRecord, false]];
-            if ($rankingQueryLimit > 0 && isset($dimensionsForRecord[1])) {
-                // the top level is ranked on its own label, since ranking label combinations would leave a
-                // campaign spread over many small ones in "Others"; the combinations then fill subtables
+            if (isset($dimensionsForRecord[1])) {
+                // the top level is ranked, or capped, on its own label, since doing so on label combinations would
+                // leave a campaign spread over many small ones in "Others"; the combinations then fill subtables
                 $passes = [[[$dimensionsForRecord[0]], false], [$dimensionsForRecord, true]];
             }
 
@@ -221,20 +229,12 @@ class CampaignReporting extends RecordBuilder
             }
 
             $subLabel = $this->getLabelFromRowDimensions($dimensionsForRecord[1], $row);
-            // once the record is full, sumRowWithLabel() sums into the summary row and returns a row
-            // that is not in the record, and a subtable created on it would never be freed; the label
-            // '-1' also resolves to the summary row, which must not get a subtable
-            if (
-                empty($topLevelRow)
-                || $record->getRowFromLabel($mainLabel) !== $topLevelRow
-                || $topLevelRow === $record->getSummaryRow()
-            ) {
+            // the label '-1' resolves to the summary row, which must not get a subtable
+            if (empty($topLevelRow) || $topLevelRow === $record->getSummaryRow()) {
                 continue;
             }
             if (empty($subLabel)) {
-                if ($subtablesOnly) {
-                    $this->unlabelledColumns[$mainLabel][] = $columns;
-                }
+                $this->unlabelledColumns[$mainLabel][] = $columns;
                 continue;
             }
 
@@ -274,7 +274,7 @@ class CampaignReporting extends RecordBuilder
                 $remainder = $this->subtractColumns($remainder, $columns);
             }
 
-            $remainder = $this->keepPositiveColumns($remainder);
+            $remainder = $this->keepNonZeroColumns($remainder);
             $goals = [];
             foreach ($remainder[Metrics::INDEX_GOALS] ?? [] as $idGoal => $goal) {
                 if (!empty($goal[Metrics::INDEX_GOAL_NB_CONVERSIONS])) {
@@ -313,14 +313,18 @@ class CampaignReporting extends RecordBuilder
         return $columns;
     }
 
-    private function keepPositiveColumns(array $columns): array
+    private function keepNonZeroColumns(array $columns, bool $isGoalColumns = false): array
     {
         foreach ($columns as $name => $value) {
             if (is_array($value)) {
-                $value = $this->keepPositiveColumns($value);
+                $value = $this->keepNonZeroColumns($value, $isGoalColumns || $name === Metrics::INDEX_GOALS);
             } elseif (is_numeric($value)) {
-                // revenue is a float, so a fully covered row can leave a rounding error
-                $value = round((float) $value, 2) > 0 ? $value : null;
+                // revenue is a float, so a fully covered row can leave a rounding error. Revenue can also be
+                // negative, while a negative count only means a distinct count, such as a goal's converted
+                // visits, was summed over subtable rows that share a visit
+                $rounded = round((float) $value, 2);
+                $allowNegative = $isGoalColumns && in_array($name, self::REVENUE_GOAL_COLUMNS, true);
+                $value = $rounded > 0 || ($allowNegative && $rounded < 0) ? $value : null;
             } else {
                 $value = null;
             }
