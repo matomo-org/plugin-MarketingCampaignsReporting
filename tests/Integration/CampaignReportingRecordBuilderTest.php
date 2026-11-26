@@ -104,6 +104,8 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
 
     public function testAggregateKeepsCampaignSpreadOverManyKeywordsWithRankingQuery(): void
     {
+        // subtables large enough that their "Others" row holds only what the ranking query left out
+        Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referrers'] = 5;
         $tracker = $this->getTracker();
         $visitNumber = 0;
         // enough bigger combinations that some of "spread"'s fall past the ranking limit
@@ -113,7 +115,7 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
             }
         }
         for ($i = 1; $i <= 15; $i++) {
-            $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=spread&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false);
+            $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=spread&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false, 0);
         }
         for ($i = 1; $i <= 3; $i++) {
             $this->addVisit($tracker, ++$visitNumber, 'mtm_campaign=nokeyword&mtm_source=src&mtm_medium=med', false);
@@ -129,6 +131,8 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->assertNotEmpty($keywords->getSummaryRow());
         $this->assertSame(15, $this->sumColumn($keywords, Metrics::INDEX_NB_VISITS));
         $this->assertSame(15, $this->sumConversions($keywords, $this->idGoal));
+        // the goal has no revenue, and core's goal sums still read the column
+        $this->assertArrayHasKey(Metrics::INDEX_GOAL_REVENUE, $keywords->getSummaryRow()->getColumn(Metrics::INDEX_GOALS)[$this->idGoal]);
 
         // visits without a keyword were not ranked out, so they are not in an "Others" row either
         $noKeyword = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('nokeyword');
@@ -246,7 +250,7 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         }
     }
 
-    private function addVisit(\MatomoTracker $tracker, int $visitNumber, string $campaignQuery, bool $abandonCart): void
+    private function addVisit(\MatomoTracker $tracker, int $visitNumber, string $campaignQuery, bool $abandonCart, float $goalRevenue = 1): void
     {
         $tracker->setForceVisitDateTime(Date::factory(self::DATE . ' 10:00:00')->addPeriod($visitNumber, 'minute')->getDatetime());
         $tracker->setNewVisitorId();
@@ -254,7 +258,7 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $tracker->setForceNewVisit();
         $tracker->setUrl('https://example.com/?' . $campaignQuery);
         Fixture::checkResponse($tracker->doTrackPageView('Landing page'));
-        Fixture::checkResponse($tracker->doTrackGoal($this->idGoal, 1));
+        Fixture::checkResponse($tracker->doTrackGoal($this->idGoal, $goalRevenue));
         if ($abandonCart) {
             $tracker->addEcommerceItem('SKU', 'Item', 'Category', 10, 1);
             Fixture::checkResponse($tracker->doTrackEcommerceCartUpdate(10));

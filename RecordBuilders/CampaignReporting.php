@@ -270,6 +270,17 @@ class CampaignReporting extends RecordBuilder
             }
 
             $remainder = $this->keepPositiveColumns($remainder);
+            $goals = [];
+            foreach ($remainder[Metrics::INDEX_GOALS] ?? [] as $idGoal => $goal) {
+                if (!empty($goal[Metrics::INDEX_GOAL_NB_CONVERSIONS])) {
+                    // core's goal metric sums read every column, so the ones dropped as zero are put back
+                    $goals[$idGoal] = $goal + array_fill_keys(array_keys(Metrics::makeGoalColumnsRow((int) $idGoal, [])), 0);
+                }
+            }
+            unset($remainder[Metrics::INDEX_GOALS]);
+            if (!empty($goals)) {
+                $remainder[Metrics::INDEX_GOALS] = $goals;
+            }
             if (empty($remainder)) {
                 continue;
             }
