@@ -56,7 +56,8 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->idSite = Fixture::createWebsite('2024-01-01 00:00:00', $ecommerce = 1, 'TestSite', 'https://example.com');
         $this->idGoal = GoalsApi::getInstance()->addGoal($this->idSite, 'Goal', 'manually', '', 'contains');
 
-        // 20 rows per table and 10 per subtable while building, 40 label combinations from each ranking query
+        // 40 label combinations from each ranking query, and while building 10 rows per subtable, and 20 per
+        // table when there is no ranking query
         Config::getInstance()->General['datatable_archiving_maximum_rows_referrers'] = 2;
         Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referrers'] = 1;
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 40;
@@ -68,7 +69,8 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $lastTableId = DataTable\Manager::getInstance()->getMostRecentTableId();
         $records = $this->aggregate();
 
-        $this->assertBoundedAndComplete($records);
+        // the ranked combinations plus "Others"
+        $this->assertBoundedAndComplete($records, 41);
         foreach (self::RECORDS_SET_BY_EVERY_VISIT as $recordName) {
             $this->assertSame(self::VISITS_PER_GROUP, $this->sumConversions($records[$recordName], GoalManager::IDGOAL_CART), $recordName);
         }
@@ -99,6 +101,26 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->assertSame(self::TOTAL_VISITS, (int) $sourceMedium->getRowFromLabel('src - med')->getColumn(Metrics::INDEX_NB_VISITS));
     }
 
+    public function testAggregateKeepsCampaignSpreadOverManyKeywordsWithRankingQuery(): void
+    {
+        $tracker = $this->getTracker();
+        $visitNumber = 0;
+        // enough campaigns with a bigger keyword to reach the build cap before "spread" arrives
+        for ($i = 1; $i <= 25; $i++) {
+            for ($j = 0; $j < 2; $j++) {
+                $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=camp$i&mtm_kwd=kwd&mtm_source=src&mtm_medium=med", false);
+            }
+        }
+        for ($i = 1; $i <= 15; $i++) {
+            $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=spread&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false);
+        }
+        $records = $this->aggregate();
+
+        $spread = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('spread');
+        $this->assertNotEmpty($spread);
+        $this->assertSame(15, (int) $spread->getColumn(Metrics::INDEX_NB_VISITS));
+    }
+
     public function testAggregateKeepsAllVisitsWithoutRankingQueryLimit(): void
     {
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 0;
@@ -106,7 +128,7 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->trackVisits();
         $records = $this->aggregate();
 
-        $this->assertBoundedAndComplete($records);
+        $this->assertBoundedAndComplete($records, 20);
     }
 
     public function testAggregateKeepsBiggestLabelsWithoutRankingQueryLimit(): void
@@ -142,10 +164,10 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
     /**
      * @param DataTable[] $records
      */
-    private function assertBoundedAndComplete(array $records): void
+    private function assertBoundedAndComplete(array $records, int $maxRows): void
     {
         foreach ($records as $recordName => $record) {
-            $this->assertLessThanOrEqual(20, $record->getRowsCountWithoutSummaryRow() + 1, $recordName);
+            $this->assertLessThanOrEqual($maxRows, $record->getRowsCountWithoutSummaryRow() + 1, $recordName);
         }
         foreach (self::RECORDS_SET_BY_EVERY_VISIT as $recordName) {
             $this->assertSame(self::TOTAL_VISITS, $this->sumColumn($records[$recordName], Metrics::INDEX_NB_VISITS), $recordName);

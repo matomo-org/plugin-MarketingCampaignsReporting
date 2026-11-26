@@ -28,8 +28,9 @@ use Piwik\RankingQuery;
 class CampaignReporting extends RecordBuilder
 {
     /**
-     * Tables are capped at this multiple of their archived size while they are built, so that the
-     * truncation in insertBlobRecord() still picks the top rows from a wider set of candidates.
+     * Subtables, and records built without a ranking query, are capped at this multiple of their archived
+     * size while they are built, so that the truncation in insertBlobRecord() still picks the top rows from
+     * a wider set of candidates.
      */
     private const BUILD_ROWS_FACTOR = 10;
 
@@ -67,7 +68,11 @@ class CampaignReporting extends RecordBuilder
         $reports = [];
         foreach ($this->getRecordToDimensions() as $recordName => $dimensionsForRecord) {
             $record = new DataTable();
-            $record->setMaximumAllowedRows(self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInTable);
+            // a ranking query already bounds the record, and ranks label combinations, so capping by main
+            // label as well would fold a campaign spread over many small combinations into "Others"
+            if ($rankingQueryLimit === 0) {
+                $record->setMaximumAllowedRows(self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInTable);
+            }
 
             $this->aggregateFromLogs($logAggregator, $record, $dimensionsForRecord, 'log_visit', $rankingQueryLimit, $idGoals);
             $this->aggregateFromLogs($logAggregator, $record, $dimensionsForRecord, 'log_conversion', $rankingQueryLimit, $idGoals);
