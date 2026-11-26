@@ -36,6 +36,12 @@ class CampaignReporting extends RecordBuilder
 
     private const GOAL_PARTITION_COLUMN = 'idgoal_partition';
 
+    /**
+     * @var array[][] per top-level label, the columns of the subtables pass's rows that have no subtable
+     *                label: the subtable misses them without their having been ranked past the limit
+     */
+    private $unlabelledColumns = [];
+
     public function __construct()
     {
         parent::__construct();
@@ -82,6 +88,7 @@ class CampaignReporting extends RecordBuilder
             }
 
             $subtablesMissRows = false;
+            $this->unlabelledColumns = [];
             foreach ($passes as [$dimensions, $subtablesOnly]) {
                 foreach (['log_visit', 'log_conversion'] as $table) {
                     $rankedPastLimit = $this->aggregateFromLogs($logAggregator, $record, $dimensions, $table, $rankingQueryLimit, $idGoals, $subtablesOnly);
@@ -213,11 +220,16 @@ class CampaignReporting extends RecordBuilder
             // that is not in the record, and a subtable created on it would never be freed; the label
             // '-1' also resolves to the summary row, which must not get a subtable
             if (
-                empty($subLabel)
-                || empty($topLevelRow)
+                empty($topLevelRow)
                 || $record->getRowFromLabel($mainLabel) !== $topLevelRow
                 || $topLevelRow === $record->getSummaryRow()
             ) {
+                continue;
+            }
+            if (empty($subLabel)) {
+                if ($subtablesOnly) {
+                    $this->unlabelledColumns[$mainLabel][] = $columns;
+                }
                 continue;
             }
 
@@ -252,6 +264,9 @@ class CampaignReporting extends RecordBuilder
             $subtable = $row->getSubtable();
             foreach ($subtable ? $subtable->getRows() : [] as $subRow) {
                 $remainder = $this->subtractColumns($remainder, $subRow->getColumns());
+            }
+            foreach ($this->unlabelledColumns[$row->getColumn('label')] ?? [] as $columns) {
+                $remainder = $this->subtractColumns($remainder, $columns);
             }
 
             $remainder = $this->keepPositiveColumns($remainder);

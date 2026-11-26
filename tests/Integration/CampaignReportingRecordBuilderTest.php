@@ -115,6 +115,9 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         for ($i = 1; $i <= 15; $i++) {
             $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=spread&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false);
         }
+        for ($i = 1; $i <= 3; $i++) {
+            $this->addVisit($tracker, ++$visitNumber, 'mtm_campaign=nokeyword&mtm_source=src&mtm_medium=med', false);
+        }
         $records = $this->aggregate();
 
         $spread = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('spread');
@@ -126,6 +129,11 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->assertNotEmpty($keywords->getSummaryRow());
         $this->assertSame(15, $this->sumColumn($keywords, Metrics::INDEX_NB_VISITS));
         $this->assertSame(15, $this->sumConversions($keywords, $this->idGoal));
+
+        // visits without a keyword were not ranked out, so they are not in an "Others" row either
+        $noKeyword = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('nokeyword');
+        $this->assertSame(3, (int) $noKeyword->getColumn(Metrics::INDEX_NB_VISITS));
+        $this->assertEmpty($noKeyword->getSubtable());
     }
 
     public function testAggregateAddsNoVisitsToSubtableOfRowWhoseVisitsAreInOthers(): void
