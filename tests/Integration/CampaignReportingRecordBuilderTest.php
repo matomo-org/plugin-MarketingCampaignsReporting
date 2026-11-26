@@ -109,6 +109,36 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->assertBoundedAndComplete($records);
     }
 
+    public function testAggregateKeepsBiggestLabelsWithoutRankingQueryLimit(): void
+    {
+        Config::getInstance()->General['archiving_ranking_query_row_limit'] = 0;
+
+        $this->trackVisits();
+        // bigger than every campaign but "big", and named and tracked to reach the record last unless
+        // visits arrive biggest-first
+        $tracker = $this->getTracker();
+        for ($i = 1; $i <= 3; $i++) {
+            $this->addVisit($tracker, 3 * self::VISITS_PER_GROUP + $i, 'mtm_campaign=zlate&mtm_source=src&mtm_medium=med', false);
+        }
+        $records = $this->aggregate();
+
+        $late = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('zlate');
+        $this->assertNotEmpty($late);
+        $this->assertSame(3, (int) $late->getColumn(Metrics::INDEX_NB_VISITS));
+    }
+
+    public function testAggregateAttachesNoSubtableToOthersForCampaignNamedMinusOne(): void
+    {
+        $this->trackVisits();
+        // '-1' resolves to the summary row once the Name record has one
+        $this->addVisit($this->getTracker(), 3 * self::VISITS_PER_GROUP + 1, 'mtm_campaign=-1&mtm_kwd=kwd&mtm_source=src&mtm_medium=med', false);
+        $records = $this->aggregate();
+
+        $summaryRow = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getSummaryRow();
+        $this->assertNotEmpty($summaryRow);
+        $this->assertEmpty($summaryRow->getSubtable());
+    }
+
     /**
      * @param DataTable[] $records
      */
@@ -123,10 +153,16 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         }
     }
 
-    private function trackVisits(): void
+    private function getTracker(): \MatomoTracker
     {
         $tracker = Fixture::getTracker($this->idSite, self::DATE . ' 10:00:00', $defaultInit = true, $useLocal = true);
         $tracker->setTokenAuth(Fixture::getTokenAuth());
+        return $tracker;
+    }
+
+    private function trackVisits(): void
+    {
+        $tracker = $this->getTracker();
         for ($i = 1; $i <= self::VISITS_PER_GROUP; $i++) {
             // two visits per "big" combination, so the ranking query returns them before the others
             $this->addVisit($tracker, $i, "mtm_campaign=big&mtm_kwd=kwd$i&mtm_source=src&mtm_medium=med", false);

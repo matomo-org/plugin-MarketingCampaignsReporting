@@ -118,7 +118,10 @@ class CampaignReporting extends RecordBuilder
             }
             $query = $logAggregator->queryConversionsByDimension($dimensions, $whereClause, $additionalSelects, [], $rankingQuery, true, true);
         } else {
-            $query = $logAggregator->queryVisitsByDimension($dimensions, $whereClause, [], false, $rankingQuery, false, -1, true);
+            // core orders by visits only for a ranking query; without one, the capped record must still
+            // see the biggest labels first
+            $orderBy = $rankingQuery ? false : '`' . Metrics::INDEX_NB_VISITS . '` DESC';
+            $query = $logAggregator->queryVisitsByDimension($dimensions, $whereClause, [], false, $rankingQuery, $orderBy, -1, true);
         }
 
         while ($row = $query->fetch()) {
@@ -165,8 +168,13 @@ class CampaignReporting extends RecordBuilder
 
             $subLabel = $this->getLabelFromRowDimensions($dimensionsForRecord[1], $row);
             // once the record is full, sumRowWithLabel() sums into the summary row and returns a row
-            // that is not in the record, and a subtable created on it would never be freed
-            if (empty($subLabel) || $record->getRowFromLabel($mainLabel) !== $topLevelRow) {
+            // that is not in the record, and a subtable created on it would never be freed; the label
+            // '-1' also resolves to the summary row, which must not get a subtable
+            if (
+                empty($subLabel)
+                || $record->getRowFromLabel($mainLabel) !== $topLevelRow
+                || $topLevelRow === $record->getSummaryRow()
+            ) {
                 continue;
             }
 
