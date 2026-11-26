@@ -68,14 +68,24 @@ class CampaignReporting extends RecordBuilder
         $reports = [];
         foreach ($this->getRecordToDimensions() as $recordName => $dimensionsForRecord) {
             $record = new DataTable();
-            // a ranking query already bounds the record, and ranks label combinations, so capping by main
-            // label as well would fold a campaign spread over many small combinations into "Others"
+            // with a ranking query, each query's limit bounds the record instead, and a cap here could
+            // fold a ranked label into "Others" just because it arrived late
             if ($rankingQueryLimit === 0) {
                 $record->setMaximumAllowedRows(self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInTable);
             }
 
-            $this->aggregateFromLogs($logAggregator, $record, $dimensionsForRecord, 'log_visit', $rankingQueryLimit, $idGoals);
-            $this->aggregateFromLogs($logAggregator, $record, $dimensionsForRecord, 'log_conversion', $rankingQueryLimit, $idGoals);
+            $passes = [[$dimensionsForRecord, false]];
+            if ($rankingQueryLimit > 0 && isset($dimensionsForRecord[1])) {
+                // the top level is ranked on its own label, since ranking label combinations would leave a
+                // campaign spread over many small ones in "Others"; the combinations then fill subtables
+                $passes = [[[$dimensionsForRecord[0]], false], [$dimensionsForRecord, true]];
+            }
+
+            foreach ($passes as [$dimensions, $subtablesOnly]) {
+                foreach (['log_visit', 'log_conversion'] as $table) {
+                    $this->aggregateFromLogs($logAggregator, $record, $dimensions, $table, $rankingQueryLimit, $idGoals, $subtablesOnly);
+                }
+            }
 
             $record->filter(DataTable\Filter\EnrichRecordWithGoalMetricSums::class);
             $reports[$recordName] = $record;
@@ -87,6 +97,7 @@ class CampaignReporting extends RecordBuilder
     /**
      * @param string[][] $dimensionsForRecord the columns of the record's label, then of its subtable's label
      * @param int[] $idGoals
+     * @param bool $subtablesOnly add rows only to the subtables of rows already in the record
      */
     protected function aggregateFromLogs(
         LogAggregator $logAggregator,
@@ -94,7 +105,8 @@ class CampaignReporting extends RecordBuilder
         array $dimensionsForRecord,
         string $table,
         int $rankingQueryLimit,
-        array $idGoals
+        array $idGoals,
+        bool $subtablesOnly = false
     ): void {
         $isConversions = $table === 'log_conversion';
         if ($isConversions && $rankingQueryLimit > 0 && empty($idGoals)) {
@@ -156,7 +168,10 @@ class CampaignReporting extends RecordBuilder
             }
 
             if ($rankingQuery && $row[$labelColumns[0]] === RankingQuery::LABEL_SUMMARY_ROW) {
-                $record->sumRowWithLabel(RankingQuery::LABEL_SUMMARY_ROW, $columns);
+                // in the subtables pass these visits are already counted in the top level
+                if (!$subtablesOnly) {
+                    $record->sumRowWithLabel(RankingQuery::LABEL_SUMMARY_ROW, $columns);
+                }
                 continue;
             }
 
@@ -165,7 +180,9 @@ class CampaignReporting extends RecordBuilder
                 continue;
             }
 
-            $topLevelRow = $record->sumRowWithLabel($mainLabel, $columns);
+            $topLevelRow = $subtablesOnly
+                ? $record->getRowFromLabel($mainLabel)
+                : $record->sumRowWithLabel($mainLabel, $columns);
 
             if (!isset($dimensionsForRecord[1])) {
                 continue;
@@ -177,6 +194,7 @@ class CampaignReporting extends RecordBuilder
             // '-1' also resolves to the summary row, which must not get a subtable
             if (
                 empty($subLabel)
+                || empty($topLevelRow)
                 || $record->getRowFromLabel($mainLabel) !== $topLevelRow
                 || $topLevelRow === $record->getSummaryRow()
             ) {

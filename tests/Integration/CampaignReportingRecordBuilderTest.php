@@ -69,14 +69,15 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $lastTableId = DataTable\Manager::getInstance()->getMostRecentTableId();
         $records = $this->aggregate();
 
-        // the ranked combinations plus "Others"
+        // the ranked labels, or label combinations, plus "Others"
         $this->assertBoundedAndComplete($records, 41);
         foreach (self::RECORDS_SET_BY_EVERY_VISIT as $recordName) {
             $this->assertSame(self::VISITS_PER_GROUP, $this->sumConversions($records[$recordName], GoalManager::IDGOAL_CART), $recordName);
         }
 
+        // the 31 campaign names fit in the ranking limit, though their 60 combinations don't
         $names = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME];
-        $this->assertNotEmpty($names->getSummaryRow());
+        $this->assertEmpty($names->getSummaryRow());
         $big = $names->getRowFromLabel('big');
         $this->assertSame(2 * self::VISITS_PER_GROUP, (int) $big->getColumn(Metrics::INDEX_NB_VISITS));
         $bigSubtable = $big->getSubtable();
@@ -105,8 +106,8 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
     {
         $tracker = $this->getTracker();
         $visitNumber = 0;
-        // enough campaigns with a bigger keyword to reach the build cap before "spread" arrives
-        for ($i = 1; $i <= 25; $i++) {
+        // enough bigger combinations that some of "spread"'s fall past the ranking limit
+        for ($i = 1; $i <= 30; $i++) {
             for ($j = 0; $j < 2; $j++) {
                 $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=camp$i&mtm_kwd=kwd&mtm_source=src&mtm_medium=med", false);
             }
@@ -151,9 +152,21 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
 
     public function testAggregateAttachesNoSubtableToOthersForCampaignNamedMinusOne(): void
     {
-        $this->trackVisits();
-        // '-1' resolves to the summary row once the Name record has one
-        $this->addVisit($this->getTracker(), 3 * self::VISITS_PER_GROUP + 1, 'mtm_campaign=-1&mtm_kwd=kwd&mtm_source=src&mtm_medium=med', false);
+        Config::getInstance()->General['archiving_ranking_query_row_limit'] = 20;
+
+        $tracker = $this->getTracker();
+        $visitNumber = 0;
+        // 25 campaigns bigger than "-1" fill the top level, so it is ranked into "Others", while its one
+        // combination is bigger than theirs, so the combinations pass keeps it; '-1' then resolves to
+        // the summary row
+        for ($i = 1; $i <= 25; $i++) {
+            for ($j = 1; $j <= 4; $j++) {
+                $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=camp$i&mtm_kwd=kwd$j&mtm_source=src&mtm_medium=med", false);
+            }
+        }
+        for ($j = 1; $j <= 2; $j++) {
+            $this->addVisit($tracker, ++$visitNumber, 'mtm_campaign=-1&mtm_kwd=kwd&mtm_source=src&mtm_medium=med', false);
+        }
         $records = $this->aggregate();
 
         $summaryRow = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getSummaryRow();
