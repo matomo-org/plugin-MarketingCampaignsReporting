@@ -128,6 +128,31 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->assertSame(15, $this->sumConversions($keywords, $this->idGoal));
     }
 
+    public function testAggregateAddsNoVisitsToSubtableOfRowWhoseVisitsAreInOthers(): void
+    {
+        Config::getInstance()->General['archiving_ranking_query_row_limit'] = 20;
+
+        $tracker = $this->getTracker();
+        $visitNumber = 0;
+        // 25 campaigns bigger than "small" rank its visits into the top-level "Others", while its one
+        // combination is bigger than theirs, so the combinations pass keeps it
+        for ($i = 1; $i <= 25; $i++) {
+            for ($j = 1; $j <= 4; $j++) {
+                $this->addVisit($tracker, ++$visitNumber, "mtm_campaign=camp$i&mtm_kwd=kwd$j&mtm_source=src&mtm_medium=med", false);
+            }
+        }
+        // only "small" abandons a cart, so that goal's ranking keeps it and gives it a row without visits
+        for ($j = 1; $j <= 2; $j++) {
+            $this->addVisit($tracker, ++$visitNumber, 'mtm_campaign=small&mtm_kwd=kwd&mtm_source=src&mtm_medium=med', true);
+        }
+        $records = $this->aggregate();
+
+        $small = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME]->getRowFromLabel('small');
+        $this->assertNotEmpty($small);
+        $this->assertEmpty($small->getColumn(Metrics::INDEX_NB_VISITS));
+        $this->assertSame(0, $this->sumColumn($small->getSubtable(), Metrics::INDEX_NB_VISITS));
+    }
+
     public function testAggregateKeepsAllVisitsWithoutRankingQueryLimit(): void
     {
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 0;

@@ -192,6 +192,18 @@ class CampaignReporting extends RecordBuilder
                 ? $record->getRowFromLabel($mainLabel)
                 : $record->sumRowWithLabel($mainLabel, $columns);
 
+            // the top level ranks visits and each goal's conversions separately, so a kept row can have
+            // had some of them summed into "Others", and its subtable must not count them a second time
+            if ($subtablesOnly && !empty($topLevelRow)) {
+                $parentGoals = $topLevelRow->getColumn(Metrics::INDEX_GOALS) ?: [];
+                $parentHasMetric = $isConversions
+                    ? isset($parentGoals[$idGoal])
+                    : !empty($topLevelRow->getColumn(Metrics::INDEX_NB_VISITS));
+                if (!$parentHasMetric) {
+                    continue;
+                }
+            }
+
             if (!isset($dimensionsForRecord[1])) {
                 continue;
             }
@@ -229,7 +241,13 @@ class CampaignReporting extends RecordBuilder
     {
         foreach ($record->getRowsWithoutSummaryRow() as $row) {
             $remainder = $row->getColumns();
-            unset($remainder['label'], $remainder[Metrics::INDEX_MAX_ACTIONS]);
+            // distinct counts and maximums cannot be split by subtraction
+            unset(
+                $remainder['label'],
+                $remainder[Metrics::INDEX_MAX_ACTIONS],
+                $remainder[Metrics::INDEX_NB_UNIQ_VISITORS],
+                $remainder[Metrics::INDEX_NB_USERS]
+            );
 
             $subtable = $row->getSubtable();
             foreach ($subtable ? $subtable->getRows() : [] as $subRow) {
