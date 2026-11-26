@@ -165,6 +165,27 @@ class CampaignReportingRecordBuilderTest extends IntegrationTestCase
         $this->assertSame(0, $this->sumColumn($small->getSubtable(), Metrics::INDEX_NB_VISITS));
     }
 
+    public function testAggregateKeepsSubtableRowsOfCampaignTrackedInDifferentCase(): void
+    {
+        $tracker = $this->getTracker();
+        // with case kept, each spelling is its own campaign in every query, visits and conversions alike
+        $this->addVisit($tracker, 1, 'mtm_campaign=Spring&mtm_kwd=kwd1&mtm_source=src&mtm_medium=med', false);
+        $this->addVisit($tracker, 2, 'mtm_campaign=Spring&mtm_kwd=kwd1&mtm_source=src&mtm_medium=med', false);
+        $this->addVisit($tracker, 3, 'mtm_campaign=spring&mtm_kwd=kwd2&mtm_source=src&mtm_medium=med', false);
+        $records = $this->aggregate();
+
+        $names = $records[Archiver::CAMPAIGN_NAME_RECORD_NAME];
+        foreach (['Spring' => ['kwd1', 2], 'spring' => ['kwd2', 1]] as $label => [$keyword, $visits]) {
+            $row = $names->getRowFromLabel($label);
+            $this->assertNotEmpty($row, $label);
+            $this->assertSame($visits, (int) $row->getColumn(Metrics::INDEX_NB_VISITS), $label);
+            $this->assertSame($visits, (int) $row->getColumn(Metrics::INDEX_GOALS)[$this->idGoal][Metrics::INDEX_GOAL_NB_CONVERSIONS], $label);
+            $this->assertSame([$keyword], array_map(function ($subRow) {
+                return $subRow->getColumn('label');
+            }, $row->getSubtable()->getRows()), $label);
+        }
+    }
+
     public function testAggregateKeepsAllVisitsWithoutRankingQueryLimit(): void
     {
         Config::getInstance()->General['archiving_ranking_query_row_limit'] = 0;

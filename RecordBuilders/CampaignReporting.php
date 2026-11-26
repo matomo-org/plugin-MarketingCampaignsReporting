@@ -36,11 +36,13 @@ class CampaignReporting extends RecordBuilder
 
     private const GOAL_PARTITION_COLUMN = 'idgoal_partition';
 
+    private const LABEL_ALIAS_PREFIX = 'label_';
+
     /**
      * @var array[][] per top-level label, the columns of the subtables pass's rows that have no subtable
      *                label: the subtable misses them without their having been ranked past the limit
      */
-    private $unlabelledColumns = [];
+    private array $unlabelledColumns = [];
 
     public function __construct()
     {
@@ -134,7 +136,7 @@ class CampaignReporting extends RecordBuilder
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new RankingQuery($rankingQueryLimit);
-            $rankingQuery->addLabelColumn($labelColumns);
+            $rankingQuery->addLabelColumn(array_keys($dimensions));
         }
 
         if ($isConversions) {
@@ -156,6 +158,9 @@ class CampaignReporting extends RecordBuilder
         }
 
         while ($row = $query->fetch()) {
+            foreach ($labelColumns as $column) {
+                $row[$column] = $row[self::LABEL_ALIAS_PREFIX . $column];
+            }
             if ($isConversions) {
                 $idGoal = $rankingQuery ? (int) $row[self::GOAL_PARTITION_COLUMN] - 1 : (int) $row['idgoal'];
                 if ($rankingQuery && !in_array($idGoal, $idGoals, true)) {
@@ -334,13 +339,14 @@ class CampaignReporting extends RecordBuilder
     private function getSelectedDimensions(array $labelColumns, string $table): array
     {
         $systemSettings = StaticContainer::get(SystemSettings::class);
-        if ($systemSettings->doNotChangeCaseOfUtmParameters->getValue()) {
-            return $labelColumns;
-        }
+        // grouped by exact bytes when case is kept: the log tables' collation would otherwise merge "Spring" and
+        // "spring" under either spelling, and each query, the top level's and its subtables', can pick a different one
+        $expression = $systemSettings->doNotChangeCaseOfUtmParameters->getValue() ? 'CAST(%s AS BINARY)' : 'LOWER(%s)';
 
         $dimensions = [];
         foreach ($labelColumns as $column) {
-            $dimensions[$column] = "LOWER($table.$column)";
+            // not aliased as the column itself, which MySQL's GROUP BY would resolve to the table's column
+            $dimensions[self::LABEL_ALIAS_PREFIX . $column] = sprintf($expression, "$table.$column");
         }
         return $dimensions;
     }
