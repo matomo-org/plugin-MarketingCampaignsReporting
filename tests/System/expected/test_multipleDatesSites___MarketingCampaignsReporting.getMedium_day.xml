@@ -5,7 +5,7 @@
 		<result date="2013-01-23">
 			<row>
 				<label>email</label>
-				<nb_uniq_visitors>10</nb_uniq_visitors>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>10</nb_visits>
 				<nb_actions>10</nb_actions>
 				<nb_users>0</nb_users>

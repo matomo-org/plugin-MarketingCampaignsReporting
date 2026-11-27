@@ -23,10 +23,35 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Plugins\MarketingCampaignsReporting\Archiver;
 use Piwik\Plugins\MarketingCampaignsReporting\SystemSettings;
-use Piwik\Version;
+use Piwik\RankingQuery;
 
 class CampaignReporting extends RecordBuilder
 {
+    /**
+     * Subtables, and records built without a ranking query, are capped at this multiple of their archived
+     * size while they are built, so that the truncation in insertBlobRecord() still picks the top rows from
+     * a wider set of candidates.
+     */
+    private const BUILD_ROWS_FACTOR = 10;
+
+    private const GOAL_PARTITION_COLUMN = 'idgoal_partition';
+
+    private const LABEL_ALIAS_PREFIX = 'label_';
+
+    private const REVENUE_GOAL_COLUMNS = [
+        Metrics::INDEX_GOAL_REVENUE,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING,
+        Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT,
+    ];
+
+    /**
+     * @var array[][] per top-level label, the columns of the subtables pass's rows that have no subtable
+     *                label: the subtable misses them without their having been ranked past the limit
+     */
+    private array $unlabelledColumns = [];
+
     public function __construct()
     {
         parent::__construct();
@@ -53,94 +78,307 @@ class CampaignReporting extends RecordBuilder
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
+        $rankingQueryLimit = $this->getRankingQueryLimit();
+        $idGoals = $rankingQueryLimit > 0 ? $this->getConvertedGoalIds($logAggregator) : [];
 
         $reports = [];
-        foreach ($this->getRecordToDimensions() as $recordName => $ignore) {
-            $reports[$recordName] = new DataTable();
-        }
+        foreach ($this->getRecordToDimensions() as $recordName => $dimensionsForRecord) {
+            $record = new DataTable();
+            // with a ranking query, each query's limit bounds the record instead, and a cap here could
+            // fold a ranked label into "Others" just because it arrived late
+            if ($rankingQueryLimit === 0) {
+                $record->setMaximumAllowedRows(self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInTable);
+            }
 
-        // list of all dimensions to query for
-        $dimensions = array_merge(...array_values($this->getRecordToDimensions()));
-        $dimensions = array_merge(...$dimensions);
-        $dimensions = array_unique($dimensions);
+            $passes = [[$dimensionsForRecord, false]];
+            if (isset($dimensionsForRecord[1])) {
+                // the top level is ranked, or capped, on its own label, since doing so on label combinations would
+                // leave a campaign spread over many small ones in "Others"; the combinations then fill subtables
+                $passes = [[[$dimensionsForRecord[0]], false], [$dimensionsForRecord, true]];
+            }
 
-        $this->aggregateFromLogs($logAggregator, $reports, $dimensions, 'log_visit', 'queryVisitsByDimension');
-        $this->aggregateFromLogs($logAggregator, $reports, $dimensions, 'log_conversion', 'queryConversionsByDimension');
+            $subtablesMissRows = false;
+            $this->unlabelledColumns = [];
+            foreach ($passes as [$dimensions, $subtablesOnly]) {
+                foreach (['log_visit', 'log_conversion'] as $table) {
+                    $rankedPastLimit = $this->aggregateFromLogs($logAggregator, $record, $dimensions, $table, $rankingQueryLimit, $idGoals, $subtablesOnly);
+                    $subtablesMissRows = $subtablesMissRows || ($subtablesOnly && $rankedPastLimit);
+                }
+            }
+            if ($subtablesMissRows) {
+                $this->addSubtableRemainders($record);
+            }
 
-        foreach ($reports as $report) {
-            $report->filter(DataTable\Filter\EnrichRecordWithGoalMetricSums::class);
+            $record->filter(DataTable\Filter\EnrichRecordWithGoalMetricSums::class);
+            $reports[$recordName] = $record;
         }
 
         return $reports;
     }
 
     /**
-     * @param DataTable[] $records
+     * @param string[][] $dimensionsForRecord the columns of the record's label, then of its subtable's label
+     * @param int[] $idGoals
+     * @param bool $subtablesOnly add rows only to the subtables of rows already in the record
+     * @return bool whether the ranking query summed rows past its limit into "Others"
      */
-    protected function aggregateFromLogs(LogAggregator $logAggregator, array $records, $dimensions, $table, $aggregatorMethod): void
-    {
-        $systemSettings = StaticContainer::get(SystemSettings::class);
-        if (!$systemSettings->doNotChangeCaseOfUtmParameters->getValue()) {
-            $newDimensions = [];
-            foreach ($dimensions as $dimension) {
-                $lowerDimensionColumn = $table . '.' . $dimension;
-                $newDimensions[$dimension] = "LOWER($lowerDimensionColumn)";
-            }
-            $dimensions = $newDimensions;
+    protected function aggregateFromLogs(
+        LogAggregator $logAggregator,
+        DataTable $record,
+        array $dimensionsForRecord,
+        string $table,
+        int $rankingQueryLimit,
+        array $idGoals,
+        bool $subtablesOnly = false
+    ): bool {
+        $isConversions = $table === 'log_conversion';
+        if ($isConversions && $rankingQueryLimit > 0 && empty($idGoals)) {
+            return false;
+        }
+        $rankedPastLimit = false;
+
+        $labelColumns = array_values(array_unique(array_merge(...$dimensionsForRecord)));
+        $dimensions = $this->getSelectedDimensions($labelColumns, $table);
+        $whereClause = $table . ".referer_type = " . Common::REFERRER_TYPE_CAMPAIGN;
+
+        $rankingQuery = false;
+        if ($rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
+            $rankingQuery->addLabelColumn(array_keys($dimensions));
         }
 
-        $whereClause = $table . ".referer_type = " . Common::REFERRER_TYPE_CAMPAIGN;
-        // @phpstan-ignore booleanAnd.rightAlwaysTrue (guard for Matomo < 5.2.0-b6, which the declared range still supports)
-        $query = $aggregatorMethod === 'queryConversionsByDimension' && version_compare(Version::VERSION, '5.2.0-b6', '>=')
-            ? $logAggregator->$aggregatorMethod($dimensions, $whereClause, [], [], false, false, true)
-            : $logAggregator->$aggregatorMethod($dimensions, $whereClause);
-
-        $recordToDimensions = $this->getRecordToDimensions();
+        if ($isConversions) {
+            $additionalSelects = [];
+            if ($rankingQuery) {
+                // one limit and one "Others" row per goal, so conversions past the limit keep their goal;
+                // shifted by one because the abandoned cart goal is -1, which cannot name a counter
+                $rankingQuery->partitionResultIntoMultipleGroups(self::GOAL_PARTITION_COLUMN, array_map(function ($idGoal) {
+                    return $idGoal + 1;
+                }, $idGoals));
+                $additionalSelects[] = 'log_conversion.idgoal + 1 AS ' . self::GOAL_PARTITION_COLUMN;
+            }
+            $query = $logAggregator->queryConversionsByDimension($dimensions, $whereClause, $additionalSelects, [], $rankingQuery, true, true);
+        } else {
+            // core orders by visits only for a ranking query; without one, the capped record must still
+            // see the biggest labels first
+            $orderBy = $rankingQuery ? false : '`' . Metrics::INDEX_NB_VISITS . '` DESC';
+            $query = $logAggregator->queryVisitsByDimension($dimensions, $whereClause, [], false, $rankingQuery, $orderBy, -1, true);
+        }
 
         while ($row = $query->fetch()) {
-            foreach ($recordToDimensions as $recordName => $dimensionsForRecord) {
-                $record = $records[$recordName];
-
-                $mainLabelDimensions = $dimensionsForRecord[0];
-                $mainLabel = $this->getLabelFromRowDimensions($mainLabelDimensions, $row);
-                if (empty($mainLabel)) {
+            foreach ($labelColumns as $column) {
+                $row[$column] = $row[self::LABEL_ALIAS_PREFIX . $column];
+            }
+            if ($isConversions) {
+                $idGoal = $rankingQuery ? (int) $row[self::GOAL_PARTITION_COLUMN] - 1 : (int) $row['idgoal'];
+                if ($rankingQuery && !in_array($idGoal, $idGoals, true)) {
+                    // a goal first converted after getConvertedGoalIds() ran has no partition, so its rows
+                    // are merged under an arbitrary label; leave it to the next archiving run
                     continue;
                 }
+                $columns = [
+                    Metrics::INDEX_GOALS => [
+                        $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),
+                    ],
+                ];
+            } else {
+                $columns = [
+                    Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],
+                    Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS],
+                    Metrics::INDEX_NB_ACTIONS => $row[Metrics::INDEX_NB_ACTIONS],
+                    Metrics::INDEX_NB_USERS => $row[Metrics::INDEX_NB_USERS],
+                    Metrics::INDEX_MAX_ACTIONS => $row[Metrics::INDEX_MAX_ACTIONS],
+                    Metrics::INDEX_SUM_VISIT_LENGTH => $row[Metrics::INDEX_SUM_VISIT_LENGTH],
+                    Metrics::INDEX_BOUNCE_COUNT => $row[Metrics::INDEX_BOUNCE_COUNT],
+                    Metrics::INDEX_NB_VISITS_CONVERTED => $row[Metrics::INDEX_NB_VISITS_CONVERTED],
+                ];
+            }
 
-                if ($aggregatorMethod == 'queryVisitsByDimension') {
-                    $columns = [
-                        Metrics::INDEX_NB_UNIQ_VISITORS => $row[Metrics::INDEX_NB_UNIQ_VISITORS],
-                        Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS],
-                        Metrics::INDEX_NB_ACTIONS => $row[Metrics::INDEX_NB_ACTIONS],
-                        Metrics::INDEX_NB_USERS => $row[Metrics::INDEX_NB_USERS],
-                        Metrics::INDEX_MAX_ACTIONS => $row[Metrics::INDEX_MAX_ACTIONS],
-                        Metrics::INDEX_SUM_VISIT_LENGTH => $row[Metrics::INDEX_SUM_VISIT_LENGTH],
-                        Metrics::INDEX_BOUNCE_COUNT => $row[Metrics::INDEX_BOUNCE_COUNT],
-                        Metrics::INDEX_NB_VISITS_CONVERTED => $row[Metrics::INDEX_NB_VISITS_CONVERTED],
-                    ];
-                } elseif ($aggregatorMethod == 'queryConversionsByDimension') {
-                    $idGoal = (int) $row['idgoal'];
-                    $columns = [
-                        Metrics::INDEX_GOALS => [
-                            $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),
-                        ],
-                    ];
-                } else {
-                    throw new \Exception("unknown aggregator method $aggregatorMethod");
+            if ($rankingQuery && $row[$labelColumns[0]] === RankingQuery::LABEL_SUMMARY_ROW) {
+                $rankedPastLimit = true;
+                // in the subtables pass these visits are already counted in the top level
+                if (!$subtablesOnly) {
+                    $record->sumRowWithLabel(RankingQuery::LABEL_SUMMARY_ROW, $columns);
                 }
+                continue;
+            }
 
-                $topLevelRow = $record->sumRowWithLabel($mainLabel, $columns);
+            $mainLabel = $this->getLabelFromRowDimensions($dimensionsForRecord[0], $row);
+            if (empty($mainLabel)) {
+                continue;
+            }
 
-                if (isset($dimensionsForRecord[1])) {
-                    $subLabelDimensions = $dimensionsForRecord[1];
-                    $subLabel = $this->getLabelFromRowDimensions($subLabelDimensions, $row);
-                    if (empty($subLabel)) {
-                        continue;
-                    }
-                    $topLevelRow->sumRowWithLabelToSubtable($subLabel, $columns);
+            $topLevelRow = $subtablesOnly
+                ? $record->getRowFromLabel($mainLabel)
+                : $record->sumRowWithLabel($mainLabel, $columns);
+
+            // the top level ranks visits and each goal's conversions separately, so a kept row can have
+            // had some of them summed into "Others", and its subtable must not count them a second time
+            if ($subtablesOnly && !empty($topLevelRow)) {
+                $parentGoals = $topLevelRow->getColumn(Metrics::INDEX_GOALS) ?: [];
+                $parentHasMetric = $isConversions
+                    ? isset($parentGoals[$idGoal])
+                    : !empty($topLevelRow->getColumn(Metrics::INDEX_NB_VISITS));
+                if (!$parentHasMetric) {
+                    continue;
                 }
             }
+
+            if (!isset($dimensionsForRecord[1])) {
+                continue;
+            }
+
+            $subLabel = $this->getLabelFromRowDimensions($dimensionsForRecord[1], $row);
+            // the label '-1' resolves to the summary row, which must not get a subtable
+            if (empty($topLevelRow) || $topLevelRow === $record->getSummaryRow()) {
+                continue;
+            }
+            if (empty($subLabel)) {
+                $this->unlabelledColumns[$mainLabel][] = $columns;
+                continue;
+            }
+
+            $subtable = $topLevelRow->getSubtable();
+            if (empty($subtable)) {
+                $subtable = new DataTable();
+                $subtable->setMaximumAllowedRows(self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInSubtable);
+                $topLevelRow->setSubtable($subtable);
+            }
+            $subtable->sumRowWithLabel($subLabel, $columns);
         }
+
+        return $rankedPastLimit;
+    }
+
+    /**
+     * Sums into each subtable's "Others" row what its row has but the subtable is missing, since the
+     * combinations ranked past the limit cannot be told apart by row.
+     */
+    private function addSubtableRemainders(DataTable $record): void
+    {
+        foreach ($record->getRowsWithoutSummaryRow() as $row) {
+            $remainder = $row->getColumns();
+            // distinct counts and maximums cannot be split by subtraction
+            unset(
+                $remainder['label'],
+                $remainder[Metrics::INDEX_MAX_ACTIONS],
+                $remainder[Metrics::INDEX_NB_UNIQ_VISITORS],
+                $remainder[Metrics::INDEX_NB_USERS]
+            );
+
+            $subtable = $row->getSubtable();
+            foreach ($subtable ? $subtable->getRows() : [] as $subRow) {
+                $remainder = $this->subtractColumns($remainder, $subRow->getColumns());
+            }
+            foreach ($this->unlabelledColumns[$row->getColumn('label')] ?? [] as $columns) {
+                $remainder = $this->subtractColumns($remainder, $columns);
+            }
+
+            $remainder = $this->keepNonZeroColumns($remainder);
+            $goals = [];
+            foreach ($remainder[Metrics::INDEX_GOALS] ?? [] as $idGoal => $goal) {
+                if (!empty($goal[Metrics::INDEX_GOAL_NB_CONVERSIONS])) {
+                    // core's goal metric sums read every column, so the ones dropped as zero are put back
+                    $goals[$idGoal] = $goal + array_fill_keys(array_keys(Metrics::makeGoalColumnsRow((int) $idGoal, [])), 0);
+                }
+            }
+            unset($remainder[Metrics::INDEX_GOALS]);
+            if (!empty($goals)) {
+                $remainder[Metrics::INDEX_GOALS] = $goals;
+            }
+            if (empty($remainder)) {
+                continue;
+            }
+            if (empty($subtable)) {
+                $subtable = new DataTable();
+                $subtable->setMaximumAllowedRows(self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInSubtable);
+                $row->setSubtable($subtable);
+            }
+            $subtable->sumRowWithLabel(RankingQuery::LABEL_SUMMARY_ROW, $remainder);
+        }
+    }
+
+    private function subtractColumns(array $columns, array $subtrahend): array
+    {
+        foreach ($columns as $name => $value) {
+            if (!isset($subtrahend[$name])) {
+                continue;
+            }
+            if (is_array($value) && is_array($subtrahend[$name])) {
+                $columns[$name] = $this->subtractColumns($value, $subtrahend[$name]);
+            } elseif (is_numeric($value) && is_numeric($subtrahend[$name])) {
+                $columns[$name] = $value - $subtrahend[$name];
+            }
+        }
+        return $columns;
+    }
+
+    private function keepNonZeroColumns(array $columns, bool $isGoalColumns = false): array
+    {
+        foreach ($columns as $name => $value) {
+            if (is_array($value)) {
+                $value = $this->keepNonZeroColumns($value, $isGoalColumns || $name === Metrics::INDEX_GOALS);
+            } elseif (is_numeric($value)) {
+                // revenue is a float, so a fully covered row can leave a rounding error. Revenue can also be
+                // negative, while a negative count only means a distinct count, such as a goal's converted
+                // visits, was summed over subtable rows that share a visit
+                $rounded = round((float) $value, 2);
+                $allowNegative = $isGoalColumns && in_array($name, self::REVENUE_GOAL_COLUMNS, true);
+                $value = $rounded > 0 || ($allowNegative && $rounded < 0) ? $value : null;
+            } else {
+                $value = null;
+            }
+            if (empty($value)) {
+                unset($columns[$name]);
+            } else {
+                $columns[$name] = $value;
+            }
+        }
+        return $columns;
+    }
+
+    /**
+     * @param string[] $labelColumns
+     */
+    private function getSelectedDimensions(array $labelColumns, string $table): array
+    {
+        $systemSettings = StaticContainer::get(SystemSettings::class);
+        // grouped by exact bytes: the log tables' collation would otherwise merge "Spring" and "spring", or "café" and
+        // "cafe", under either spelling, and each query, the top level's and its subtables', can pick a different one.
+        // LOWER() goes inside the CAST, as it leaves a binary string unchanged
+        $expression = $systemSettings->doNotChangeCaseOfUtmParameters->getValue() ? 'CAST(%s AS BINARY)' : 'CAST(LOWER(%s) AS BINARY)';
+
+        $dimensions = [];
+        foreach ($labelColumns as $column) {
+            // not aliased as the column itself, which MySQL's GROUP BY would resolve to the table's column
+            $dimensions[self::LABEL_ALIAS_PREFIX . $column] = sprintf($expression, "$table.$column");
+        }
+        return $dimensions;
+    }
+
+    /**
+     * @return int[]
+     */
+    private function getConvertedGoalIds(LogAggregator $logAggregator): array
+    {
+        $whereClause = "log_conversion.referer_type = " . Common::REFERRER_TYPE_CAMPAIGN;
+        $query = $logAggregator->queryConversionsByDimension([], $whereClause, [], [], false, false, true);
+
+        $idGoals = [];
+        while ($row = $query->fetch()) {
+            $idGoals[] = (int) $row['idgoal'];
+        }
+        return $idGoals;
+    }
+
+    private function getRankingQueryLimit(): int
+    {
+        $configLimit = (int) Config::getInstance()->General['archiving_ranking_query_row_limit'];
+        if ($configLimit === 0) {
+            return 0;
+        }
+
+        return max($configLimit, self::BUILD_ROWS_FACTOR * (int) $this->maxRowsInTable);
     }
 
     protected function getLabelFromRowDimensions(array $dimensionsAsLabel, array $row): string
